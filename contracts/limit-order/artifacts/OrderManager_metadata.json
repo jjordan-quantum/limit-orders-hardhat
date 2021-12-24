@@ -1,0 +1,169 @@
+{
+	"compiler": {
+		"version": "0.6.6+commit.6c089d02"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "getActiveOrderCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lockOrderCreation",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "locked",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "unlockOrderCreation",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderNum",
+						"type": "uint256"
+					}
+				],
+				"name": "viewOrder",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "selector",
+						"type": "uint8"
+					},
+					{
+						"internalType": "address",
+						"name": "pair",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "inputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "minOutputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "deadline",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"dev/hardhat/hardhat-limit-order-quickstart/contracts/limit-order/OrderManagerInternal.sol": "OrderManager"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"dev/hardhat/hardhat-limit-order-quickstart/contracts/limit-order/OrderManagerInternal.sol": {
+			"keccak256": "0x993cd9ed0e3e9f9a0ebe1c113178ca34b609fe8ee9ee81396c3da26d1e96c5bb",
+			"urls": [
+				"bzz-raw://c8da73c80d453e283f0a56c4fa93dd3ab8c5c92a10df527ba8b09738c27f829d",
+				"dweb:/ipfs/QmYKGXPT1Bmsx2gv1p3MVwFzxtkSLfBc1ARkcQaX94noev"
+			]
+		},
+		"dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/libraries/SafeMath.sol": {
+			"keccak256": "0x27f0ea82f879b3b01387b583e6d9d0ec858dca3b22b0aad173f8fbda06e761e1",
+			"urls": [
+				"bzz-raw://0db9cf37793eb7035f0bfced36323d240f0212150009c39a3a108701d9b50b6c",
+				"dweb:/ipfs/QmUAdiG9XNcieXkKfiMB49zQqD34FbXFE15csV2KQzwEqg"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,3009 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/Greeter.sol": {
+      "lastModificationDate": 1639637269106,
+      "contentHash": "54c28c84e5277b35b8c8329ce9755dae",
+      "sourceName": "contracts/Greeter.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Greeter"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/node_modules/hardhat/console.sol": {
+      "lastModificationDate": 1639637312195,
+      "contentHash": "cc4777addd464ea56fa35b1c45df0591",
+      "sourceName": "hardhat/console.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.22 <0.9.0"
+      ],
+      "artifacts": [
+        "console"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/token-libraries/Context.sol": {
+      "lastModificationDate": 1639638205217,
+      "contentHash": "b74d20930fbde7bbe062f0149154391e",
+      "sourceName": "contracts/token-libraries/Context.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "Context"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/token-libraries/IERC20.sol": {
+      "lastModificationDate": 1639638238546,
+      "contentHash": "9a02a460e2e968db8dd4da7e7915ce3e",
+      "sourceName": "contracts/token-libraries/IERC20.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/token-libraries/SafeMath.sol": {
+      "lastModificationDate": 1639638268408,
+      "contentHash": "5528da796ebf3c244f6025e5cf14a300",
+      "sourceName": "contracts/token-libraries/SafeMath.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "SafeMath"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/UniswapV2Pair.sol": {
+      "lastModificationDate": 1639638897665,
+      "contentHash": "c9767b19a14089d3166a1cf8452c8c99",
+      "sourceName": "contracts/uniswap-core/UniswapV2Pair.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./UniswapV2ERC20.sol",
+        "./libraries/Math.sol",
+        "./libraries/UQ112x112.sol",
+        "./interfaces/IERC20.sol",
+        "./interfaces/IUniswapV2Factory.sol",
+        "./interfaces/IUniswapV2Callee.sol",
+        "./interfaces/IUniswapV2Pair.sol"
+      ],
+      "versionPragmas": [
+        "=0.6.12"
+      ],
+      "artifacts": [
+        "IMigrator",
+        "UniswapV2Pair"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/UniswapV2ERC20.sol": {
+      "lastModificationDate": 1639638897665,
+      "contentHash": "a3eb65d3c0794120ad3e2909c0bae9c3",
+      "sourceName": "contracts/uniswap-core/UniswapV2ERC20.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./libraries/SafeMath.sol"
+      ],
+      "versionPragmas": [
+        "=0.6.12"
+      ],
+      "artifacts": [
+        "UniswapV2ERC20"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/libraries/Math.sol": {
+      "lastModificationDate": 1639638897647,
+      "contentHash": "6b3e52bfa76268a14cc629fc63b7c0ec",
+      "sourceName": "contracts/uniswap-core/libraries/Math.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "=0.6.12"
+      ],
+      "artifacts": [
+        "Math"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/libraries/UQ112x112.sol": {
+      "lastModificationDate": 1639638897647,
+      "contentHash": "63501dcc6bb83ee7460b9ab4f4d4a306",
+      "sourceName": "contracts/uniswap-core/libraries/UQ112x112.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "=0.6.12"
+      ],
+      "artifacts": [
+        "UQ112x112"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/libraries/SafeMath.sol": {
+      "lastModificationDate": 1639638897647,
+      "contentHash": "55e48a161695bccee94258ffd8ba3efb",
+      "sourceName": "contracts/uniswap-core/libraries/SafeMath.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "=0.6.12"
+      ],
+      "artifacts": [
+        "SafeMathUniswap"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/UniswapV2Factory.sol": {
+      "lastModificationDate": 1639638897665,
+      "contentHash": "ba8a57d0f257aeddb2835d36fa1776ae",
+      "sourceName": "contracts/uniswap-core/UniswapV2Factory.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/IUniswapV2Factory.sol",
+        "./UniswapV2Pair.sol"
+      ],
+      "versionPragmas": [
+        "=0.6.12"
+      ],
+      "artifacts": [
+        "UniswapV2Factory"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/libraries/Context.sol": {
+      "lastModificationDate": 1639638897647,
+      "contentHash": "b74d20930fbde7bbe062f0149154391e",
+      "sourceName": "contracts/uniswap-core/libraries/Context.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "Context"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/interfaces/IERC20.sol": {
+      "lastModificationDate": 1639638897646,
+      "contentHash": "3d2b948a9266ee66b6e739de97c7e6e9",
+      "sourceName": "contracts/uniswap-core/interfaces/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/interfaces/IUniswapV2Pair.sol": {
+      "lastModificationDate": 1639638897646,
+      "contentHash": "3fa31c3860f2b9585c3a98c64850829e",
+      "sourceName": "contracts/uniswap-core/interfaces/IUniswapV2Pair.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Pair"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/interfaces/IUniswapV2Callee.sol": {
+      "lastModificationDate": 1639638897646,
+      "contentHash": "30a4aed15b3fa3ce5588118b7cecfa7f",
+      "sourceName": "contracts/uniswap-core/interfaces/IUniswapV2Callee.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Callee"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/interfaces/IUniswapV2Factory.sol": {
+      "lastModificationDate": 1639638897646,
+      "contentHash": "367fa97b691e5d239bd4042c42b15b07",
+      "sourceName": "contracts/uniswap-core/interfaces/IUniswapV2Factory.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Factory"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/interfaces/IUniswapV2ERC20.sol": {
+      "lastModificationDate": 1639638897646,
+      "contentHash": "752c725168e1a5b73a8209897f18c5b9",
+      "sourceName": "contracts/uniswap-core/interfaces/IUniswapV2ERC20.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2ERC20"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-core/ERC20.sol": {
+      "lastModificationDate": 1639639501678,
+      "contentHash": "b732d06dd69a795a6a70931e7e1281a5",
+      "sourceName": "contracts/uniswap-core/ERC20.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./libraries/Context.sol",
+        "./interfaces/IERC20.sol"
+      ],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0",
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "ERC20",
+        "SafeMath"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/UniswapV2Router02.sol": {
+      "lastModificationDate": 1640327382247,
+      "contentHash": "55acfe2cd85ebc83e227a77b5c8478c1",
+      "sourceName": "contracts/uniswap-periphery/UniswapV2Router02.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/IUniswapV2Factory.sol",
+        "./interfaces/IUniswapV2Router02.sol",
+        "./libraries/UniswapV2Library.sol",
+        "./libraries/SafeMath.sol",
+        "./interfaces/IERC20.sol",
+        "./interfaces/IWETH.sol"
+      ],
+      "versionPragmas": [
+        "=0.6.6"
+      ],
+      "artifacts": [
+        "TransferHelper",
+        "UniswapV2Router02"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/libraries/UniswapV2Library.sol": {
+      "lastModificationDate": 1639640538218,
+      "contentHash": "54aa51d974eb834c5c6cb7f9e0770be4",
+      "sourceName": "contracts/uniswap-periphery/libraries/UniswapV2Library.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../interfaces/IUniswapV2Pair.sol",
+        "../interfaces/IUniswapV2Factory.sol",
+        "./SafeMath.sol"
+      ],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "UniswapV2Library"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/libraries/SafeMath.sol": {
+      "lastModificationDate": 1639639836693,
+      "contentHash": "9f77127a0e2c55c2058453327e84bde3",
+      "sourceName": "contracts/uniswap-periphery/libraries/SafeMath.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "=0.6.6"
+      ],
+      "artifacts": [
+        "SafeMath"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/UniswapV2Migrator.sol": {
+      "lastModificationDate": 1639639836695,
+      "contentHash": "f22a8cda725eee3ba3f96edf913b2a75",
+      "sourceName": "contracts/uniswap-periphery/UniswapV2Migrator.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/IUniswapV2Migrator.sol",
+        "./interfaces/V1/IUniswapV1Factory.sol",
+        "./interfaces/V1/IUniswapV1Exchange.sol",
+        "./interfaces/IUniswapV2Router01.sol",
+        "./interfaces/IERC20.sol"
+      ],
+      "versionPragmas": [
+        "=0.6.6"
+      ],
+      "artifacts": [
+        "TransferHelper",
+        "UniswapV2Migrator"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/WETH.sol": {
+      "lastModificationDate": 1639639836695,
+      "contentHash": "81259fa181584ab9894d54a3396c5c07",
+      "sourceName": "contracts/uniswap-periphery/WETH.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "WETH"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/Token.sol": {
+      "lastModificationDate": 1639641459613,
+      "contentHash": "ba01969a6de636402a6eda6e7b117f73",
+      "sourceName": "contracts/Token.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./token-libraries/Context.sol",
+        "./token-libraries/IERC20.sol",
+        "./token-libraries/SafeMath.sol"
+      ],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "Token"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/interfaces/IERC20.sol": {
+      "lastModificationDate": 1639639836680,
+      "contentHash": "3d2b948a9266ee66b6e739de97c7e6e9",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/interfaces/IWETH.sol": {
+      "lastModificationDate": 1639639836680,
+      "contentHash": "270f2c1a1f22475259d5a2f6a524f72e",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IWETH.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IWETH"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/interfaces/IUniswapV2Factory.sol": {
+      "lastModificationDate": 1639639836680,
+      "contentHash": "ec39b5372f4f4d52101b4da561e2aee6",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Factory.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Factory"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/interfaces/IUniswapV2Pair.sol": {
+      "lastModificationDate": 1639639836680,
+      "contentHash": "3fa31c3860f2b9585c3a98c64850829e",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Pair.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Pair"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/interfaces/IUniswapV2Router02.sol": {
+      "lastModificationDate": 1640327292845,
+      "contentHash": "7d99223470e1c5428046e1086a837d1e",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Router02.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IUniswapV2Router01.sol"
+      ],
+      "versionPragmas": [
+        ">=0.6.2"
+      ],
+      "artifacts": [
+        "IUniswapV2Router02"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/interfaces/IUniswapV2Router01.sol": {
+      "lastModificationDate": 1639639836680,
+      "contentHash": "0ba03ec4e122096885d737693463a959",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Router01.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.2"
+      ],
+      "artifacts": [
+        "IUniswapV2Router01"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/interfaces/V1/IUniswapV1Exchange.sol": {
+      "lastModificationDate": 1639639836680,
+      "contentHash": "5ec7fe77a73b5ace5fc1fbae6b87f34e",
+      "sourceName": "contracts/uniswap-periphery/interfaces/V1/IUniswapV1Exchange.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV1Exchange"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/interfaces/V1/IUniswapV1Factory.sol": {
+      "lastModificationDate": 1639639836680,
+      "contentHash": "abe9343b20a93919250e0dba78bfd9c1",
+      "sourceName": "contracts/uniswap-periphery/interfaces/V1/IUniswapV1Factory.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV1Factory"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/interfaces/IUniswapV2Migrator.sol": {
+      "lastModificationDate": 1639639836680,
+      "contentHash": "f626f6b55e8b5ffbda4f64e9409e5614",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Migrator.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Migrator"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/limit-order/Orders.sol": {
+      "lastModificationDate": 1639725902699,
+      "contentHash": "7d2f64dbe1d0424370eb355803009331",
+      "sourceName": "contracts/limit-order/Orders.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../uniswap-periphery/libraries/SafeMath.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "Orders"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/limit-order/OrderManager.sol": {
+      "lastModificationDate": 1639729243176,
+      "contentHash": "92b422751e24be8a321a537923568da9",
+      "sourceName": "contracts/limit-order/OrderManager.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../uniswap-periphery/libraries/SafeMath.sol",
+        "./interfaces/IOrderManager.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "OrderManager"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/limit-order/LimitOrders.sol": {
+      "lastModificationDate": 1640329305035,
+      "contentHash": "98758d3efc9671792eba0f5e834c4fde",
+      "sourceName": "contracts/limit-order/LimitOrders.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./OrderManagerInternal.sol",
+        "./LimitOrderOracle.sol",
+        "./interfaces/ISwapRouter.sol",
+        "../uniswap-periphery/interfaces/IWETH.sol",
+        "../uniswap-periphery/interfaces/IERC20.sol",
+        "../uniswap-periphery/interfaces/IUniswapV2Pair.sol",
+        "../uniswap-periphery/interfaces/IUniswapV2Router02.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "LimitOrders"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/limit-order/OrderManagerInternal.sol": {
+      "lastModificationDate": 1639803713740,
+      "contentHash": "e075281f837d630936d4b5fb1f6ced1f",
+      "sourceName": "contracts/limit-order/OrderManagerInternal.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../uniswap-periphery/libraries/SafeMath.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "OrderManagerInternal"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/limit-order/interfaces/IOrderManager.sol": {
+      "lastModificationDate": 1639729120724,
+      "contentHash": "73c42af3856af0cb1ed6b0f2717c22ba",
+      "sourceName": "contracts/limit-order/interfaces/IOrderManager.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "IOrderManager"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/limit-order/LimitOrderOracle.sol": {
+      "lastModificationDate": 1639802161768,
+      "contentHash": "ede8787b494ec977cd67b4bae1cfa3ee",
+      "sourceName": "contracts/limit-order/LimitOrderOracle.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "LimitOrderOracle"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/limit-order/SwapRouter.sol": {
+      "lastModificationDate": 1640329446111,
+      "contentHash": "5e4bc3a2a629fb11c790545ed9708e5c",
+      "sourceName": "contracts/limit-order/SwapRouter.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/ISwapRouter.sol",
+        "../uniswap-periphery/interfaces/IWETH.sol",
+        "../uniswap-periphery/interfaces/IERC20.sol",
+        "../uniswap-periphery/interfaces/IUniswapV2Pair.sol",
+        "../uniswap-periphery/interfaces/IUniswapV2Router02.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "SwapRouter"
+      ]
+    },
+    "/home/jay/dev/hardhat/hardhat-limit-order-quickstart/contracts/limit-order/interfaces/ISwapRouter.sol": {
+      "lastModificationDate": 1640329385641,
+      "contentHash": "536e88d95139c1e9efca45c760788617",
+      "sourceName": "contracts/limit-order/interfaces/ISwapRouter.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "ISwapRouter"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/limit-order/OrderManager.sol": {
+      "lastModificationDate": 1640330041664,
+      "contentHash": "92b422751e24be8a321a537923568da9",
+      "sourceName": "contracts/limit-order/OrderManager.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../uniswap-periphery/libraries/SafeMath.sol",
+        "./interfaces/IOrderManager.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "OrderManager"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/libraries/SafeMath.sol": {
+      "lastModificationDate": 1640330041663,
+      "contentHash": "9f77127a0e2c55c2058453327e84bde3",
+      "sourceName": "contracts/uniswap-periphery/libraries/SafeMath.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "=0.6.6"
+      ],
+      "artifacts": [
+        "SafeMath"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/UniswapV2Router02.sol": {
+      "lastModificationDate": 1640330041663,
+      "contentHash": "55acfe2cd85ebc83e227a77b5c8478c1",
+      "sourceName": "contracts/uniswap-periphery/UniswapV2Router02.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/IUniswapV2Factory.sol",
+        "./interfaces/IUniswapV2Router02.sol",
+        "./libraries/UniswapV2Library.sol",
+        "./libraries/SafeMath.sol",
+        "./interfaces/IERC20.sol",
+        "./interfaces/IWETH.sol"
+      ],
+      "versionPragmas": [
+        "=0.6.6"
+      ],
+      "artifacts": [
+        "TransferHelper",
+        "UniswapV2Router02"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/libraries/UniswapV2Library.sol": {
+      "lastModificationDate": 1640330041663,
+      "contentHash": "54aa51d974eb834c5c6cb7f9e0770be4",
+      "sourceName": "contracts/uniswap-periphery/libraries/UniswapV2Library.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../interfaces/IUniswapV2Pair.sol",
+        "../interfaces/IUniswapV2Factory.sol",
+        "./SafeMath.sol"
+      ],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "UniswapV2Library"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/UniswapV2Migrator.sol": {
+      "lastModificationDate": 1640330041663,
+      "contentHash": "f22a8cda725eee3ba3f96edf913b2a75",
+      "sourceName": "contracts/uniswap-periphery/UniswapV2Migrator.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/IUniswapV2Migrator.sol",
+        "./interfaces/V1/IUniswapV1Factory.sol",
+        "./interfaces/V1/IUniswapV1Exchange.sol",
+        "./interfaces/IUniswapV2Router01.sol",
+        "./interfaces/IERC20.sol"
+      ],
+      "versionPragmas": [
+        "=0.6.6"
+      ],
+      "artifacts": [
+        "TransferHelper",
+        "UniswapV2Migrator"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/limit-order/LimitOrders.sol": {
+      "lastModificationDate": 1640330041665,
+      "contentHash": "98758d3efc9671792eba0f5e834c4fde",
+      "sourceName": "contracts/limit-order/LimitOrders.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./OrderManagerInternal.sol",
+        "./LimitOrderOracle.sol",
+        "./interfaces/ISwapRouter.sol",
+        "../uniswap-periphery/interfaces/IWETH.sol",
+        "../uniswap-periphery/interfaces/IERC20.sol",
+        "../uniswap-periphery/interfaces/IUniswapV2Pair.sol",
+        "../uniswap-periphery/interfaces/IUniswapV2Router02.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "LimitOrders"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/limit-order/OrderManagerInternal.sol": {
+      "lastModificationDate": 1640330041664,
+      "contentHash": "e075281f837d630936d4b5fb1f6ced1f",
+      "sourceName": "contracts/limit-order/OrderManagerInternal.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../uniswap-periphery/libraries/SafeMath.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "OrderManagerInternal"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/limit-order/Orders.sol": {
+      "lastModificationDate": 1640330041665,
+      "contentHash": "7d2f64dbe1d0424370eb355803009331",
+      "sourceName": "contracts/limit-order/Orders.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../uniswap-periphery/libraries/SafeMath.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "Orders"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/limit-order/interfaces/IOrderManager.sol": {
+      "lastModificationDate": 1640330041674,
+      "contentHash": "73c42af3856af0cb1ed6b0f2717c22ba",
+      "sourceName": "contracts/limit-order/interfaces/IOrderManager.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "IOrderManager"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/limit-order/SwapRouter.sol": {
+      "lastModificationDate": 1640330041665,
+      "contentHash": "5e4bc3a2a629fb11c790545ed9708e5c",
+      "sourceName": "contracts/limit-order/SwapRouter.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/ISwapRouter.sol",
+        "../uniswap-periphery/interfaces/IWETH.sol",
+        "../uniswap-periphery/interfaces/IERC20.sol",
+        "../uniswap-periphery/interfaces/IUniswapV2Pair.sol",
+        "../uniswap-periphery/interfaces/IUniswapV2Router02.sol"
+      ],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "SwapRouter"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/limit-order/interfaces/ISwapRouter.sol": {
+      "lastModificationDate": 1640330041674,
+      "contentHash": "536e88d95139c1e9efca45c760788617",
+      "sourceName": "contracts/limit-order/interfaces/ISwapRouter.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "ISwapRouter"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/limit-order/LimitOrderOracle.sol": {
+      "lastModificationDate": 1640330041664,
+      "contentHash": "ede8787b494ec977cd67b4bae1cfa3ee",
+      "sourceName": "contracts/limit-order/LimitOrderOracle.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "LimitOrderOracle"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/UniswapV2Pair.sol": {
+      "lastModificationDate": 1640330041660,
+      "contentHash": "c9767b19a14089d3166a1cf8452c8c99",
+      "sourceName": "contracts/uniswap-core/UniswapV2Pair.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./UniswapV2ERC20.sol",
+        "./libraries/Math.sol",
+        "./libraries/UQ112x112.sol",
+        "./interfaces/IERC20.sol",
+        "./interfaces/IUniswapV2Factory.sol",
+        "./interfaces/IUniswapV2Callee.sol",
+        "./interfaces/IUniswapV2Pair.sol"
+      ],
+      "versionPragmas": [
+        "=0.6.12"
+      ],
+      "artifacts": [
+        "IMigrator",
+        "UniswapV2Pair"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/UniswapV2ERC20.sol": {
+      "lastModificationDate": 1640330041660,
+      "contentHash": "a3eb65d3c0794120ad3e2909c0bae9c3",
+      "sourceName": "contracts/uniswap-core/UniswapV2ERC20.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./libraries/SafeMath.sol"
+      ],
+      "versionPragmas": [
+        "=0.6.12"
+      ],
+      "artifacts": [
+        "UniswapV2ERC20"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/libraries/Math.sol": {
+      "lastModificationDate": 1640330041660,
+      "contentHash": "6b3e52bfa76268a14cc629fc63b7c0ec",
+      "sourceName": "contracts/uniswap-core/libraries/Math.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "=0.6.12"
+      ],
+      "artifacts": [
+        "Math"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/libraries/UQ112x112.sol": {
+      "lastModificationDate": 1640330041660,
+      "contentHash": "63501dcc6bb83ee7460b9ab4f4d4a306",
+      "sourceName": "contracts/uniswap-core/libraries/UQ112x112.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "=0.6.12"
+      ],
+      "artifacts": [
+        "UQ112x112"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/libraries/SafeMath.sol": {
+      "lastModificationDate": 1640330041660,
+      "contentHash": "55e48a161695bccee94258ffd8ba3efb",
+      "sourceName": "contracts/uniswap-core/libraries/SafeMath.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "=0.6.12"
+      ],
+      "artifacts": [
+        "SafeMathUniswap"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/UniswapV2Factory.sol": {
+      "lastModificationDate": 1640330041660,
+      "contentHash": "ba8a57d0f257aeddb2835d36fa1776ae",
+      "sourceName": "contracts/uniswap-core/UniswapV2Factory.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/IUniswapV2Factory.sol",
+        "./UniswapV2Pair.sol"
+      ],
+      "versionPragmas": [
+        "=0.6.12"
+      ],
+      "artifacts": [
+        "UniswapV2Factory"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/WETH.sol": {
+      "lastModificationDate": 1640330041663,
+      "contentHash": "81259fa181584ab9894d54a3396c5c07",
+      "sourceName": "contracts/uniswap-periphery/WETH.sol",
+      "solcConfig": {
+        "version": "0.6.12",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.6"
+      ],
+      "artifacts": [
+        "WETH"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/token-libraries/Context.sol": {
+      "lastModificationDate": 1640330041662,
+      "contentHash": "b74d20930fbde7bbe062f0149154391e",
+      "sourceName": "contracts/token-libraries/Context.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "Context"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/Token.sol": {
+      "lastModificationDate": 1640330041674,
+      "contentHash": "ba01969a6de636402a6eda6e7b117f73",
+      "sourceName": "contracts/Token.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./token-libraries/Context.sol",
+        "./token-libraries/IERC20.sol",
+        "./token-libraries/SafeMath.sol"
+      ],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "Token"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/token-libraries/IERC20.sol": {
+      "lastModificationDate": 1640330041662,
+      "contentHash": "9a02a460e2e968db8dd4da7e7915ce3e",
+      "sourceName": "contracts/token-libraries/IERC20.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/token-libraries/SafeMath.sol": {
+      "lastModificationDate": 1640330041662,
+      "contentHash": "5528da796ebf3c244f6025e5cf14a300",
+      "sourceName": "contracts/token-libraries/SafeMath.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "SafeMath"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/ERC20.sol": {
+      "lastModificationDate": 1640330041660,
+      "contentHash": "b732d06dd69a795a6a70931e7e1281a5",
+      "sourceName": "contracts/uniswap-core/ERC20.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./libraries/Context.sol",
+        "./interfaces/IERC20.sol"
+      ],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0",
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "ERC20",
+        "SafeMath"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/libraries/Context.sol": {
+      "lastModificationDate": 1640330041660,
+      "contentHash": "b74d20930fbde7bbe062f0149154391e",
+      "sourceName": "contracts/uniswap-core/libraries/Context.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "Context"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/Greeter.sol": {
+      "lastModificationDate": 1640330041674,
+      "contentHash": "54c28c84e5277b35b8c8329ce9755dae",
+      "sourceName": "contracts/Greeter.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Greeter"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/hardhat/console.sol": {
+      "lastModificationDate": 1640330138247,
+      "contentHash": "cc4777addd464ea56fa35b1c45df0591",
+      "sourceName": "hardhat/console.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.22 <0.9.0"
+      ],
+      "artifacts": [
+        "console"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/interfaces/IWETH.sol": {
+      "lastModificationDate": 1640330041663,
+      "contentHash": "270f2c1a1f22475259d5a2f6a524f72e",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IWETH.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IWETH"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/interfaces/IUniswapV2Router02.sol": {
+      "lastModificationDate": 1640330041662,
+      "contentHash": "7d99223470e1c5428046e1086a837d1e",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Router02.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IUniswapV2Router01.sol"
+      ],
+      "versionPragmas": [
+        ">=0.6.2"
+      ],
+      "artifacts": [
+        "IUniswapV2Router02"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/interfaces/IUniswapV2Router01.sol": {
+      "lastModificationDate": 1640330041662,
+      "contentHash": "0ba03ec4e122096885d737693463a959",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Router01.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.2"
+      ],
+      "artifacts": [
+        "IUniswapV2Router01"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/interfaces/IERC20.sol": {
+      "lastModificationDate": 1640330041662,
+      "contentHash": "3d2b948a9266ee66b6e739de97c7e6e9",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/interfaces/IUniswapV2Pair.sol": {
+      "lastModificationDate": 1640330041663,
+      "contentHash": "3fa31c3860f2b9585c3a98c64850829e",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Pair.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Pair"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/interfaces/IUniswapV2Factory.sol": {
+      "lastModificationDate": 1640330041662,
+      "contentHash": "ec39b5372f4f4d52101b4da561e2aee6",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Factory.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Factory"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/interfaces/V1/IUniswapV1Exchange.sol": {
+      "lastModificationDate": 1640330041663,
+      "contentHash": "5ec7fe77a73b5ace5fc1fbae6b87f34e",
+      "sourceName": "contracts/uniswap-periphery/interfaces/V1/IUniswapV1Exchange.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV1Exchange"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/interfaces/V1/IUniswapV1Factory.sol": {
+      "lastModificationDate": 1640330041663,
+      "contentHash": "abe9343b20a93919250e0dba78bfd9c1",
+      "sourceName": "contracts/uniswap-periphery/interfaces/V1/IUniswapV1Factory.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV1Factory"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-periphery/interfaces/IUniswapV2Migrator.sol": {
+      "lastModificationDate": 1640330041662,
+      "contentHash": "f626f6b55e8b5ffbda4f64e9409e5614",
+      "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Migrator.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Migrator"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/interfaces/IERC20.sol": {
+      "lastModificationDate": 1640330041648,
+      "contentHash": "3d2b948a9266ee66b6e739de97c7e6e9",
+      "sourceName": "contracts/uniswap-core/interfaces/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/interfaces/IUniswapV2Pair.sol": {
+      "lastModificationDate": 1640330041648,
+      "contentHash": "3fa31c3860f2b9585c3a98c64850829e",
+      "sourceName": "contracts/uniswap-core/interfaces/IUniswapV2Pair.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Pair"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/interfaces/IUniswapV2Callee.sol": {
+      "lastModificationDate": 1640330041648,
+      "contentHash": "30a4aed15b3fa3ce5588118b7cecfa7f",
+      "sourceName": "contracts/uniswap-core/interfaces/IUniswapV2Callee.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Callee"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/interfaces/IUniswapV2Factory.sol": {
+      "lastModificationDate": 1640330041648,
+      "contentHash": "367fa97b691e5d239bd4042c42b15b07",
+      "sourceName": "contracts/uniswap-core/interfaces/IUniswapV2Factory.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Factory"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/uniswap-core/interfaces/IUniswapV2ERC20.sol": {
+      "lastModificationDate": 1640330041648,
+      "contentHash": "752c725168e1a5b73a8209897f18c5b9",
+      "sourceName": "contracts/uniswap-core/interfaces/IUniswapV2ERC20.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2ERC20"
+      ]
+    }
+  }
+}

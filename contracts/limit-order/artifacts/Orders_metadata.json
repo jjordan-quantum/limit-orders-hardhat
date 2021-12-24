@@ -1,0 +1,452 @@
+{
+	"compiler": {
+		"version": "0.6.6+commit.6c089d02"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "router",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "selector",
+						"type": "uint8"
+					},
+					{
+						"internalType": "address",
+						"name": "inputToken",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "outputToken",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "inputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "triggerOutputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "minOutputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "deadline",
+						"type": "uint256"
+					}
+				],
+				"name": "createOrder",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "getActiveOrderCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "getCumulativeOrderCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lockOrderCreation",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "locked",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderNum",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "inputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "triggerOutputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "minOutputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "deadline",
+						"type": "uint256"
+					}
+				],
+				"name": "modifyOrder",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderNum",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "inputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "triggerOutputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "minOutputAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "modifyOrderAmounts",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderNum",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "deadline",
+						"type": "uint256"
+					}
+				],
+				"name": "modifyOrderDeadline",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderNum",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "inputAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "modifyOrderInputAmount",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderNum",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "minOutputAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "modifyOrderMinOutputAmount",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderNum",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "triggerOutputAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "modifyOrderTriggerOutputAmount",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderNum",
+						"type": "uint256"
+					}
+				],
+				"name": "removeOrder",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "unlockOrderCreation",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderNum",
+						"type": "uint256"
+					}
+				],
+				"name": "viewOrder",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "router",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "selector",
+						"type": "uint8"
+					},
+					{
+						"internalType": "address",
+						"name": "inputToken",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "outputToken",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "inputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "triggerOutputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "minOutputAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "deadline",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderID",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"dev/hardhat/hardhat-limit-order-quickstart/contracts/limit-order/Orders.sol": "Orders"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"dev/hardhat/hardhat-limit-order-quickstart/contracts/limit-order/Orders.sol": {
+			"keccak256": "0xea3a49f3b4c73c5a5ffa67aa49b035066c0beaddff59047ef43c54acacaedb4a",
+			"urls": [
+				"bzz-raw://429df3fcb2e33dfc74caf2eaf952a8532426da5dfe146c38d108b17d464b2028",
+				"dweb:/ipfs/QmWxUCPjjKfiL9y2tqULj5d2SEktRvmNt2CggbC5ChU8hA"
+			]
+		},
+		"dev/hardhat/hardhat-limit-order-quickstart/contracts/uniswap-periphery/libraries/SafeMath.sol": {
+			"keccak256": "0x27f0ea82f879b3b01387b583e6d9d0ec858dca3b22b0aad173f8fbda06e761e1",
+			"urls": [
+				"bzz-raw://0db9cf37793eb7035f0bfced36323d240f0212150009c39a3a108701d9b50b6c",
+				"dweb:/ipfs/QmUAdiG9XNcieXkKfiMB49zQqD34FbXFE15csV2KQzwEqg"
+			]
+		}
+	},
+	"version": 1
+}
