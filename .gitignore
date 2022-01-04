@@ -107,3 +107,7 @@ dist
 .idea
 .idea/
 .idea/*
+
+# Project
+config.json
+

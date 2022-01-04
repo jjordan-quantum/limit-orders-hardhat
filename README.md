@@ -39,4 +39,7 @@ npx hardhat run --network localhost scripts/1-test-limit-order-state-vars.js
 npx hardhat run --network localhost scripts/2-test-limit-order-payment-amounts.js
 npx hardhat run --network localhost scripts/3-test-utility-functions.js
 npx hardhat run --network localhost scripts/4-test-order-management.js
+npx hardhat run --network localhost scripts/5-test-swaprouter.js
+npx hardhat run --network localhost scripts/6-test-order-liquidation.js
+npx hardhat run --network localhost scripts/7-test-orders-with-refunds-enabled.js
 ```

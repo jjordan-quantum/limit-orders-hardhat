@@ -88,7 +88,7 @@ contract LimitOrders is
         //protocolFeeEnabled = false;
 
         MAX_DEADLINE = 2592000;
-        averageGasConsumedPerLiquidation = 154222;
+        averageGasConsumedPerLiquidation = 204040;
 
         _isAuthorizedOracle[msg.sender] = true;
     }
@@ -484,7 +484,12 @@ contract LimitOrders is
 
     // LIQUIDATE
 
-    function liquidate(address user, uint orderNum) external payable onlyOracle {
+    function liquidate(address user, uint orderNum)
+        external
+        payable
+        onlyOracle
+        refundGas(user, msg.sender)
+    {
 
         IERC20(getInputToken(orders[user][orderNum].selector, orders[user][orderNum].pair)).transferFrom(
             user,
