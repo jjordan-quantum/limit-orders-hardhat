@@ -1,5 +1,6 @@
 const {Channel} = require("./channel");
 const {Logger} = require("./logger");
+const {Queries} = require("./queries");
 exports.Controller = (function() {
 
     const { Channel } = require('./channel');
@@ -11,10 +12,11 @@ exports.Controller = (function() {
     let startedWorking;
     let nextTaskCollectionID = 0;
     const taskCollections = {};
-    let allActiveOrders;
+    let ordersByUser = {};
 
     (async () => {
-        allActiveOrders = await Queries.getAllActiveOrders();
+        const allActiveOrders = await Queries.getAllActiveOrders();
+        getOrdersByUser(allActiveOrders.slice());
     })();
 
     // keep orders in memory
@@ -71,24 +73,27 @@ exports.Controller = (function() {
     // check all orders for liquidation on schedule
     const performScheduledJob = async () => {
 
-        // check all open orders for liquidation
-        if(allActiveOrders) {
-            const timestamp = Math.round((new Date()).getTime() / 1000);
-            for(let i = 0; i < allActiveOrders.length; i++) {
-
-                // check if order expired or not
-                if(allActiveOrders[i].deadline > timestamp) {
-                    //_________________
-                    // publish new task - to check if order can be liquidated
-                    //=========================================================
-                    Channel.publish('newTask', JSON.parse(JSON.stringify(allActiveOrders[i])));
-                    //=========================================================
-                    //
-                    //
-                    //________________
+        const timestamp = Math.round((new Date()).getTime() / 1000);
+        Object.keys(ordersByUser).forEach((user) => {
+            const orders = ordersByUser[user];
+            orders.forEach((order) => {
+                if(order.status === 1) {
+                    if(order.deadline > timestamp) {
+                        //_________________
+                        // publish new task - to check if order can be liquidated
+                        //=========================================================
+                        Channel.publish('newTask', JSON.parse(JSON.stringify(order)));
+                        //=========================================================
+                        //
+                        //
+                        //________________
+                    } else {
+                        // set order to expired
+                        // TODO......
+                    }
                 }
-            }
-        }
+            })
+        })
     }
 
     // =================================================================================================================
@@ -115,22 +120,110 @@ exports.Controller = (function() {
         deleteOrder(JSON.parse(JSON.stringify(data))).then();
     });
 
+    const orderTemplate = {
+        user: "0x0000000000000000000000000000000000000000",     // user's account address
+        orderNum: 0,    // will be the order number for the order -> verify this is the next order number in the db
+        selector: 101,   // represents the function # and swap direction
+        pair: "0x0000000000000000000000000000000000000000",  // pair address
+        inputAmount: 1000,  // input amount for swap
+        minOutputAmount: 0, // 'amountOutMin' value for swap
+        deadline: 1313213213    // UNIX timestamp expiry
+    }
+
     const createOrder = async (data) => {
 
+        const user = data.user;
+        const orderNum = data.orderNum;
+        const selector = data.selector;
+        const pair = data.pair;
+        const inputAmount = data.inputAmount;
+        const minOutputAmount = data.minOutputAmount;
+        const deadline = data.deadline;
+
+        // get all orders for user in memory
+        // confirm that orderNum is highest orderNum + 1
+        // if not -> check all orders on blockchain
+        // add order to memory
+
         // write to db
-        // add to orders in memory
-        // reconcile orders for user
+        await Queries.writeNewOrder(
+            user,
+            orderNum,
+            selector,
+            pair,
+            inputAmount,
+            minOutputAmount,
+            deadline
+        );
     }
 
     const updateOrder = async (data) => {
 
-        // update order in db
-        // update order in memory
-        // reconcile orders for user
+        const mode = data.mode;
+        if(mode === 'amounts') {
+            const user = data.user;
+            const orderNum = data.orderNum;
+            const newInputAmount = data.inputAmount;
+            const newMinOutputAmount = data.minOutputAmount;
+            // update in DB
+            await Queries.updateOrderAmounts(
+                user,
+                orderNum,
+                newInputAmount,
+                newMinOutputAmount
+            );
+            // update in memory
+        } else if(mode === 'output') {
+            const user = data.user;
+            const orderNum = data.orderNum;
+            const newMinOutputAmount = data.minOutputAmount;
+            // update in DB
+            await Queries.updateOrderMinOutputAmount(
+                user,
+                orderNum,
+                newMinOutputAmount
+            );
+            // update in memory
+        } else if(mode === 'deadline') {
+            const user = data.user;
+            const orderNum = data.orderNum;
+            const newDeadline = data.deadline;
+            // update in DB
+            await Queries.updateOrderDeadline(
+                user,
+                orderNum,
+                newDeadline
+            );
+            // update in memory
+        } else {
+            // update all
+            const user = data.user;
+            const orderNum = data.orderNum;
+            const newInputAmount = data.inputAmount;
+            const newMinOutputAmount = data.minOutputAmount;
+            const newDeadline = data.deadline;
+            // update in DB
+            await Queries.updateOrder(
+                user,
+                orderNum,
+                newInputAmount,
+                newMinOutputAmount,
+                newDeadline
+            );
+            // update in memory
+        }
     }
 
     const deleteOrder = async (data) => {
 
+        const user = data.user;
+        const orderNum = data.orderNum;
+        // remove order from DB
+        await Queries.updateOrderStatus(
+            user,
+            orderNum,
+            0
+        );
         // remove order from memory + update order number sequencing for user
         // update status + number sequencing of orders in db
         // reconcile orders for user
@@ -200,6 +293,21 @@ exports.Controller = (function() {
 
         // update order in memory with result, if required
         // update order in db with result, if required
+    }
+
+    // =================================================================================================================
+    //
+    //  Data manipulation for orders in memory
+    //
+    // =================================================================================================================
+
+    const getOrdersByUser = (allActiveOrders) => {
+        allActiveOrders.forEach((order) => {
+            if(!ordersByUser.hasOwnProperty(order.user_address)) {
+                ordersByUser[order.user_address] = [];
+            }
+            ordersByUser[order.user_address].push(order);
+        });
     }
 
     return {}

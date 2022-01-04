@@ -3,11 +3,13 @@ exports.Scheduler = (function() {
     const { Channel } = require('./channel');
     const cron = require('node-cron');
 
+    const _schedule_ = '* * * * * *'    // 1 second schedule
+
     const publishedTopics = [
         'performScheduledJob'
     ]
 
-    const runSchedule = async (_schedule_) => {
+    const runSchedule = async () => {
         cron.schedule(_schedule_, async () => {
             //_________________
             // publish scheduled job
@@ -20,25 +22,9 @@ exports.Scheduler = (function() {
         });
     }
 
-    const startSchedulerInternal = (schedule) => {
+    (() => {
+        runSchedule().then();
+    })();
 
-        runSchedule(schedule).then();
-    }
-
-    const stopSchedulerInternal = () => {
-        // TODO
-    }
-
-    const updateScheduleInternal = (schedule) => {
-        // TODO
-    }
-
-    return {
-        getID: () => { return GlobalChannel.getIdentifier(); },
-        getPublishedTopics: () => { return publishedTopics; },
-        getSubscribedTopics: () => { return subscribedTopics; },
-        startScheduler: (schedule) => { startSchedulerInternal(schedule); },
-        stopScheduler: () => { stopSchedulerInternal(); },
-        updateSchedule: (newSchedule) => { updateScheduleInternal(newSchedule); }
-    }
+    return {}
 })();
