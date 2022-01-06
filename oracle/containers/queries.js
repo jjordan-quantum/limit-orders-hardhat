@@ -1,4 +1,3 @@
-const {Postgres} = require("./postgres");
 exports.Queries = (function() {
     // container for specific queries to updater db
 

@@ -1,0 +1,20 @@
+# TODO LIST FOR ORACLE
+- [x] Channel container - global pub-sub channel for all containers to use
+- [x] Config container - for loading constants from config.json
+- [ ] Controller container - controls overall process
+- [x] External Adapter container - receives / handles requests from chainlink node
+- [ ] External Adapter container - sends requests to chainlink node
+- [ ] Limit Orders container - for checking orders for liquidation
+- [ ] Logger container - need to add more transports (not essential for production)
+- [x] Memory Management container - monitors heap at runtime
+- [x] Postgres container - for handling connection pools
+- [x] Queries container - for specific read / write queries (uses Postgres container)
+- [x] Scheduler container - publishes alerts on a 1 sec schedule to trigger liquidation checks
+- [ ] Simulation container - simulates liquidation tx's before sending to chainlink
+- [ ] Web3 container - for managing web3 connections
+- [ ] Workers container - tbd (may not be needed)
+- [x] app.js - main app that imports the core containers
+- [ ] update db schema
+- [ ] deploy to digital ocean
+- [ ] update job specs on chainlink node
+- [ ] deploy new contracts and test with oracle

@@ -1,11 +1,9 @@
-const {Channel} = require("./channel");
 const {Logger} = require("./logger");
-const {Queries} = require("./queries");
 exports.Controller = (function() {
 
     const { Channel } = require('./channel');
     const { Logger } = require('./logger');
-    const { Queries } = require('./queries');
+    //const { Queries } = require('./queries');
 
     const util = require("util");
     let busyWorking = false;
@@ -14,10 +12,13 @@ exports.Controller = (function() {
     const taskCollections = {};
     let ordersByUser = {};
 
+    /*
     (async () => {
         const allActiveOrders = await Queries.getAllActiveOrders();
         getOrdersByUser(allActiveOrders.slice());
     })();
+
+     */
 
     // keep orders in memory
     // update orders in memory and in db on each request from chainlink node (EA)
@@ -105,18 +106,24 @@ exports.Controller = (function() {
     // create subscription for create request
     Channel.subscribe("createOrder", function(data) {
         Logger.log("CONTROLLER: Received createOrder topic");
+        Logger.log(data);
+
         createOrder(JSON.parse(JSON.stringify(data))).then();
     });
 
     // create subscription for update request
     Channel.subscribe("updateOrder", function(data) {
         Logger.log("CONTROLLER: Received updateOrder topic");
+        Logger.log(data);
+
         updateOrder(JSON.parse(JSON.stringify(data))).then();
     });
 
     // create subscription for delete request
     Channel.subscribe("deleteOrder", function(data) {
         Logger.log("CONTROLLER: Received deleteOrder topic");
+        Logger.log(data);
+
         deleteOrder(JSON.parse(JSON.stringify(data))).then();
     });
 
@@ -133,12 +140,12 @@ exports.Controller = (function() {
     const createOrder = async (data) => {
 
         const user = data.user;
-        const orderNum = data.orderNum;
-        const selector = data.selector;
+        const orderNum = parseInt(data.orderNum);
+        const selector = parseInt(data.selector);
         const pair = data.pair;
         const inputAmount = data.inputAmount;
         const minOutputAmount = data.minOutputAmount;
-        const deadline = data.deadline;
+        const deadline = parseInt(data.deadline);
 
         // get all orders for user in memory
         // confirm that orderNum is highest orderNum + 1
@@ -162,7 +169,7 @@ exports.Controller = (function() {
         const mode = data.mode;
         if(mode === 'amounts') {
             const user = data.user;
-            const orderNum = data.orderNum;
+            const orderNum = parseInt(data.orderNum);
             const newInputAmount = data.inputAmount;
             const newMinOutputAmount = data.minOutputAmount;
             // update in DB
@@ -175,7 +182,7 @@ exports.Controller = (function() {
             // update in memory
         } else if(mode === 'output') {
             const user = data.user;
-            const orderNum = data.orderNum;
+            const orderNum = parseInt(data.orderNum);
             const newMinOutputAmount = data.minOutputAmount;
             // update in DB
             await Queries.updateOrderMinOutputAmount(
@@ -186,29 +193,29 @@ exports.Controller = (function() {
             // update in memory
         } else if(mode === 'deadline') {
             const user = data.user;
-            const orderNum = data.orderNum;
-            const newDeadline = data.deadline;
+            const orderNum = parseInt(data.orderNum);
+            const deadline = parseInt(data.deadline);
             // update in DB
             await Queries.updateOrderDeadline(
                 user,
                 orderNum,
-                newDeadline
+                deadline
             );
             // update in memory
         } else {
             // update all
             const user = data.user;
-            const orderNum = data.orderNum;
+            const orderNum = parseInt(data.orderNum);
             const newInputAmount = data.inputAmount;
             const newMinOutputAmount = data.minOutputAmount;
-            const newDeadline = data.deadline;
+            const deadline = parseInt(data.deadline);
             // update in DB
             await Queries.updateOrder(
                 user,
                 orderNum,
                 newInputAmount,
                 newMinOutputAmount,
-                newDeadline
+                deadline
             );
             // update in memory
         }
