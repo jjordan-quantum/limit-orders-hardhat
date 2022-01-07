@@ -3,7 +3,7 @@
 - [x] Config container - for loading constants from config.json
 - [ ] Controller container - controls overall process
 - [x] External Adapter container - receives / handles requests from chainlink node
-- [ ] External Adapter container - sends requests to chainlink node
+- [x] External Initiator container - sends requests to chainlink node
 - [ ] Limit Orders container - for checking orders for liquidation
 - [ ] Logger container - need to add more transports (not essential for production)
 - [x] Memory Management container - monitors heap at runtime
