@@ -1,30 +1,51 @@
 // @chainlink external initiator
 exports.Initiator = (function() {
 
-    const CHAINLINK_ACCESS_KEY = process.env.CHAINLINK_ACCESS_KEY;
-    const CHAINLINK_ACCESS_SECRET = process.env.CHAINLINK_ACCESS_SECRET;
-    const CHAINLINK_IP = process.env.CHAINLINK_IP;
-    const LISTEN_PORT = process.env.PORT;
-    const HTTPS_PROVIDER_ENDPOINT = process.env.HTTPS_PROVIDER_ENDPOINT;
-    const WSS_PROVIDER_ENDPOINT = process.env.WSS_PROVIDER_ENDPOINT;
-    const DB_USERNAME = process.env.DB_USERNAME;
-    const DB_PASSWORD = process.env.DB_PASSWORD;
-    const DB_HOST = process.env.DB_HOST;
-    const DB_DATABASE = process.env.DB_DATABASE;
-    const DB_PORT = process.env.DB_PORT;
+    const { Channel } = require('./channel');
+    const { Config } = require('./config');
+    const { Logger } = require('./logger');
+    const chainlinkConfig = Config.getChainlinkConfig();
+    const request = require("request");
+
+    const CHAINLINK_ACCESS_KEY = chainlinkConfig.access_key;
+    const CHAINLINK_ACCESS_SECRET = chainlinkConfig.access_secret;
+    const CHAINLINK_IP = chainlinkConfig.ip_address;
+
+    // create subscription for create request
+    Channel.subscribe("sendChainlinkRequest", function(data) {
+        Logger.log("EXTERNAL INITIATOR: Received sendChainlinkRequest topic");
+        Logger.log(data);
+
+        callChainlinkNode(JSON.parse(JSON.stringify(data)));
+    });
 
     /** Function to call the chainlink node and run a job */
-    function callChainlinkNode(job_id) {
-        var url_addon = '/v2/specs/'+ job_id + '/runs'
+    function callChainlinkNode(data) {
+        const jobId = data.jobId;   // jobId is for 'liquidation' job spec
+        const requestBody = data.data;
+        const urlAddon = '/v2/specs/'+ jobId + '/runs'
         request.post({
             headers: {'content-type' : 'application/json', 'X-Chainlink-EA-AccessKey': CHAINLINK_ACCESS_KEY,
                 'X-Chainlink-EA-Secret': CHAINLINK_ACCESS_SECRET},
-            url:     CHAINLINK_IP+url_addon,
-            body:    ""     // TODO - add fields for user / job# / contract
+            url:     CHAINLINK_IP+urlAddon,
+            body:    requestBody     // TODO - add fields for user / orderNum / contract to requestBody in data
         }, function(error, response, body){
-            // updateCurrentActiveJob()
+            const message = {
+                error: error,
+                response: response,
+                body: body,
+                data: data
+            }
+            //_________________
+            // publish message with response from sending request to chainlink node
+            //=========================================================
+            Channel.publish('chainlinkRequestSent', JSON.parse(JSON.stringify(message)));
+            //=========================================================
+            //
+            //
+            //________________
         });
-        console.log("Job Sent")
+        console.log("Job Sent to Chainlink node")
     }
 
     return {
