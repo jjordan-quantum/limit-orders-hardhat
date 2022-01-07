@@ -1,10 +1,11 @@
+const Web3 = require("web3");
+const {Config} = require("./config");
 exports.Web3Requests = (function() {
     const { Channel } = require('./channel');
     const { Config } = require('./config');
     const Web3 = require('web3');
-    const Web3Config = Config.getWeb3Config();
-    const HTTPProvider = Web3Config.httpProvider;
-    const WebsocketProvider = Web3Config.websocketProvider;
+    const HTTPProvider = Config.getHTTPSProvider();
+    const WebsocketProvider = Config.getWebsocketProvider();
     let web3 = new Web3(HTTPProvider);
 
     const options = {
@@ -24,11 +25,15 @@ exports.Web3Requests = (function() {
         }
     };
 
-
-    let WSWeb3 = new Web3(new Web3.providers.WebsocketProvider(WebsocketProvider, options));
+    let WSWeb3;
+    if(WebsocketProvider) {
+        WSWeb3 = new Web3(new Web3.providers.WebsocketProvider(WebsocketProvider, options));
+    }
 
     const connectWebsocketInternal = () => {
-        let WSWeb3 = new Web3(new Web3.providers.WebsocketProvider(WebsocketProvider, options));
+        if(WebsocketProvider) {
+            WSWeb3 = new Web3(new Web3.providers.WebsocketProvider(WebsocketProvider, options));
+        }
     }
 
     const disconnectWebsocketInternal = () => {
@@ -49,7 +54,7 @@ exports.Web3Requests = (function() {
 
     const getBlockInternal = async (number, full) => {
         return new Promise((resolve, reject) => {
-            WSWeb3.eth.getBlock(number, full)
+            web3.eth.getBlock(number, full)
                 .then((block) => {
                     resolve(block);
                 })
@@ -81,7 +86,7 @@ exports.Web3Requests = (function() {
 
     const getTransactionInternal = async (txHash) => {
         return new Promise((resolve, reject) => {
-            WSWeb3.eth.getTransaction(txHash)
+            web3.eth.getTransaction(txHash)
                 .then((tx) => {
                     console.log("tx: " + tx)
                     resolve(tx);
@@ -96,7 +101,7 @@ exports.Web3Requests = (function() {
 
     const getTransactionReceiptInternal = async (txHash) => {
         return new Promise((resolve, reject) => {
-            WSWeb3.eth.getTransactionReceipt(txHash)
+            web3.eth.getTransactionReceipt(txHash)
                 .then((receipt) => {
                     resolve(receipt);
                 })
@@ -108,7 +113,14 @@ exports.Web3Requests = (function() {
         })
     }
 
-    // GET HIGHEST BLOCK
+    const latestInternal = async () => {
+        return await web3.eth.getBlockNumber();
+    }
+
+    const isAddressInternal = (address) => {
+        return Web3.utils.isAddress(address);
+    }
+
     // GET CHAIN ID
     // SIMULATE TX WITH ETH_CALL
     // ESTIMATE GAS
@@ -121,6 +133,8 @@ exports.Web3Requests = (function() {
         connectWebsocket: connectWebsocketInternal,
         disconnectWebsocket: disconnectWebsocketInternal,
         connectHTTPWeb3: connectHTTPWeb3Internal,
-        disconnectHTTPWeb3: disconnectHTTPWeb3Internal
+        disconnectHTTPWeb3: disconnectHTTPWeb3Internal,
+        isAddress: isAddressInternal,
+        latest: latestInternal,
     }
 })();

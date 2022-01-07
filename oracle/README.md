@@ -4,7 +4,7 @@
 - [ ] Controller container - controls overall process
 - [x] External Adapter container - receives / handles requests from chainlink node
 - [x] External Initiator container - sends requests to chainlink node
-- [ ] Limit Orders container - for checking orders for liquidation
+- [x] Limit Orders container - for checking orders for liquidation
 - [ ] Logger container - need to add more transports (not essential for production)
 - [x] Memory Management container - monitors heap at runtime
 - [x] Postgres container - for handling connection pools

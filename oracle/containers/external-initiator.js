@@ -11,6 +11,12 @@ exports.Initiator = (function() {
     const CHAINLINK_ACCESS_SECRET = chainlinkConfig.access_secret;
     const CHAINLINK_IP = chainlinkConfig.ip_address;
 
+    // =================================================================================================================
+    //
+    //  Subscription to topics published for sending requests to Chainlink node
+    //
+    // =================================================================================================================
+
     // create subscription for create request
     Channel.subscribe("sendChainlinkRequest", function(data) {
         Logger.log("EXTERNAL INITIATOR: Received sendChainlinkRequest topic");
