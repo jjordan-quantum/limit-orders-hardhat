@@ -10,7 +10,7 @@
 - [x] Postgres container - for handling connection pools
 - [x] Queries container - for specific read / write queries (uses Postgres container)
 - [x] Scheduler container - publishes alerts on a 1 sec schedule to trigger liquidation checks
-- [ ] Simulation container - simulates liquidation tx's before sending to chainlink
+- [x] Simulation container - simulates liquidation tx's before sending to chainlink
 - [ ] Web3 container - for managing web3 connections
 - [ ] Workers container - tbd (may not be needed)
 - [x] app.js - main app that imports the core containers

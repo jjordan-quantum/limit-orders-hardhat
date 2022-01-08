@@ -27,7 +27,8 @@ exports.Controller = (function() {
 
     const publishedTopics = [
         'newTask',
-        'newTaskCollection'
+        'newTaskCollection',
+        'simulateOrderLiquidation'
     ]
 
     const subscribedTopics = [
@@ -39,7 +40,7 @@ exports.Controller = (function() {
         'setDebugMode', // ???
 
         // for task completion, published by worker-queue
-        'taskComplete',
+        'taskComplete',   // will have result from check for liquidation
         'taskCollectionComplete',
 
         // for requests from chainlink node -> order mgmt

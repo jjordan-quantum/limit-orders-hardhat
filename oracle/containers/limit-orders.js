@@ -9,9 +9,7 @@ exports.LimitOrders = (function() {
     let web3 = new Web3(HTTPProvider);
     const LIMIT_ORDERS_ABI = Config.getLimitOrdersABI();
     const limitOrdersContractAddress = Config.getLimitOrderContractAddress();
-    const LimitOrders = new web3.eth.Contract(LIMIT_ORDERS_ABI, limitOrdersContractAddress);
-
-    // OPTION 1 - a single contract instance that all calls share...
+    const approvedOracleAddress = Config.getApprovedOracleAddress();
 
     const connectHTTPWeb3Internal = () => {
         web3 = new Web3(HTTPProvider);
@@ -21,8 +19,31 @@ exports.LimitOrders = (function() {
         web3 = null;
     }
 
+    const publishedTopics = [
+        'taskComplete',  // will have result of check for liquidation for order
+    ]
+
+    const subscribedTopics = [
+        'newTask',
+        'newTaskCollection' // ??
+    ];
+
+    // =================================================================================================================
+    //
+    //  Subscription for new tasks -> checking for liquidation
+    //
+    // =================================================================================================================
+
+    // create subscription
+    Channel.subscribe("newTask", function(data) {
+        Logger.log("LIMITORDERS: Received newTask topic");
+        Logger.log(data);
+
+        checkForLiquidation(JSON.parse(JSON.stringify(data))).then();
+    });
+
     const checkForLiquidation = async (data) => {
-        const _LimitOrders_ = JSON.parse(JSON.stringify(LimitOrders));
+        const _LimitOrders_ = new web3.eth.Contract(LIMIT_ORDERS_ABI, limitOrdersContractAddress);
         _LimitOrders_.methods.checkForLiquidation(data.user, data.orderNum).call()
             .then((result) => {
                 const data = {
@@ -56,31 +77,38 @@ exports.LimitOrders = (function() {
             })
     }
 
-    const publishedTopics = [
-        'taskComplete',
-        'orderReadyForLiquidation' // ??
-    ]
+    const latest = async () => {
+        return await web3.eth.getBlockNumber();
+    }
 
-    const subscribedTopics = [
-        'newTask',
-        'newTaskCollection' // ??
-    ];
+    const getRouterAddressFromLimitOrders = async () => {
+        const _LimitOrders_ = new web3.eth.Contract(LIMIT_ORDERS_ABI, limitOrdersContractAddress);
+        return await _LimitOrders_.methods.routerAddress().call();
+    }
 
-    // =================================================================================================================
-    //
-    //  Subscription for new tasks -> checking for liquidation
-    //
-    // =================================================================================================================
+    const getLiquidationTransactionInternal = (data) => {
 
-    // create subscription for create request
-    Channel.subscribe("newTask", function(data) {
-        Logger.log("LIMITORDERS: Received newTask topic");
-        Logger.log(data);
+        const _LimitOrders_ = new web3.eth.Contract(LIMIT_ORDERS_ABI, limitOrdersContractAddress);
+        const user = data.user;
+        const orderNum = data.orderNum;
+        const txData = _LimitOrders_.methods.liquidate(user, orderNum).encodeABI();
 
-        checkForLiquidation(JSON.parse(JSON.stringify(data))).then();
-    });
+        return {
+            data: txData,
+            to: limitOrdersContractAddress,
+            from: approvedOracleAddress,
+            gas: 200000
+        }
+    }
+
+    const runTestInternal = async () => {
+
+        console.log("Block number " + await latest());
+        console.log("Router address " + await getRouterAddressFromLimitOrders());
+    }
 
     return {
-
+        runTest: runTestInternal ,
+        getLiquidationTransaction: getLiquidationTransactionInternal
     }
 })();

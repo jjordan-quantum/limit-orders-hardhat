@@ -52,6 +52,10 @@ exports.Config = (function() {
         return config.limit_orders.limit_orders_contract_address;
     }
 
+    const getApprovedOracleAddressInternal = () => {
+        return config.limit_orders.approved_oracle_address;
+    }
+
     return {
         getDatabaseConfig: getDatabaseConfigInternal,
         getWeb3Config: getWeb3ConfigInternal,
@@ -61,5 +65,6 @@ exports.Config = (function() {
         getHTTPSProvider: getHTTPSProviderInternal,
         getWebsocketProvider: getWebsocketProviderInternal,
         getLimitOrderContractAddress: getLimitOrderContractAddressInternal,
+        getApprovedOracleAddress: getApprovedOracleAddressInternal,
     }
 })()
