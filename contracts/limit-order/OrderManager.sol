@@ -7,7 +7,9 @@ contract OrderManager is IOrderManager {
     using SafeMath for uint;
 
     mapping(address => mapping(uint256 => Order)) orders;
+    mapping(address => mapping(uint256 => bool)) isActive;
     mapping(address => uint256) orderCount;
+    mapping(address => uint256) nextOrderNum;
 
     address public owner;
     bool ownerSetOnce;
@@ -53,14 +55,17 @@ contract OrderManager is IOrderManager {
         uint256 deadline
     ) external payable override onlyOwner lock {
         //require(deadline <= MAX_DEADLINE, "ORDER MANAGER: DEADLINE TOO LONG. MAX 30 DAYS");
-        orders[user][orderCount[user]] = Order(
+        orders[user][nextOrderNum[user]] = Order(
             selector,
             pair,
             inputAmount,
             minOutputAmount,
             deadline
         );
+        // alternative method would be creating an 'active' field in the Orders struct
+        isActive[user][nextOrderNum[user]] = true;
         orderCount[user]++;
+        nextOrderNum[user]++;
         // TODO - emit event
     }
 
@@ -71,7 +76,7 @@ contract OrderManager is IOrderManager {
         uint256 minOutputAmount,
         uint256 deadline
     ) {
-        require(orderNum < orderCount[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
+        require(orderNum < nextOrderNum[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
         selector = orders[user][orderNum].selector;
         pair = orders[user][orderNum].pair;
         inputAmount = orders[user][orderNum].inputAmount;
@@ -79,9 +84,14 @@ contract OrderManager is IOrderManager {
         deadline = orders[user][orderNum].deadline;
     }
 
+    function isOrderActive(address user, uint256 orderNum) public view override returns (bool) {
+        require(orderNum < nextOrderNum[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
+        return isActive[user][orderNum];
+    }
+
     function removeOrder(address user, uint256 orderNum) external payable override onlyOwner {
-        require(orderNum < orderCount[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
-        orders[user][orderNum] = orders[user][orderCount[user].sub(1)];
+        require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
+        isActive[user][orderNum] = false;
         orderCount[user] = orderCount[user].sub(1);
         // TODO - emit event
     }
@@ -94,6 +104,7 @@ contract OrderManager is IOrderManager {
         uint256 deadline
     ) external payable override {
         require(orderNum < orderCount[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
+        require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         //require(deadline <= MAX_DEADLINE, "ORDER MANAGER: DEADLINE TOO LONG. MAX 30 DAYS");
         orders[user][orderNum].inputAmount = inputAmount;
         orders[user][orderNum].minOutputAmount = minOutputAmount;
@@ -107,12 +118,14 @@ contract OrderManager is IOrderManager {
 
     function modifyOrderInputAmount(address user, uint256 orderNum, uint256 inputAmount) external payable override onlyOwner {
         require(orderNum < orderCount[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
+        require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         orders[user][orderNum].inputAmount = inputAmount;
         // TODO - emit event
     }
 
     function modifyOrderMinOutputAmount(address user, uint256 orderNum, uint256 minOutputAmount) external payable override onlyOwner {
         require(orderNum < orderCount[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
+        require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         orders[user][orderNum].minOutputAmount = minOutputAmount;
         // TODO - emit event
     }
@@ -124,6 +137,7 @@ contract OrderManager is IOrderManager {
         uint256 minOutputAmount
     ) external payable override onlyOwner {
         require(orderNum < orderCount[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
+        require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         orders[user][orderNum].inputAmount = inputAmount;
         orders[user][orderNum].minOutputAmount = minOutputAmount;
         // TODO - emit event
@@ -131,6 +145,7 @@ contract OrderManager is IOrderManager {
 
     function modifyOrderDeadline(address user, uint256 orderNum, uint256 deadline) external payable override onlyOwner {
         require(orderNum < orderCount[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
+        require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         require(!locked, "ORDER MANAGER: ORDER EXPIRY MODIFICATION LOCKED");
         require(deadline != 0, "ORDER MANAGER: NO DEADLINE PROVIDED");
         orders[user][orderNum].deadline = deadline;

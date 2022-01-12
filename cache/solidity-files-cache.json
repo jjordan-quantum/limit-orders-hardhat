@@ -1504,8 +1504,8 @@
       ]
     },
     "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/limit-order/OrderManager.sol": {
-      "lastModificationDate": 1640330041664,
-      "contentHash": "92b422751e24be8a321a537923568da9",
+      "lastModificationDate": 1642031461353,
+      "contentHash": "ddc5772df0717e8b9652bfaf0418cf67",
       "sourceName": "contracts/limit-order/OrderManager.sol",
       "solcConfig": {
         "version": "0.6.6",
@@ -1818,8 +1818,8 @@
       ]
     },
     "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/limit-order/interfaces/IOrderManager.sol": {
-      "lastModificationDate": 1640330041674,
-      "contentHash": "73c42af3856af0cb1ed6b0f2717c22ba",
+      "lastModificationDate": 1642031511193,
+      "contentHash": "ef9c4eb1aa15cc5fe06ce3b55b4f4424",
       "sourceName": "contracts/limit-order/interfaces/IOrderManager.sol",
       "solcConfig": {
         "version": "0.6.12",
