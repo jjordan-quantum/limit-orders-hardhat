@@ -11,14 +11,32 @@ exports.Controller = (function() {
     let nextTaskCollectionID = 0;
     const taskCollections = {};
     let ordersByUser = {};
+    const OrderStatus = {
+        deleted: 0,     // deleted via an oracle request
+        checking: 1,    // actively checking for liquidation on each new block
+        removed: 2,     // removed by oracle
+        simulating: 3,  // liquidation tx sent to simulator
+        liduidating: 4  // liquidation tx sent to oracle
+    }
 
     /*
+     *  reasons for removal:
+     *  - expired
+     *  - simulation failed with revert reason
+     *  - liquidation failed with revert reason
+     *  - liquidation tx encountered an error
+     *
+     *  note: it is possible that an order being simulated is returned to the checking state
+     *
+     */
+
+
     (async () => {
         const allActiveOrders = await Queries.getAllActiveOrders();
         getOrdersByUser(allActiveOrders.slice());
     })();
 
-     */
+
 
     // keep orders in memory
     // update orders in memory and in db on each request from chainlink node (EA)
@@ -91,7 +109,7 @@ exports.Controller = (function() {
                         //________________
                     } else {
                         // set order to expired
-                        // TODO......
+                        expireOrder(JSON.parse(JSON.stringify(order))).then();
                     }
                 }
             })
@@ -233,7 +251,21 @@ exports.Controller = (function() {
         await Queries.updateOrderStatus(
             user,
             orderNum,
-            0
+            OrderStatus.deleted
+        );
+        // remove order from memory + update order number sequencing for user
+        // update status + number sequencing of orders in db
+        // reconcile orders for user
+    }
+
+    const expireOrder = async (data) => {
+        const user = data.user;
+        const orderNum = data.orderNum;
+        // remove order from DB
+        await Queries.updateOrderStatus(
+            user,
+            orderNum,
+            OrderStatus.removed
         );
         // remove order from memory + update order number sequencing for user
         // update status + number sequencing of orders in db
