@@ -14,7 +14,7 @@
 - [ ] Web3 container - for managing web3 connections
 - [ ] Workers container - tbd (may not be needed)
 - [x] app.js - main app that imports the core containers
-- [ ] update db schema
+- [x] update db schema
 - [ ] deploy to digital ocean
 - [ ] update job specs on chainlink node
 - [ ] deploy new contracts and test with oracle
