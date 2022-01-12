@@ -1,5 +1,6 @@
+// @chainlink external adapter
+// loaded in main app
 exports.Adapter = (function() {
-    // @chainlink external adapter
     // server requests -> express app
     const express = require('express');
     const bodyParser = require("body-parser");

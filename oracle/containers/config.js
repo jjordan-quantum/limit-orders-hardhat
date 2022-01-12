@@ -1,4 +1,4 @@
-const fs = require("fs");
+// loaded by several containers
 exports.Config = (function() {
     const fs = require("fs");
     let configData, limitOrdersABIData;

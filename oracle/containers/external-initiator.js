@@ -1,4 +1,5 @@
 // @chainlink external initiator
+// loaded in main app
 exports.Initiator = (function() {
 
     const { Channel } = require('./channel');

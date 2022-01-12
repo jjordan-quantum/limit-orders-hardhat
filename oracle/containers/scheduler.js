@@ -1,3 +1,4 @@
+// loaded in main app
 exports.Scheduler = (function() {
 
     const { Channel } = require('./channel');

@@ -1,3 +1,4 @@
+// loaded in main app
 exports.MemoryManagerContainer = (function() {
 
     const { Channel } = require('./channel');

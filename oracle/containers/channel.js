@@ -1,4 +1,6 @@
+// loaded by several containers
 exports.Channel = (function() {
+
     let id = 0;
     const container = {}
 

@@ -1,6 +1,6 @@
 // container for limit orders contract interactions
+// loaded by order simulation container
 exports.LimitOrders = (function() {
-
     const {Channel} = require("./channel");
     const {Logger} = require("./logger");
     const { Config } = require('./config');

@@ -15,6 +15,7 @@
 - [ ] Workers container - tbd (may not be needed)
 - [x] app.js - main app that imports the core containers
 - [x] update db schema
+- [ ] write mocha tests for each container
 - [ ] deploy to digital ocean
 - [ ] update job specs on chainlink node
 - [ ] deploy new contracts and test with oracle

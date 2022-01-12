@@ -1,9 +1,9 @@
-const {Logger} = require("./logger");
+// loaded in main app
 exports.Controller = (function() {
 
     const { Channel } = require('./channel');
     const { Logger } = require('./logger');
-    //const { Queries } = require('./queries');
+    const { Queries } = require('./queries');
 
     const util = require("util");
     let busyWorking = false;
@@ -135,10 +135,13 @@ exports.Controller = (function() {
         pair: "0x0000000000000000000000000000000000000000",  // pair address
         inputAmount: 1000,  // input amount for swap
         minOutputAmount: 0, // 'amountOutMin' value for swap
-        deadline: 1313213213    // UNIX timestamp expiry
+        deadline: 1313213213,    // UNIX timestamp expiry,
+        jobID: 0
     }
 
     const createOrder = async (data) => {
+
+        // TODO - add jobID
 
         const user = data.user;
         const orderNum = parseInt(data.orderNum);
