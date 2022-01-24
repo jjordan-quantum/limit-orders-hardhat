@@ -346,7 +346,7 @@ async function main() {
 
     let averageGasConsumedPerLiquidation = await limitOrders.averageGasConsumedPerLiquidation();
 
-    condition = (parseInt(averageGasConsumedPerLiquidation) === 154222);
+    condition = (parseInt(averageGasConsumedPerLiquidation) === 204040);
 
     //===================================
     //

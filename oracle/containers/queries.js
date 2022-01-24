@@ -1,6 +1,8 @@
 exports.Queries = (function() {
     // container for specific queries to updater db
 
+    // TODO - create lowest_order_num_for_user_table
+
     const { Postgres } = require('./postgres')
 
     const getAllActiveOrdersInternal = async () => {

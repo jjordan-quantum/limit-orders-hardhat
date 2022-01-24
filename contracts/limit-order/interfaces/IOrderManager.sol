@@ -31,6 +31,8 @@ interface IOrderManager {
         uint256 deadline
     );
 
+    function isOrderActive(address user, uint256 orderNum) external view returns (bool);
+
     function removeOrder(address user, uint256 orderNum) external payable;
 
     function modifyOrder(
