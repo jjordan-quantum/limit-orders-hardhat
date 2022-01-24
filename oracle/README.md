@@ -15,6 +15,16 @@
 - [ ] Workers container - tbd (may not be needed)
 - [x] app.js - main app that imports the core containers
 - [x] update db schema
+- [x] Check in on BSC node
+- [x] Get chainlink node running on docker
+- [x] Set up nginx -> port 6688
+- [ ] Enable firewall (in progess...ufw not working)
+- [ ] Deploy repo for new project to droplet
+- [ ] Create system service for updater process
+- [x] Remove old jobs
+- [x] Review current jobs
+- [ ] Check on deployed oracle contract
+- [ ] Create oracle contract for job creation
 - [ ] write mocha tests for each container
 - [ ] deploy to digital ocean
 - [ ] update job specs on chainlink node
