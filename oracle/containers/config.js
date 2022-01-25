@@ -2,20 +2,10 @@
 exports.Config = (function() {
     const fs = require("fs");
     let configData, limitOrdersABIData;
-    try {
-        configData = fs.readFileSync('./config.json');
-    } catch(err) {
-        configData = fs.readFileSync('../config.json');
-    }
-    try {
-        limitOrdersABIData = fs.readFileSync('./artifacts/contracts/limit-order/LimitOrders.sol/LimitOrders.json');
-    } catch(err) {
-        try {
-            limitOrdersABIData = fs.readFileSync('../artifacts/contracts/limit-order/LimitOrders.sol/LimitOrders.json');
-        } catch(err) {
-            limitOrdersABIData = fs.readFileSync('../../artifacts/contracts/limit-order/LimitOrders.sol/LimitOrders.json');
-        }
-    }
+    //console.log(__dirname);
+    configData = fs.readFileSync(__dirname+'/../config.json');
+    limitOrdersABIData = fs.readFileSync(__dirname+'/../../artifacts/contracts/limit-order/LimitOrders.sol/LimitOrders.json');
+
     const limitOrderABI = JSON.parse(limitOrdersABIData)['abi'];
 
     const config = JSON.parse(configData);

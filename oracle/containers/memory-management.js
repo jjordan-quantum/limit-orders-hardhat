@@ -16,7 +16,7 @@ exports.MemoryManagerContainer = (function() {
 
         const memoryUsage = process.memoryUsage();
         const heapTotal = parseInt(memoryUsage.heapTotal);
-        console.log(memoryUsage);
+        console.log({ heapUsed: ""+(parseInt(memoryUsage.heapUsed)/1000000).toFixed(2)+"MB", heapTotal: ""+(parseInt(heapTotal)/1000000).toFixed(2)+"MB" });
 
         const elapsed = Math.floor(Date.now() / 1000) - start;
 
