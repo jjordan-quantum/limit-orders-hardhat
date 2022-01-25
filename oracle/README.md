@@ -19,13 +19,12 @@
 - [x] Get chainlink node running on docker
 - [x] Set up nginx -> port 6688
 - [ ] Enable firewall (in progess...ufw not working)
-- [ ] Deploy repo for new project to droplet
-- [ ] Create system service for updater process
+- [x] Deploy repo for new project to droplet
+- [x] Create system service for updater process
 - [x] Remove old jobs
 - [x] Review current jobs
 - [ ] Check on deployed oracle contract
 - [ ] Create oracle contract for job creation
 - [ ] write mocha tests for each container
-- [ ] deploy to digital ocean
 - [ ] update job specs on chainlink node
 - [ ] deploy new contracts and test with oracle
