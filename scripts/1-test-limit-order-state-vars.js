@@ -45,7 +45,7 @@ async function main() {
     const SWAP_PATH = [
         WBNB_ADDRESS,
         USDC_ADDRESS
-    ]
+    ];
 
     const swapTx = await router.swapExactETHForTokens(
         0,

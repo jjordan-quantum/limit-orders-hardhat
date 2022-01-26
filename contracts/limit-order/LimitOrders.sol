@@ -1,6 +1,6 @@
 pragma solidity ^0.6.6;
 
-import './OrderManagerInternal.sol';
+import './OrderManager.sol';
 import "./LimitOrderOracle.sol";
 import "./interfaces/ISwapRouter.sol";
 import '../uniswap-periphery/interfaces/IWETH.sol';
@@ -10,7 +10,7 @@ import "../uniswap-periphery/interfaces/IUniswapV2Router02.sol";
 
 
 contract LimitOrders is
-    OrderManagerInternal,
+    OrderManager,
     LimitOrderOracle {
 
     // TODO Payment functions
@@ -25,7 +25,7 @@ contract LimitOrders is
     address public wethAddress;
     IWETH WETH;
 
-    address swapRouterAddress;
+    address public swapRouterAddress;
     ISwapRouter swapRouter;
     bool public swapRouterSet;
 
@@ -73,7 +73,7 @@ contract LimitOrders is
         _;
     }
 
-    constructor() public OrderManagerInternal() {
+    constructor() public OrderManager() {
 
         owner = msg.sender;
         //routerSet = false;

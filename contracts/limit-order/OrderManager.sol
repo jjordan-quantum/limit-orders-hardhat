@@ -3,8 +3,16 @@ pragma solidity ^0.6.6;
 import '../uniswap-periphery/libraries/SafeMath.sol';
 import './interfaces/IOrderManager.sol';
 
-contract OrderManager is IOrderManager {
+contract OrderManager {
     using SafeMath for uint;
+
+    struct Order {
+        uint8 selector; // includes swap function selector plus direction of swap
+        address pair;
+        uint256 inputAmount;
+        uint256 minOutputAmount;
+        uint256 deadline;
+    }
 
     mapping(address => mapping(uint256 => Order)) orders;
     mapping(address => mapping(uint256 => bool)) isActive;
@@ -12,7 +20,6 @@ contract OrderManager is IOrderManager {
     mapping(address => uint256) nextOrderNum;
 
     address public owner;
-    bool ownerSetOnce;
     bool public locked;
 
     modifier onlyOwner() {
@@ -27,33 +34,29 @@ contract OrderManager is IOrderManager {
 
     constructor() public {
         owner = msg.sender;
-        ownerSetOnce = false;
         locked = false;
     }
 
-    function lockOrderCreation() external payable override onlyOwner() {
+    function lockOrderCreation() external payable onlyOwner() {
         locked = true;
     }
 
-    function unlockOrderCreation() external payable override onlyOwner() {
+    function unlockOrderCreation() external payable onlyOwner() {
         locked = false;
     }
 
-    function transferOwnership(address newOwner) external payable onlyOwner {
-        require(!ownerSetOnce, "ORDER MANAGER: OWNERSHIP ALREADY TRANSFERRED");
+    function transferOwnership(address newOwner) external onlyOwner {
         owner = newOwner;
-        ownerSetOnce = true;
-        // TODO - emit event
     }
 
-    function createOrder(
+    function _createOrder(
         address user,
         uint8 selector,
         address pair,
         uint256 inputAmount,
         uint256 minOutputAmount,
         uint256 deadline
-    ) external payable override onlyOwner lock {
+    ) internal lock {
         //require(deadline <= MAX_DEADLINE, "ORDER MANAGER: DEADLINE TOO LONG. MAX 30 DAYS");
         orders[user][nextOrderNum[user]] = Order(
             selector,
@@ -69,7 +72,7 @@ contract OrderManager is IOrderManager {
         // TODO - emit event
     }
 
-    function viewOrder(address user, uint256 orderNum) public view override returns (
+    function _viewOrder(address user, uint256 orderNum) public view returns (
         uint8 selector,
         address pair,
         uint256 inputAmount,
@@ -84,25 +87,25 @@ contract OrderManager is IOrderManager {
         deadline = orders[user][orderNum].deadline;
     }
 
-    function isOrderActive(address user, uint256 orderNum) public view override returns (bool) {
+    function isOrderActive(address user, uint256 orderNum) public view returns (bool) {
         require(orderNum < nextOrderNum[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
         return isActive[user][orderNum];
     }
 
-    function removeOrder(address user, uint256 orderNum) external payable override onlyOwner {
+    function _deleteOrder(address user, uint256 orderNum) internal {
         require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         isActive[user][orderNum] = false;
         orderCount[user] = orderCount[user].sub(1);
         // TODO - emit event
     }
 
-    function modifyOrder(
+    function _updateOrder(
         address user,
         uint256 orderNum,
         uint256 inputAmount,
         uint256 minOutputAmount,
         uint256 deadline
-    ) external payable override {
+    ) internal {
         require(orderNum < orderCount[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
         require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         //require(deadline <= MAX_DEADLINE, "ORDER MANAGER: DEADLINE TOO LONG. MAX 30 DAYS");
@@ -116,26 +119,26 @@ contract OrderManager is IOrderManager {
         // TODO - emit event
     }
 
-    function modifyOrderInputAmount(address user, uint256 orderNum, uint256 inputAmount) external payable override onlyOwner {
+    function _updateOrderInputAmount(address user, uint256 orderNum, uint256 inputAmount) internal {
         require(orderNum < orderCount[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
         require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         orders[user][orderNum].inputAmount = inputAmount;
         // TODO - emit event
     }
 
-    function modifyOrderMinOutputAmount(address user, uint256 orderNum, uint256 minOutputAmount) external payable override onlyOwner {
+    function _updateOrderMinOutputAmount(address user, uint256 orderNum, uint256 minOutputAmount) internal {
         require(orderNum < orderCount[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
         require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         orders[user][orderNum].minOutputAmount = minOutputAmount;
         // TODO - emit event
     }
 
-    function modifyOrderAmounts(
+    function _updateOrderAmounts(
         address user, 
         uint256 orderNum, 
         uint256 inputAmount, 
         uint256 minOutputAmount
-    ) external payable override onlyOwner {
+    ) internal{
         require(orderNum < orderCount[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
         require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         orders[user][orderNum].inputAmount = inputAmount;
@@ -143,7 +146,7 @@ contract OrderManager is IOrderManager {
         // TODO - emit event
     }
 
-    function modifyOrderDeadline(address user, uint256 orderNum, uint256 deadline) external payable override onlyOwner {
+    function _updateOrderDeadline(address user, uint256 orderNum, uint256 deadline) internal{
         require(orderNum < orderCount[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
         require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         require(!locked, "ORDER MANAGER: ORDER EXPIRY MODIFICATION LOCKED");
@@ -152,7 +155,7 @@ contract OrderManager is IOrderManager {
         // TODO - emit event
     }
 
-    function getActiveOrderCount(address user) public view override returns(uint256) {
+    function getActiveOrderCount(address user) public view returns(uint256) {
         return orderCount[user];
     }
 

@@ -18,12 +18,12 @@
 - [x] Check in on BSC node
 - [x] Get chainlink node running on docker
 - [x] Set up nginx -> port 6688
-- [ ] Enable firewall (in progess...ufw not working)
+- [ ] Enable firewall (in progress...ufw not working)
 - [x] Deploy repo for new project to droplet
 - [x] Create system service for updater process
 - [x] Remove old jobs
 - [x] Review current jobs
-- [ ] Check on deployed oracle contract
+- [x] Check on deployed oracle contract
 - [ ] Create oracle contract for job creation
 - [ ] write mocha tests for each container
 - [ ] update job specs on chainlink node
