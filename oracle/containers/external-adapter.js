@@ -61,7 +61,7 @@ exports.Adapter = (function() {
     /** Health check endpoint */
     app.get('/', function (req, res) {
 
-        Logger.log("Received request for health check!")
+        Logger.log("Received request for health check!");
 
         res.sendStatus(200);
     })
@@ -70,7 +70,7 @@ exports.Adapter = (function() {
     /** Called by chainlink node when a job is created using this external initiator */
     app.post('/jobs', function (req, res) {
 
-        Logger.log("Received post request for jobs!")
+        Logger.log("Received post request for jobs!");
 
         //Recieves info from node about the job id
         job_ids.push(req.body.jobId) //save the job id
@@ -81,7 +81,7 @@ exports.Adapter = (function() {
     /** Called by chainlink node when running the job */
     app.get("/temp", function(req, res) {
 
-        Logger.log("Received request for temp!")
+        Logger.log("Received request for temp!");
 
         res.send({'temp': 42})
     });
@@ -101,8 +101,8 @@ exports.Adapter = (function() {
      * */
     app.post("/create_order", async function(req, res) {
 
-        Logger.log("Received post request for create_order with req body:")
-        Logger.log(req.body)
+        Logger.log("Received post request for create_order with req body:");
+        Logger.log(req.body);
 
         // create and start compute job
         createOrder(JSON.parse(JSON.stringify(req.body.data)));
@@ -119,8 +119,8 @@ exports.Adapter = (function() {
      * */
     app.post("/update_order", async function(req, res) {
 
-        Logger.log("Received post request for update_order with req body:")
-        Logger.log(req.body)
+        Logger.log("Received post request for update_order with req body:");
+        Logger.log(req.body);
 
         // create and start compute job
         updateOrder(JSON.parse(JSON.stringify(req.body.data)));
@@ -137,8 +137,8 @@ exports.Adapter = (function() {
      * */
     app.post("/delete_order", async function(req, res) {
 
-        Logger.log("Received post request for delete_order with req body:")
-        Logger.log(req.body)
+        Logger.log("Received post request for delete_order with req body:");
+        Logger.log(req.body);
 
         // create and start compute job
         deleteOrder(JSON.parse(JSON.stringify(req.body.data)));
