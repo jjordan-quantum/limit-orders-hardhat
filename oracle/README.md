@@ -28,3 +28,6 @@
 - [ ] write mocha tests for each container
 - [ ] update job specs on chainlink node
 - [ ] deploy new contracts and test with oracle
+- [x] write tests for new implementation with immutable order nums
+
+*** UPDATE TEST SCRIPTS FOR NEW CONTRACTS ***

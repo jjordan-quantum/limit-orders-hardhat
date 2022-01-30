@@ -244,7 +244,8 @@ contract LimitOrders is
         address pair,
         uint256 inputAmount,
         uint256 minOutputAmount,
-        uint256 deadline
+        uint256 deadline,
+        bool isOrderActive
     ) {
         return _viewOrder(msg.sender, orderNum);
     }
@@ -275,7 +276,7 @@ contract LimitOrders is
         uint8 selector;
         address pair;
         uint previousInputAmount;
-        (selector, pair, previousInputAmount, , ) = _viewOrder(
+        (selector, pair, previousInputAmount, , , ) = _viewOrder(
             msg.sender,
             orderNum
         );
@@ -315,7 +316,7 @@ contract LimitOrders is
         uint8 selector;
         address pair;
         uint previousInputAmount;
-        (selector, pair, previousInputAmount, , ) = _viewOrder(
+        (selector, pair, previousInputAmount, , , ) = _viewOrder(
             msg.sender,
             orderNum
         );
@@ -471,7 +472,8 @@ contract LimitOrders is
     // CHECK FOR LIQUIDATION
 
     function checkForLiquidation(address user, uint orderNum) public view returns(bool) {
-        require(orderNum < orderCount[user], "LIMITORDERS: ORDERNUM TOO HIGH");
+        //require(orderNum < orderCount[user], "LIMITORDERS: ORDERNUM TOO HIGH");
+        require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         uint256[] memory amountsOut = router.getAmountsOut(
             orders[user][orderNum].inputAmount,
             getTokenPath(
