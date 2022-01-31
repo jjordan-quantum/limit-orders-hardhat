@@ -7,6 +7,7 @@ exports.Adapter = (function() {
     const app = express();
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
+    const util = require('util');
 
     //Define some constants
     const LISTEN_PORT = 5134;
@@ -102,7 +103,8 @@ exports.Adapter = (function() {
     app.post("/create_order", async function(req, res) {
 
         Logger.log("Received post request for create_order with req body:");
-        Logger.log(req.body);
+        //Logger.log(req.body);
+        console.log(util.inspect(req.body, false, null, true));
 
         // create and start compute job
         createOrder(JSON.parse(JSON.stringify(req.body.data)));
@@ -120,7 +122,8 @@ exports.Adapter = (function() {
     app.post("/update_order", async function(req, res) {
 
         Logger.log("Received post request for update_order with req body:");
-        Logger.log(req.body);
+        //Logger.log(req.body);
+        console.log(util.inspect(req.body, false, null, true));
 
         // create and start compute job
         updateOrder(JSON.parse(JSON.stringify(req.body.data)));
@@ -138,7 +141,8 @@ exports.Adapter = (function() {
     app.post("/delete_order", async function(req, res) {
 
         Logger.log("Received post request for delete_order with req body:");
-        Logger.log(req.body);
+        //Logger.log(req.body);
+        console.log(util.inspect(req.body, false, null, true));
 
         // create and start compute job
         deleteOrder(JSON.parse(JSON.stringify(req.body.data)));
