@@ -151,6 +151,24 @@ exports.Adapter = (function() {
         res.sendStatus(200);
     });
 
+    /** test_endpoint
+     *
+     * Endpoint to test request from Chainlink node
+     * note:    this endpoint is set up as a bridge in the Node Operator UI
+     * */
+    app.post("/test_endpoint", async function(req, res) {
+
+        Logger.log("Received post request for test_endpoint with req body:");
+        //Logger.log(req.body);
+        console.log(util.inspect(req.body, false, null, true));
+
+        // create and start compute job
+        //deleteOrder(JSON.parse(JSON.stringify(req.body.data)));
+
+        // response
+        res.sendStatus(200);
+    });
+
 
     //======================================================================================================================
     //
