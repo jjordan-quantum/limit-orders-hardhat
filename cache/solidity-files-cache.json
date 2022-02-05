@@ -2446,7 +2446,7 @@
       "contentHash": "54c28c84e5277b35b8c8329ce9755dae",
       "sourceName": "contracts/Greeter.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2479,11 +2479,11 @@
       ]
     },
     "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1640330138247,
+      "lastModificationDate": 1644082263486,
       "contentHash": "cc4777addd464ea56fa35b1c45df0591",
       "sourceName": "hardhat/console.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2518,7 +2518,7 @@
       "contentHash": "270f2c1a1f22475259d5a2f6a524f72e",
       "sourceName": "contracts/uniswap-periphery/interfaces/IWETH.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2553,7 +2553,7 @@
       "contentHash": "7d99223470e1c5428046e1086a837d1e",
       "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Router02.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2590,7 +2590,7 @@
       "contentHash": "0ba03ec4e122096885d737693463a959",
       "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Router01.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2625,7 +2625,7 @@
       "contentHash": "3d2b948a9266ee66b6e739de97c7e6e9",
       "sourceName": "contracts/uniswap-periphery/interfaces/IERC20.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2660,7 +2660,7 @@
       "contentHash": "3fa31c3860f2b9585c3a98c64850829e",
       "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Pair.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2695,7 +2695,7 @@
       "contentHash": "ec39b5372f4f4d52101b4da561e2aee6",
       "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Factory.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2730,7 +2730,7 @@
       "contentHash": "5ec7fe77a73b5ace5fc1fbae6b87f34e",
       "sourceName": "contracts/uniswap-periphery/interfaces/V1/IUniswapV1Exchange.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2765,7 +2765,7 @@
       "contentHash": "abe9343b20a93919250e0dba78bfd9c1",
       "sourceName": "contracts/uniswap-periphery/interfaces/V1/IUniswapV1Factory.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2800,7 +2800,7 @@
       "contentHash": "f626f6b55e8b5ffbda4f64e9409e5614",
       "sourceName": "contracts/uniswap-periphery/interfaces/IUniswapV2Migrator.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2835,7 +2835,7 @@
       "contentHash": "3d2b948a9266ee66b6e739de97c7e6e9",
       "sourceName": "contracts/uniswap-core/interfaces/IERC20.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2870,7 +2870,7 @@
       "contentHash": "3fa31c3860f2b9585c3a98c64850829e",
       "sourceName": "contracts/uniswap-core/interfaces/IUniswapV2Pair.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2905,7 +2905,7 @@
       "contentHash": "30a4aed15b3fa3ce5588118b7cecfa7f",
       "sourceName": "contracts/uniswap-core/interfaces/IUniswapV2Callee.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2940,7 +2940,7 @@
       "contentHash": "367fa97b691e5d239bd4042c42b15b07",
       "sourceName": "contracts/uniswap-core/interfaces/IUniswapV2Factory.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -2975,7 +2975,7 @@
       "contentHash": "752c725168e1a5b73a8209897f18c5b9",
       "sourceName": "contracts/uniswap-core/interfaces/IUniswapV2ERC20.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -3003,6 +3003,592 @@
       ],
       "artifacts": [
         "IUniswapV2ERC20"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/oracle/ATestnetConsumer.sol": {
+      "lastModificationDate": 1644082469165,
+      "contentHash": "1291f8bfe6c0b6e2fafd4ddafd458714",
+      "sourceName": "contracts/oracle/ATestnetConsumer.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@chainlink/contracts/src/v0.8/ChainlinkClient.sol",
+        "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.7"
+      ],
+      "artifacts": [
+        "ATestnetConsumer"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/ChainlinkClient.sol": {
+      "lastModificationDate": 1644082257918,
+      "contentHash": "6af479cbde42f1a7225c9cebc6e32239",
+      "sourceName": "@chainlink/contracts/src/v0.8/ChainlinkClient.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Chainlink.sol",
+        "./interfaces/ENSInterface.sol",
+        "./interfaces/LinkTokenInterface.sol",
+        "./interfaces/ChainlinkRequestInterface.sol",
+        "./interfaces/OperatorInterface.sol",
+        "./interfaces/PointerInterface.sol",
+        "./vendor/ENSResolver.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ChainlinkClient"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/ConfirmedOwner.sol": {
+      "lastModificationDate": 1644082257937,
+      "contentHash": "16d64572b0310127fc8a771e63be6d20",
+      "sourceName": "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./ConfirmedOwnerWithProposal.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ConfirmedOwner"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/Chainlink.sol": {
+      "lastModificationDate": 1644082257908,
+      "contentHash": "9dc050539cdf1579d5650d41d0df9ec2",
+      "sourceName": "@chainlink/contracts/src/v0.8/Chainlink.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./vendor/CBORChainlink.sol",
+        "./vendor/BufferChainlink.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Chainlink"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/interfaces/ENSInterface.sol": {
+      "lastModificationDate": 1644082262857,
+      "contentHash": "06b6aefcae95de6d1597ad8e1d73a08b",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/ENSInterface.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ENSInterface"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol": {
+      "lastModificationDate": 1644082262902,
+      "contentHash": "da5a0c3bd86c896f6a407f909c57edf3",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "LinkTokenInterface"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/interfaces/ChainlinkRequestInterface.sol": {
+      "lastModificationDate": 1644082262854,
+      "contentHash": "14407a6ead15cff8a0e0a7f8037c68f5",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/ChainlinkRequestInterface.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ChainlinkRequestInterface"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/interfaces/OperatorInterface.sol": {
+      "lastModificationDate": 1644082262909,
+      "contentHash": "e1822c36361fc3a26b5a68df3ddab15d",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/OperatorInterface.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./OracleInterface.sol",
+        "./ChainlinkRequestInterface.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "OperatorInterface"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/interfaces/PointerInterface.sol": {
+      "lastModificationDate": 1644082262924,
+      "contentHash": "27da4b2007d200dd5afff31dbf31ac99",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/PointerInterface.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "PointerInterface"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/vendor/ENSResolver.sol": {
+      "lastModificationDate": 1644082263149,
+      "contentHash": "24a98b0606654e662097eed9ffa91a11",
+      "sourceName": "@chainlink/contracts/src/v0.8/vendor/ENSResolver.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ENSResolver"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/vendor/CBORChainlink.sol": {
+      "lastModificationDate": 1644082263141,
+      "contentHash": "99b3ee2c29bc0d1a5cba583d9e8d835e",
+      "sourceName": "@chainlink/contracts/src/v0.8/vendor/CBORChainlink.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./BufferChainlink.sol"
+      ],
+      "versionPragmas": [
+        ">=0.4.19"
+      ],
+      "artifacts": [
+        "CBORChainlink"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/vendor/BufferChainlink.sol": {
+      "lastModificationDate": 1644082263133,
+      "contentHash": "52ac6f99fb0635751ae4ed11139878fd",
+      "sourceName": "@chainlink/contracts/src/v0.8/vendor/BufferChainlink.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "BufferChainlink"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/interfaces/OracleInterface.sol": {
+      "lastModificationDate": 1644082262916,
+      "contentHash": "6283e42024961596926c2b5015eef8e0",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/OracleInterface.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "OracleInterface"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/ConfirmedOwnerWithProposal.sol": {
+      "lastModificationDate": 1644082257939,
+      "contentHash": "8b1c5f02622cd87472493bda6595d1be",
+      "sourceName": "@chainlink/contracts/src/v0.8/ConfirmedOwnerWithProposal.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/OwnableInterface.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ConfirmedOwnerWithProposal"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/node_modules/@chainlink/contracts/src/v0.8/interfaces/OwnableInterface.sol": {
+      "lastModificationDate": 1644082262922,
+      "contentHash": "2e814c8a9f77897f6995436d97c23d99",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/OwnableInterface.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "OwnableInterface"
+      ]
+    },
+    "/home/jay/dev/hardhat/limit-orders-hardhat/contracts/oracle/TestRequest.sol": {
+      "lastModificationDate": 1644083769088,
+      "contentHash": "c0f5349cb3f55dc9c91a48f7c129caac",
+      "sourceName": "contracts/oracle/TestRequest.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@chainlink/contracts/src/v0.8/ChainlinkClient.sol",
+        "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.7"
+      ],
+      "artifacts": [
+        "TestRequest"
       ]
     }
   }
