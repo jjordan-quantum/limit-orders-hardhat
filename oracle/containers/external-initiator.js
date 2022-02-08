@@ -55,6 +55,11 @@ exports.Initiator = (function() {
         console.log("Job Sent to Chainlink node")
     }
 
+    setTimeout(() => {
+        console.log("Calling chainlink node....");
+        callChainlinkNode({ jobId: 'dfccd27eb7b744f285fa5ebe6bed3e1c' });
+    }, 5000);
+
     return {
 
     }
