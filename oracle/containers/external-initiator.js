@@ -29,7 +29,7 @@ exports.Initiator = (function() {
     /** Function to call the chainlink node and run a job */
     function callChainlinkNode(data) {
         const jobId = data.jobId;   // jobId is for 'liquidation' job spec
-        const requestBody = data.data;
+        const requestBody = JSON.stringify(data.data);
         const urlAddon = '/v2/specs/'+ jobId + '/runs'
         request.post({
             headers: {'content-type' : 'application/json', 'X-Chainlink-EA-AccessKey': CHAINLINK_ACCESS_KEY,
