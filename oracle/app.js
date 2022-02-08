@@ -9,4 +9,5 @@
     }
     require('./containers/external-adapter');
     require('./containers/memory-management');
+    require('./containers/external-initiator');
 })();
