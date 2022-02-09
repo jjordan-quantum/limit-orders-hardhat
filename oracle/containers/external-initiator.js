@@ -11,6 +11,7 @@ exports.Initiator = (function() {
     const CHAINLINK_ACCESS_KEY = chainlinkConfig.access_key;
     const CHAINLINK_ACCESS_SECRET = chainlinkConfig.access_secret;
     const CHAINLINK_IP = chainlinkConfig.ip_address;
+    const JOBSPEC = chainlinkConfig.jobSped
 
     // =================================================================================================================
     //
@@ -58,7 +59,7 @@ exports.Initiator = (function() {
     setTimeout(() => {
         console.log("Calling chainlink node....");
         callChainlinkNode({
-            jobId: 'dfccd27eb7b744f285fa5ebe6bed3e1c',
+            jobId: JOBSPEC,
             data: {
                 user: '0x883bBe40EA9DD69c20Ac9a6Db3e5842f762684d2',
                 orderNum: 777
