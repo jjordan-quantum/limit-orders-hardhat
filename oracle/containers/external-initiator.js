@@ -68,7 +68,8 @@ exports.Initiator = (function() {
             data: {
                 data: '0x883bBe40EA9DD69c20Ac9a6Db3e5842f762684d2',
                 orderNum: 777,
-                txData: '0x'+ _data.substring(10, _data.length)
+                //txData: '0x'+ _data.substring(10, _data.length)
+                txData: _data.substring(10, _data.length)
             }});
     }, 5000);
 
