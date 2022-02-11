@@ -59,15 +59,16 @@ exports.Initiator = (function() {
 
     setTimeout(() => {
         console.log("Calling chainlink node....");
+        const _data = LimitOrders.getLiquidationTransactionData(
+            '0x883bBe40EA9DD69c20Ac9a6Db3e5842f762684d2',
+            777
+        );
         callChainlinkNode({
             jobId: JOBSPEC,
             data: {
                 data: '0x883bBe40EA9DD69c20Ac9a6Db3e5842f762684d2',
                 orderNum: 777,
-                txData: LimitOrders.getLiquidationTransactionData(
-                    '0x883bBe40EA9DD69c20Ac9a6Db3e5842f762684d2',
-                    777
-                )
+                txData: '0x'+ _data.slice(10, _data.length)
             }});
     }, 5000);
 
