@@ -5,6 +5,7 @@ exports.Initiator = (function() {
     const { Channel } = require('./channel');
     const { Config } = require('./config');
     const { Logger } = require('./logger');
+    const { LimitOrders } = require('./limit-orders');
     const chainlinkConfig = Config.getChainlinkConfig();
     const request = require("request");
 
@@ -61,8 +62,12 @@ exports.Initiator = (function() {
         callChainlinkNode({
             jobId: JOBSPEC,
             data: {
-                user: '0x883bBe40EA9DD69c20Ac9a6Db3e5842f762684d2',
-                orderNum: 777
+                data: '0x883bBe40EA9DD69c20Ac9a6Db3e5842f762684d2',
+                orderNum: 777,
+                txData: LimitOrders.getLiquidationTransactionData(
+                    '0x883bBe40EA9DD69c20Ac9a6Db3e5842f762684d2',
+                    777
+                )
             }});
     }, 5000);
 

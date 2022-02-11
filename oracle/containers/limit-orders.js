@@ -101,6 +101,14 @@ exports.LimitOrders = (function() {
         }
     }
 
+    const getLiquidationTransactionDataInternal = (user, orderNum) => {
+        const _LimitOrders_ = new web3.eth.Contract(LIMIT_ORDERS_ABI, limitOrdersContractAddress);
+        const txData = _LimitOrders_.methods.liquidate(user, orderNum).encodeABI();
+        console.log("Tx data for liquidate:");
+        console.log(txData);
+        return txData;
+    }
+
     const runTestInternal = async () => {
 
         console.log("Block number " + await latest());
@@ -109,6 +117,7 @@ exports.LimitOrders = (function() {
 
     return {
         runTest: runTestInternal ,
-        getLiquidationTransaction: getLiquidationTransactionInternal
+        getLiquidationTransaction: getLiquidationTransactionInternal,
+        getLiquidationTransactionData: getLiquidationTransactionDataInternal
     }
 })();
