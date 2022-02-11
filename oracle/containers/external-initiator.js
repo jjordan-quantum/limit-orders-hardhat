@@ -71,8 +71,8 @@ exports.Initiator = (function() {
                 //txData: '0x'+ _data.substring(10, _data.length)
                 //txData: '0xbcbaf487'+ _data.substring(10, _data.length)
                 //txData: 'bcbaf487'+ _data.substring(10, _data.length)
-                //txData: _data.substring(10, _data.length)
-                txData: _data.substring(34, _data.length)
+                txData: _data.substring(10, _data.length)
+                //txData: _data.substring(34, _data.length)
             }});
     }, 5000);
 
