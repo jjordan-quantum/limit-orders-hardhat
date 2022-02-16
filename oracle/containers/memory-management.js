@@ -5,8 +5,9 @@ exports.MemoryManagerContainer = (function() {
     let usedHeapSize = 0;
     const start = Math.floor(Date.now() / 1000);
     let heapSizeAlerted = false;
-    const ALERT_HEAP_SIZE = 399999999
-    const MAX_HEAP_SIZE = 999999999
+    const ALERT_HEAP_SIZE = 399999999;
+    const MAX_HEAP_SIZE = 999999999;
+    const CHECK_MEMORY_INTERVAL_MINUTES = 5;
 
     const publishedTopics = [
         'memoryAlert'
@@ -42,7 +43,7 @@ exports.MemoryManagerContainer = (function() {
     (async () => {
         while(true) {
             await new Promise((resolve, reject) => {
-                setTimeout(() => { resolve() }, 60000);
+                setTimeout(() => { resolve() }, CHECK_MEMORY_INTERVAL_MINUTES * 1000);
             });
             checkMemoryUsage();
         }
