@@ -43,7 +43,7 @@ exports.MemoryManagerContainer = (function() {
     (async () => {
         while(true) {
             await new Promise((resolve, reject) => {
-                setTimeout(() => { resolve() }, CHECK_MEMORY_INTERVAL_MINUTES * 1000);
+                setTimeout(() => { resolve() }, CHECK_MEMORY_INTERVAL_MINUTES * 60 * 1000);
             });
             checkMemoryUsage();
         }
