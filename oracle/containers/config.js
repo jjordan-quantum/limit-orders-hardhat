@@ -54,6 +54,14 @@ exports.Config = (function() {
         return config.limit_orders.signer_address;
     }
 
+    const getLimitOrderTopicsInternal = () => {
+        return {
+            createOrder: config.limit_orders.create_order_signature,
+            updateOrder: config.limit_orders.update_order_signature,
+            deleteOrder: config.limit_orders.delete_order_signature
+        }
+    }
+
     return {
         getDatabaseConfig: getDatabaseConfigInternal,
         getWeb3Config: getWeb3ConfigInternal,
@@ -66,5 +74,6 @@ exports.Config = (function() {
         getApprovedOracleAddress: getApprovedOracleAddressInternal,
         getSigner: getSignerInternal,
         getSignerAddress: getSignerAddressInternal,
+        getLimitOrderTopics: getLimitOrderTopicsInternal,
     }
 })()

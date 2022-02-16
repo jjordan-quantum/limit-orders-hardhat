@@ -8,5 +8,6 @@
         require('./containers/simulation');
     }
     require('./containers/external-adapter');
+    require('./containers/events-processor');
     require('./containers/memory-management');
 })();

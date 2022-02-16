@@ -106,8 +106,11 @@ exports.Adapter = (function() {
         //Logger.log(req.body);
         console.log(util.inspect(req.body, false, null, true));
 
+        // TODO
+        // only turn on if these endpoints are enabled in bridges
+
         // create and start compute job
-        createOrder(JSON.parse(JSON.stringify(req.body.data)));
+        //createOrder(JSON.parse(JSON.stringify(req.body.data)));
 
         // response
         res.sendStatus(200);
@@ -125,8 +128,11 @@ exports.Adapter = (function() {
         //Logger.log(req.body);
         console.log(util.inspect(req.body, false, null, true));
 
+        // TODO
+        // only turn on if these endpoints are enabled in bridges
+
         // create and start compute job
-        updateOrder(JSON.parse(JSON.stringify(req.body.data)));
+        //updateOrder(JSON.parse(JSON.stringify(req.body.data)));
 
         // response
         res.sendStatus(200);
@@ -144,8 +150,11 @@ exports.Adapter = (function() {
         //Logger.log(req.body);
         console.log(util.inspect(req.body, false, null, true));
 
+        // TODO
+        // only turn on if these endpoints are enabled in bridges
+
         // create and start compute job
-        deleteOrder(JSON.parse(JSON.stringify(req.body.data)));
+        //deleteOrder(JSON.parse(JSON.stringify(req.body.data)));
 
         // response
         res.sendStatus(200);
@@ -161,6 +170,20 @@ exports.Adapter = (function() {
         Logger.log("Received post request for test_endpoint with req body:");
         //Logger.log(req.body);
         console.log(util.inspect(req.body, false, null, true));
+
+        if(req && req.body && req.body.data) {
+
+            //_________________
+            // publish request
+            //=========================================================
+            Channel.publish('newLimitOrderEvent', req.body.data);
+            //=========================================================
+            //
+            //
+            //________________
+
+
+        }
 
         // create and start compute job
         //deleteOrder(JSON.parse(JSON.stringify(req.body.data)));
