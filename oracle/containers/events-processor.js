@@ -25,7 +25,7 @@ exports.EventProcessor = (function() {
                         const rawDeadline = topics[3];
 
 
-                        const user = '0x' + Web3.utils.toChecksumAddress(rawUserAddress.substring(rawUserAddress.length-40, rawUserAddress.length));
+                        const user = Web3.utils.toChecksumAddress(rawUserAddress.substring(rawUserAddress.length-40, rawUserAddress.length));
                         const orderNum = Web3.utils.hexToNumber(rawOrderNum);
                         const deadline = Web3.utils.hexToNumber(rawDeadline);
 
