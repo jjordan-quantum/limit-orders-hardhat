@@ -7,6 +7,7 @@ exports.Web3Requests = (function() {
     const HTTPProvider = Config.getHTTPSProvider();
     const WebsocketProvider = Config.getWebsocketProvider();
     let web3 = new Web3(HTTPProvider);
+    const limitOrdersContractAddress = Config.getLimitOrderContractAddress();
 
     const options = {
 
@@ -121,6 +122,107 @@ exports.Web3Requests = (function() {
         return Web3.utils.isAddress(address);
     }
 
+    const sendLiquidationTransactionInternal = async (transactionData, user, orderNum) => {
+        /// TODO
+        // publish message
+        // - nonce mgmt???
+        const gasPrice = await web3.eth.getGasPrice()
+        web3.eth.accounts.signTransaction({
+            data: transactionData,
+            gas: 200000,
+            to: limitOrdersContractAddress,
+            from: Config.getSignerAddress(),
+            gasPrice: parseInt(gasPrice*1.05)
+        }, Config.getSigner())
+            .then(async (signedTx) => {
+                await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+                    .once('sent', (payload) => {
+                        // tx sent
+                        console.log('Liquidation tx sent for order ' + orderNum + ' for user ' + user);
+                        //_________________
+                        // publish new task
+                        //=========================================================
+                        Channel.publish('liquidationTxSent', {
+                            user: user,
+                            orderNum: orderNum
+                        });
+                        //=========================================================
+                        //
+                        //
+                        //________________
+                    })
+                    .once('transactionHash', (hash) => {
+                        // received hash
+                        console.log(hash + ' received for order ' + orderNum + ' for user ' + user);
+                        //_________________
+                        // publish new task
+                        //=========================================================
+                        Channel.publish('liquidationTxHashReceived', {
+                            user: user,
+                            orderNum: orderNum,
+                            hash: hash
+                        });
+                        //=========================================================
+                        //
+                        //
+                        //________________
+                    })
+                    .once('receipt', (receipt) => {
+                        // received receipt
+                        console.log('Receipt received for order ' + orderNum + ' for user ' + user);
+                        console.log(receipt);
+                        //_________________
+                        // publish new task
+                        //=========================================================
+                        Channel.publish('liquidationTxReceiptReceived', {
+                            user: user,
+                            orderNum: orderNum,
+                            hash: receipt.transactionHash,
+                            receipt: JSON.parse(JSON.stringify(receipt)),
+                            status: receipt.status
+                        });
+                        //=========================================================
+                        //
+                        //
+                        //________________
+                    })
+                    .on('error', (error) => {
+                        // error sending tx
+                        console.log('Error sending tx for order ' + orderNum + ' for user ' + user);
+                        console.log(error);
+                        //_________________
+                        // publish new task
+                        //=========================================================
+                        Channel.publish('errorSendingLiquidationTx', {
+                            user: user,
+                            orderNum: orderNum,
+                            error: error.message
+                        });
+                        //=========================================================
+                        //
+                        //
+                        //________________
+                    })
+            })
+            .catch((error) => {
+                // error signing tx
+                console.log('Error signing tx for order ' + orderNum + ' for user ' + user);
+                console.log(error);
+                //_________________
+                // publish new task
+                //=========================================================
+                Channel.publish('errorSigningLiquidationTx', {
+                    user: user,
+                    orderNum: orderNum,
+                    error: error.message
+                });
+                //=========================================================
+                //
+                //
+                //________________
+            })
+    }
+
     // GET CHAIN ID
     // SIMULATE TX WITH ETH_CALL
     // ESTIMATE GAS
@@ -135,6 +237,7 @@ exports.Web3Requests = (function() {
         connectHTTPWeb3: connectHTTPWeb3Internal,
         disconnectHTTPWeb3: disconnectHTTPWeb3Internal,
         isAddress: isAddressInternal,
+        sendLiquidationTransaction: sendLiquidationTransactionInternal,
         latest: latestInternal,
     }
 })();

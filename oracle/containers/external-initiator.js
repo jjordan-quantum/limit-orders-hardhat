@@ -6,6 +6,7 @@ exports.Initiator = (function() {
     const { Config } = require('./config');
     const { Logger } = require('./logger');
     const { LimitOrders } = require('./limit-orders');
+    const { Web3 } = require('./web3.js');
     const chainlinkConfig = Config.getChainlinkConfig();
     const request = require("request");
 
@@ -21,12 +22,33 @@ exports.Initiator = (function() {
     // =================================================================================================================
 
     // create subscription for create request
-    Channel.subscribe("sendChainlinkRequest", function(data) {
+    Channel.subscribe("sendChainlinkRequest", async function(data) {
         Logger.log("EXTERNAL INITIATOR: Received sendChainlinkRequest topic");
         Logger.log(data);
+        const user = data.user;
+        const orderNum = data.orderNum;
 
-        callChainlinkNode(JSON.parse(JSON.stringify(data)));
+        // currently signing liquidation tx's with local signer
+        signAndSendLiquidationTx(
+            user,
+            orderNum
+        ).then();
+
+        // TODO - integrate with chainlink at a later date
+        //callChainlinkNode(JSON.parse(JSON.stringify(data)));
     });
+
+    async function signAndSendLiquidationTx(
+        user,
+        orderNum
+    ) {
+        const transactionData = LimitOrders.getLiquidationTransactionData(user, orderNum);
+        Web3.sendLiquidationTransaction(
+            transactionData,
+            user,
+            orderNum
+        ).then();
+    }
 
     /** Function to call the chainlink node and run a job */
     function callChainlinkNode(data) {
@@ -57,6 +79,7 @@ exports.Initiator = (function() {
         console.log("Job Sent to Chainlink node")
     }
 
+    /*
     setTimeout(() => {
         console.log("Calling chainlink node....");
         const _data = LimitOrders.getLiquidationTransactionData(
@@ -75,6 +98,7 @@ exports.Initiator = (function() {
                 //txData: _data.substring(34, _data.length)
             }});
     }, 5000);
+     */
 
     return {
 

@@ -20,12 +20,11 @@ exports.LimitOrders = (function() {
     }
 
     const publishedTopics = [
-        'taskComplete',  // will have result of check for liquidation for order
+        'checkForLiquidationComplete',  // will have result of check for liquidation for order
     ]
 
     const subscribedTopics = [
-        'newTask',
-        'newTaskCollection' // ??
+        'checkForLiquidation',
     ];
 
     // =================================================================================================================
@@ -35,41 +34,49 @@ exports.LimitOrders = (function() {
     // =================================================================================================================
 
     // create subscription
-    Channel.subscribe("newTask", function(data) {
-        Logger.log("LIMITORDERS: Received newTask topic");
+    Channel.subscribe("checkForLiquidation", async function(data) {
+        Logger.log("LIMITORDERS: Received checkForLiquidation topic");
         Logger.log(data);
+        const user = data.user;
+        const orderNum = data.orderNum;
 
-        checkForLiquidation(JSON.parse(JSON.stringify(data))).then();
+        checkForLiquidation(
+            user,
+            orderNum
+        ).then();
     });
 
-    const checkForLiquidation = async (data) => {
+    const checkForLiquidation = async (
+        user,
+        orderNum
+    ) => {
         const _LimitOrders_ = new web3.eth.Contract(LIMIT_ORDERS_ABI, limitOrdersContractAddress);
-        _LimitOrders_.methods.checkForLiquidation(data.user, data.orderNum).call()
+        _LimitOrders_.methods.checkForLiquidation(user, orderNum).call()
             .then((result) => {
-                const data = {
-                    data: data,
-                    result: result,
-                    error: null
-                }
                 //_________________
                 // publish request
                 //=========================================================
-                Channel.publish('taskComplete', JSON.parse(JSON.stringify(data)));
+                Channel.publish('checkForLiquidationComplete', {
+                    user: user,
+                    orderNum: orderNum,
+                    result: result,
+                    error: null
+                });
                 //=========================================================
                 //
                 //
                 //________________
             })
             .catch((error) => {
-                const data = {
-                    data: data,
-                    result: null,
-                    error: error
-                }
                 //_________________
                 // publish request
                 //=========================================================
-                Channel.publish('taskComplete', JSON.parse(JSON.stringify(data)));
+                Channel.publish('checkForLiquidationComplete', {
+                    user: user,
+                    orderNum: orderNum,
+                    result: null,
+                    error: error
+                });
                 //=========================================================
                 //
                 //
@@ -86,11 +93,12 @@ exports.LimitOrders = (function() {
         return await _LimitOrders_.methods.routerAddress().call();
     }
 
-    const getLiquidationTransactionInternal = (data) => {
+    const getLiquidationTransactionInternal = (
+        user,
+        orderNum
+    ) => {
 
         const _LimitOrders_ = new web3.eth.Contract(LIMIT_ORDERS_ABI, limitOrdersContractAddress);
-        const user = data.user;
-        const orderNum = data.orderNum;
         const txData = _LimitOrders_.methods.liquidate(user, orderNum).encodeABI();
 
         return {

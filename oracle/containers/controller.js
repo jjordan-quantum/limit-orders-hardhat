@@ -7,6 +7,7 @@ exports.Controller = (function() {
 
     const util = require("util");
     let busyWorking = false;
+    let ordersLoaded = false;
     let startedWorking;
     let nextTaskCollectionID = 0;
     const taskCollections = {};
@@ -14,10 +15,15 @@ exports.Controller = (function() {
     const OrderStatus = {
         deleted: 0,     // deleted via an oracle request
         checking: 1,    // actively checking for liquidation on each new block
-        removed: 2,     // removed by oracle
-        simulating: 3,  // liquidation tx sent to simulator
-        liduidating: 4  // liquidation tx sent to oracle
-    }
+        failed: 2,     // removed by oracle - failed / expired
+        expired: 3,
+        simulating: 4,  // liquidation tx sent to simulator
+        liquidating: 5,  // liquidation tx sent to oracle
+        sent: 6,
+        hashReceived: 7,
+        confirmed: 8,
+        error: 9
+    };
 
     /*
      *  reasons for removal:
@@ -34,6 +40,7 @@ exports.Controller = (function() {
     (async () => {
         const allActiveOrders = await Queries.getAllActiveOrders();
         getOrdersByUser(allActiveOrders.slice());
+        ordersLoaded = true;
     })();
 
 
@@ -43,40 +50,171 @@ exports.Controller = (function() {
     // update orders in memory and in db on each order sent to chainlink node (EI)
     // update orders in memory and in db on each order with specific failing conditions for eth_call
 
-    const publishedTopics = [
-        'newTask',
-        'newTaskCollection',
-        'simulateOrderLiquidation'
-    ]
 
-    const subscribedTopics = [
+    // =================================================================================================================
+    //
+    //  Updating orders in memory and db in response to requests from chainlink node
+    //
+    // =================================================================================================================
 
-        // updater scheduled task
-        'performScheduledJob',
+    // create subscription for create request
+    Channel.subscribe("createOrder", async function(data) {
+        Logger.log("CONTROLLER: Received createOrder topic");
+        Logger.log(data);
+        const user = data.user;
+        const orderNum = data.orderNum;
+        const deadline = data.deadline;
 
-        // for debugging
-        'setDebugMode', // ???
+        createOrder(
+            user,
+            orderNum,
+            deadline
+        ).then();
+    });
 
-        // for task completion, published by worker-queue
-        'taskComplete',   // will have result from check for liquidation
-        'taskCollectionComplete',
+    // create subscription for update request
+    Channel.subscribe("updateOrder", async function(data) {
+        Logger.log("CONTROLLER: Received updateOrder topic");
+        Logger.log(data);
+        const user = data.user;
+        const orderNum = data.orderNum;
+        const deadline = data.deadline;
 
-        // for requests from chainlink node -> order mgmt
-        'createOrder',
-        'updateOrder',
-        'deleteOrder',
+        updateOrder(
+            user,
+            orderNum,
+            deadline
+        ).then();
+    });
 
-        // for order simulation results
-        'orderLiquidationSimulated',
+    // create subscription for delete request
+    Channel.subscribe("deleteOrder", async function(data) {
+        Logger.log("CONTROLLER: Received deleteOrder topic");
+        Logger.log(data);
+        const user = data.user;
+        const orderNum = data.orderNum;
 
-        // for requests sent to chainlink node -> liquidations
-        'liquidationSent',
-        'responseFromChainlinkNode',
+        deleteOrder(
+            user,
+            orderNum
+        ).then();
+    });
 
-        // for results of transactions sent to LimitOrders contract
-        'orderLiquidationReceipt',
+    const orderTemplate = {
+        user: "0x0000000000000000000000000000000000000000",     // user's account address
+        orderNum: 0,    // will be the order number for the order -> verify this is the next order number in the db
+        deadline: 1313213213,    // UNIX timestamp expiry,
+        jobID: 0 // ?
+    }
 
-    ];
+    const createOrder = async (
+        user,
+        orderNum,
+        deadline
+    ) => {
+
+        // TODO
+        // get all orders for user in memory
+        // confirm that orderNum is highest orderNum + 1
+        // if not -> check all orders on blockchain
+
+        // add order to memory
+        addOrderForUser(
+            user,
+            orderNum,
+            deadline
+        );
+
+        // write to db
+        await Queries.writeNewOrder(
+            user,
+            orderNum,
+            deadline
+        );
+    }
+
+    const updateOrder = async (
+        user,
+        orderNum,
+        deadline
+    ) => {
+
+        // check order in memory
+        // TODO
+        // check if deadline has changed - only update order if this is the case
+
+        // update order in memory
+        updateOrderForUser(
+            user,
+            orderNum,
+            deadline
+        );
+
+        // update in DB
+        // TODO - also update status if required
+        await Queries.updateOrderDeadline(
+            user,
+            orderNum,
+            deadline
+        );
+    }
+
+    const deleteOrder = async (
+        user,
+        orderNum
+    ) => {
+
+        // remove order from DB
+        await Queries.updateOrderStatus(
+            user,
+            orderNum,
+            OrderStatus.deleted
+        );
+
+        // TODO
+        // reconcile orders for user from blockchain
+    }
+
+    const expireOrder = async (
+        user,
+        orderNum
+    ) => {
+
+        // remove order from DB
+        await Queries.updateOrderStatus(
+            user,
+            orderNum,
+            OrderStatus.removed
+        );
+
+        // update status of orders in memory
+        updateOrderStatusForUser(
+            user,
+            orderNum,
+            OrderStatus.removed
+        );
+        // TODO
+        // reconcile orders for user ??
+    }
+
+    const updateOrderStatus = async (
+        user,
+        orderNum,
+        newStatus
+    ) => {
+        await Queries.updateOrderStatus(
+            user,
+            orderNum,
+            newStatus
+        );
+
+        // update status of orders in memory
+        updateOrderStatusForUser(
+            user,
+            orderNum,
+            newStatus
+        );
+    }
 
     // =================================================================================================================
     //
@@ -85,9 +223,13 @@ exports.Controller = (function() {
     // =================================================================================================================
 
     // create subscription
-    Channel.subscribe("performScheduledJob", function(data) {
+    Channel.subscribe("performScheduledJob", async function(data) {
         Logger.log("CONTROLLER: Received performScheduledJob topic");
-        performScheduledJob().then();
+        if(ordersLoaded) {
+            performScheduledJob().then();
+        } else {
+            console.log("Orders not loaded - cannot check for liquidations!");
+        }
     });
 
     // check all orders for liquidation on schedule
@@ -95,21 +237,27 @@ exports.Controller = (function() {
 
         const timestamp = Math.round((new Date()).getTime() / 1000);
         Object.keys(ordersByUser).forEach((user) => {
-            const orders = ordersByUser[user];
+            const orders = ordersByUser[user].slice();
             orders.forEach((order) => {
                 if(order.status === 1) {
                     if(order.deadline > timestamp) {
                         //_________________
                         // publish new task - to check if order can be liquidated
                         //=========================================================
-                        Channel.publish('newTask', JSON.parse(JSON.stringify(order)));
+                        Channel.publish('checkForLiquidation', {
+                            user: order.user,
+                            orderNum: order.orderNum
+                        });
                         //=========================================================
                         //
                         //
                         //________________
                     } else {
                         // set order to expired
-                        expireOrder(JSON.parse(JSON.stringify(order))).then();
+                        expireOrder(
+                            order.user,
+                            order.orderNum
+                        ).then();
                     }
                 }
             })
@@ -122,155 +270,47 @@ exports.Controller = (function() {
     //
     // =================================================================================================================
 
-    // create subscription for create request
-    Channel.subscribe("createOrder", function(data) {
-        Logger.log("CONTROLLER: Received createOrder topic");
-        Logger.log(data);
-
-        createOrder(JSON.parse(JSON.stringify(data))).then();
-    });
-
-    // create subscription for update request
-    Channel.subscribe("updateOrder", function(data) {
-        Logger.log("CONTROLLER: Received updateOrder topic");
-        Logger.log(data);
-
-        updateOrder(JSON.parse(JSON.stringify(data))).then();
-    });
-
-    // create subscription for delete request
-    Channel.subscribe("deleteOrder", function(data) {
-        Logger.log("CONTROLLER: Received deleteOrder topic");
-        Logger.log(data);
-
-        deleteOrder(JSON.parse(JSON.stringify(data))).then();
-    });
-
-    const orderTemplate = {
-        user: "0x0000000000000000000000000000000000000000",     // user's account address
-        orderNum: 0,    // will be the order number for the order -> verify this is the next order number in the db
-        selector: 101,   // represents the function # and swap direction
-        pair: "0x0000000000000000000000000000000000000000",  // pair address
-        inputAmount: 1000,  // input amount for swap
-        minOutputAmount: 0, // 'amountOutMin' value for swap
-        deadline: 1313213213,    // UNIX timestamp expiry,
-        jobID: 0
-    }
-
-    const createOrder = async (data) => {
-
-        // TODO - add jobID
-
+    // create subscription for results from checking for liquidation
+    Channel.subscribe("checkForLiquidationComplete", async function(data) {
+        Logger.log("CONTROLLER: Received checkForLiquidationComplete topic");
         const user = data.user;
-        const orderNum = parseInt(data.orderNum);
-        const selector = parseInt(data.selector);
-        const pair = data.pair;
-        const inputAmount = data.inputAmount;
-        const minOutputAmount = data.minOutputAmount;
-        const deadline = parseInt(data.deadline);
+        const orderNum = data.orderNum;
+        const result = data.result;
+        const error = data.error;
 
-        // get all orders for user in memory
-        // confirm that orderNum is highest orderNum + 1
-        // if not -> check all orders on blockchain
-        // add order to memory
-
-        // write to db
-        await Queries.writeNewOrder(
-            user,
-            orderNum,
-            selector,
-            pair,
-            inputAmount,
-            minOutputAmount,
-            deadline
-        );
-    }
-
-    const updateOrder = async (data) => {
-
-        const mode = data.mode;
-        if(mode === 'amounts') {
-            const user = data.user;
-            const orderNum = parseInt(data.orderNum);
-            const newInputAmount = data.inputAmount;
-            const newMinOutputAmount = data.minOutputAmount;
-            // update in DB
-            await Queries.updateOrderAmounts(
+        if(error) {
+            console.log("Error while checking for liquidation for orderNum " + orderNum + " for " + user);
+            console.log(error);
+            // TODO
+            // handle error - update order status for certain types of errors - check revert reason
+            updateOrderStatus(
                 user,
                 orderNum,
-                newInputAmount,
-                newMinOutputAmount
-            );
-            // update in memory
-        } else if(mode === 'output') {
-            const user = data.user;
-            const orderNum = parseInt(data.orderNum);
-            const newMinOutputAmount = data.minOutputAmount;
-            // update in DB
-            await Queries.updateOrderMinOutputAmount(
-                user,
-                orderNum,
-                newMinOutputAmount
-            );
-            // update in memory
-        } else if(mode === 'deadline') {
-            const user = data.user;
-            const orderNum = parseInt(data.orderNum);
-            const deadline = parseInt(data.deadline);
-            // update in DB
-            await Queries.updateOrderDeadline(
-                user,
-                orderNum,
-                deadline
-            );
-            // update in memory
+                OrderStatus.error,
+                error
+            ).then();
         } else {
-            // update all
-            const user = data.user;
-            const orderNum = parseInt(data.orderNum);
-            const newInputAmount = data.inputAmount;
-            const newMinOutputAmount = data.minOutputAmount;
-            const deadline = parseInt(data.deadline);
-            // update in DB
-            await Queries.updateOrder(
-                user,
-                orderNum,
-                newInputAmount,
-                newMinOutputAmount,
-                deadline
-            );
-            // update in memory
+            if(result) {
+                //_________________
+                // publish new task - to check if order can be liquidated
+                //=========================================================
+                Channel.publish('simulateOrderLiquidation', {
+                    user: user,
+                    orderNum: orderNum
+                });
+                //=========================================================
+                //
+                //
+                //________________
+                updateOrderStatus(
+                    user,
+                    orderNum,
+                    OrderStatus.simulating
+                ).then();
+            }
         }
-    }
 
-    const deleteOrder = async (data) => {
-
-        const user = data.user;
-        const orderNum = data.orderNum;
-        // remove order from DB
-        await Queries.updateOrderStatus(
-            user,
-            orderNum,
-            OrderStatus.deleted
-        );
-        // remove order from memory + update order number sequencing for user
-        // update status + number sequencing of orders in db
-        // reconcile orders for user
-    }
-
-    const expireOrder = async (data) => {
-        const user = data.user;
-        const orderNum = data.orderNum;
-        // remove order from DB
-        await Queries.updateOrderStatus(
-            user,
-            orderNum,
-            OrderStatus.removed
-        );
-        // remove order from memory + update order number sequencing for user
-        // update status + number sequencing of orders in db
-        // reconcile orders for user
-    }
+    });
 
     // =================================================================================================================
     //
@@ -279,16 +319,47 @@ exports.Controller = (function() {
     // =================================================================================================================
 
     // create subscription for results from order liquidation simulation
-    Channel.subscribe("orderLiquidationSimulated", function(data) {
+    Channel.subscribe("orderLiquidationSimulated", async function(data) {
         Logger.log("CONTROLLER: Received orderLiquidationSimulated topic");
-        orderLiquidationSimulated(JSON.parse(JSON.stringify(data))).then();
+        const user = data.user;
+        const orderNum = data.orderNum;
+        const result = data.result;
+        const error = data.error;
+
+        if(error) {
+            console.log("Error while checking for liquidation for orderNum " + orderNum + " for " + user);
+            console.log(error);
+            // TODO
+            // handle error - update status in db and memory if required
+            updateOrderStatus(
+                user,
+                orderNum,
+                OrderStatus.error,
+                error
+            ).then();
+        } else {
+            if(result) {
+                // TODO - confirm result for successful liquidation
+                //_________________
+                // publish new task - to check if order can be liquidated
+                //=========================================================
+                Channel.publish('sendChainlinkRequest', {
+                    user: user,
+                    orderNum: orderNum
+                });
+                //=========================================================
+                //
+                //
+                //________________
+                // update order status
+                updateOrderStatus(
+                    user,
+                    orderNum,
+                    OrderStatus.liquidating
+                ).then();
+            }
+        }
     });
-
-    const orderLiquidationSimulated = async (data) => {
-
-        // update order in memory with simulation result, if required
-        // update order in db with simulation result, if required
-    }
 
     // =================================================================================================================
     //
@@ -296,46 +367,113 @@ exports.Controller = (function() {
     //
     // =================================================================================================================
 
-    // create subscription for updating order status when liquidation request sent to oracle
-    Channel.subscribe("liquidationSent", function(data) {
-        Logger.log("CONTROLLER: Received liquidationSent topic");
-        liquidationSent(JSON.parse(JSON.stringify(data))).then();
+    // create subscription for updating order status when liquidation tx sent
+    Channel.subscribe("liquidationTxSent", async function(data) {
+        Logger.log("CONTROLLER: Received liquidationTxSent topic");
+        const user = data.user;
+        const orderNum = data.orderNum;
+
+        // update order in memory and db
+        updateOrderStatus(
+            user,
+            orderNum,
+            OrderStatus.sent
+        ).then();
     });
 
-    // create subscription for updating order status when response received from chainlink node
-    Channel.subscribe("responseFromChainlinkNode", function(data) {
-        Logger.log("CONTROLLER: Received responseFromChainlinkNode topic");
-        responseFromChainlinkNode(JSON.parse(JSON.stringify(data))).then();
+    // create subscription for updating order status when tx hash received
+    Channel.subscribe("liquidationTxHashReceived", async function(data) {
+        Logger.log("CONTROLLER: Received liquidationTxHashReceived topic");
+        const user = data.user;
+        const orderNum = data.orderNum;
+        const hash = data.hash;
+
+        // update order in memory and db
+        updateOrderStatus(
+            user,
+            orderNum,
+            OrderStatus.hashReceived
+        ).then();
     });
 
-    const liquidationSent = async (data) => {
+    // create subscription for updating order status when tx hash received
+    Channel.subscribe("liquidationTxReceiptReceived", async function(data) {
+        Logger.log("CONTROLLER: Received liquidationTxReceiptReceived topic");
+        const user = data.user;
+        const orderNum = data.orderNum;
+        const hash = data.hash;
+        const receipt = JSON.parse(JSON.stringify(data.receipt));
+        const status = data.status;
 
-        // update order in memory
-        // update order in db
-    }
-
-    const responseFromChainlinkNode = async (data) => {
-
-        // update order in memory
-        // update order in db
-    }
-
-    // =================================================================================================================
-    //
-    //  Updating orders in memory and db in response to transaction receipt from order liquidation
-    //
-    // =================================================================================================================
-
-    // create subscription for results from order liquidation transaction receipt
-    Channel.subscribe("orderLiquidationReceipt", function(data) {
-        Logger.log("CONTROLLER: Received orderLiquidationReceipt topic");
-        orderLiquidationReceipt(JSON.parse(JSON.stringify(data))).then();
+        // update order in memory and db
+        confirmLiquidation(
+            user,
+            orderNum,
+            receipt,
+            status,
+            null
+        );
     });
 
-    const orderLiquidationReceipt = async (data) => {
+    // create subscription for updating order status when tx hash received
+    Channel.subscribe("errorSendingLiquidationTx", async function(data) {
+        Logger.log("CONTROLLER: Received errorSendingLiquidationTx topic");
+        const user = data.user;
+        const orderNum = data.orderNum;
+        const error = data.error;
 
-        // update order in memory with result, if required
-        // update order in db with result, if required
+        // update order in memory and db
+        confirmLiquidation(
+            user,
+            orderNum,
+            null,
+            false,
+            error
+        );
+    });
+
+    // create subscription for updating order status when tx hash received
+    Channel.subscribe("errorSigningLiquidationTx", async function(data) {
+        Logger.log("CONTROLLER: Received errorSigningLiquidationTx topic");
+        const user = data.user;
+        const orderNum = data.orderNum;
+        const error = data.error;
+
+        // update order in memory and db
+        confirmLiquidation(
+            user,
+            orderNum,
+            null,
+            false,
+            error
+        );
+    });
+
+    const confirmLiquidation = (
+        user,
+        orderNum,
+        receipt,
+        status,
+        error
+    ) => {
+        // TODO
+        // add verbosity
+        if(error) {
+            updateOrderStatus(
+                user,
+                orderNum,
+                OrderStatus.error,
+                error
+            ).then();
+        } else {
+            if(receipt) {
+                updateOrderStatus(
+                    user,
+                    orderNum,
+                    OrderStatus.confirmed,
+                ).then();
+            }
+        }
     }
 
     // =================================================================================================================
@@ -351,6 +489,71 @@ exports.Controller = (function() {
             }
             ordersByUser[order.user_address].push(order);
         });
+    }
+
+    const addOrderForUser = (
+        user,
+        orderNum,
+        deadline
+    ) => {
+        if(!ordersByUser.hasOwnProperty(user)) {
+            console.log("User " + user + " not found!  Creating user!");
+            ordersByUser[user] = [];
+        }
+        ordersByUser[user].push({
+            user: user,
+            orderNum: orderNum,
+            deadline: deadline,
+            status: 1
+        });
+    }
+
+    const updateOrderForUser = (
+        user,
+        orderNum,
+        deadline
+    ) => {
+        if(!ordersByUser.hasOwnProperty(user)) {
+            console.log("User " + user + " not found!  Creating user!");
+            ordersByUser[user] = [];
+        }
+        const orders = ordersByUser[user];
+        let order;
+        for(let i = 0; i < orders.length; i++) {
+            const _order = orders[i];
+            if(_order.orderNum === orderNum) {
+                order = _order;
+            }
+        }
+        if(!order) {
+            console.log("Order " + orderNum + " not found for user " + user + "!  Cannot update!");
+        } else {
+            order.deadline = deadline;
+        }
+    }
+
+    const updateOrderStatusForUser = (
+        user,
+        orderNum,
+        newStatus
+    ) => {
+        if(!ordersByUser.hasOwnProperty(user)) {
+            console.log("User " + user + " not found!  Creating user!");
+            ordersByUser[user] = [];
+        }
+        const orders = ordersByUser[user];
+        let order;
+        for(let i = 0; i < orders.length; i++) {
+            const _order = orders[i];
+            if(_order.orderNum === orderNum) {
+                order = _order;
+            }
+        }
+        if(!order) {
+            console.log("Order " + orderNum + " not found for user " + user + "!  Cannot update status!");
+        } else {
+            order.status = newStatus;
+        }
     }
 
     return {}

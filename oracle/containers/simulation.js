@@ -35,45 +35,54 @@ exports.Simulation = (function() {
     // =================================================================================================================
 
     // create subscription
-    Channel.subscribe("simulateOrderLiquidation", function(data) {
+    Channel.subscribe("simulateOrderLiquidation", async function(data) {
         Logger.log("SIMULATION: Received simulateOrderLiquidation topic");
         Logger.log(data);
+        const user = data.user;
+        const orderNum = data.orderNum;
 
-        simulateOrderLiquidation(JSON.parse(JSON.stringify(data))).then();
+        simulateOrderLiquidation(
+            user,
+            orderNum
+        ).then();
     });
 
-    const simulateOrderLiquidation = async (data) => {
+    const simulateOrderLiquidation = async (
+        user,
+        orderNum
+    ) => {
 
-        const liquidationTransaction = LimitOrders.getLiquidationTransaction(JSON.parse(JSON.stringify(data)));
+        const liquidationTransaction = LimitOrders.getLiquidationTransaction(
+            user,
+            orderNum
+        );
         web3.eth.call(liquidationTransaction, 'latest')
             .then((result) => {
                 // successful simulation
-                const data = {
-                    data: data,
-                    result: result,
-                    error: null
-                }
                 //_________________
                 // publish request
                 //=========================================================
-                Channel.publish('orderLiquidationSimulated', JSON.parse(JSON.stringify(data)));
+                Channel.publish('orderLiquidationSimulated', {
+                    user: user,
+                    orderNum: orderNum,
+                    result: result,
+                    error: null
+                });
                 //=========================================================
                 //
                 //
                 //________________
             })
             .catch((error) => {
-                // reverted
-                // TODO - extract revert reason - maybe in controller?
-                const data = {
-                    data: data,
-                    result: null,
-                    error: error
-                }
                 //_________________
                 // publish request
                 //=========================================================
-                Channel.publish('orderLiquidationSimulated', JSON.parse(JSON.stringify(data)));
+                Channel.publish('orderLiquidationSimulated', {
+                    user: user,
+                    orderNum: orderNum,
+                    result: null,
+                    error: error
+                });
                 //=========================================================
                 //
                 //

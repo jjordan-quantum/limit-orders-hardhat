@@ -3,16 +3,21 @@ exports.Queries = (function() {
 
     // TODO - create lowest_order_num_for_user_table
 
-    const { Postgres } = require('./postgres')
+    const { Postgres } = require('./postgres');
+
+    const OrderStatus = {
+        deleted: 0,     // deleted via an oracle request
+        checking: 1,    // actively checking for liquidation on each new block
+        failed: 2,     // removed by oracle - failed / expired
+        expired: 3,
+        simulating: 4,  // liquidation tx sent to simulator
+        liquidating: 5  // liquidation tx sent to oracle
+    };
 
     const getAllActiveOrdersInternal = async () => {
 
         const text = ` SELECT   user_address,
                                 order_num,
-                                selector,
-                                pair,
-                                input_amount,
-                                min_output_amount,
                                 deadline,
                                 status
                        FROM limit_order_job
@@ -23,29 +28,17 @@ exports.Queries = (function() {
     const writeNewOrderInternal = async (
         user,
         orderNum,
-        selector,
-        pair,
-        inputAmount,
-        minOutputAmount,
         deadline
     ) => {
         const text = ` INSERT INTO  limit_order_job (
             user_address,
             order_num,
-            selector,
-            pair,
-            input_amount,
-            min_output_amount,
             deadline,
             status
-        ) VALUES ( $1, $2, $3, $4, $5, $6, $7, $8 );    `;
+        ) VALUES ( $1, $2, $3, $4 );    `;
         await Postgres.poolQuery(text, [
             user,
             orderNum,
-            selector,
-            pair,
-            inputAmount,
-            minOutputAmount,
             deadline,
             1
         ]);

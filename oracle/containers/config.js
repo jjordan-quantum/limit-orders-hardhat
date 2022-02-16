@@ -46,6 +46,14 @@ exports.Config = (function() {
         return config.limit_orders.approved_oracle_address;
     }
 
+    const getSignerInternal = () => {
+        return config.limit_orders.signer;
+    }
+
+    const getSignerAddressInternal = () => {
+        return config.limit_orders.signer_address;
+    }
+
     return {
         getDatabaseConfig: getDatabaseConfigInternal,
         getWeb3Config: getWeb3ConfigInternal,
@@ -56,5 +64,7 @@ exports.Config = (function() {
         getWebsocketProvider: getWebsocketProviderInternal,
         getLimitOrderContractAddress: getLimitOrderContractAddressInternal,
         getApprovedOracleAddress: getApprovedOracleAddressInternal,
+        getSigner: getSignerInternal,
+        getSignerAddress: getSignerAddressInternal,
     }
 })()
