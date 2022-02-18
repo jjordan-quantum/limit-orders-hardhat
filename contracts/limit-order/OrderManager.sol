@@ -14,6 +14,23 @@ contract OrderManager {
         uint256 deadline;
     }
 
+    event CreateOrder(
+        address indexed user,
+        uint256 indexed orderNum,
+        uint256 indexed deadline
+    );
+
+    event UpdateOrder(
+        address indexed user,
+        uint256 indexed orderNum,
+        uint256 indexed deadline
+    );
+
+    event DeleteOrder(
+        address indexed user,
+        uint256 indexed orderNum
+    );
+
     mapping(address => mapping(uint256 => Order)) orders;
     mapping(address => mapping(uint256 => bool)) isActive;
     mapping(address => uint256) orderCount;
@@ -67,9 +84,9 @@ contract OrderManager {
         );
         // alternative method would be creating an 'active' field in the Orders struct
         isActive[user][nextOrderNum[user]] = true;
+        emit CreateOrder(user, nextOrderNum[user], deadline);
         orderCount[user]++;
         nextOrderNum[user]++;
-        // TODO - emit event
     }
 
     function _viewOrder(address user, uint256 orderNum) public view returns (
@@ -98,7 +115,7 @@ contract OrderManager {
         require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         isActive[user][orderNum] = false;
         orderCount[user] = orderCount[user].sub(1);
-        // TODO - emit event
+        emit DeleteOrder(user, orderNum);
     }
 
     function _updateOrder(
@@ -116,23 +133,21 @@ contract OrderManager {
         if(locked) {
             require(deadline == 0, "ORDER MANAGER: ORDER EXPIRY MODIFICATION LOCKED");
         } else if(deadline != 0) {
-            orders[user][orderNum].deadline = deadline; 
+            orders[user][orderNum].deadline = deadline;
+            emit UpdateOrder(user, orderNum, deadline);
         }
-        // TODO - emit event
     }
 
     function _updateOrderInputAmount(address user, uint256 orderNum, uint256 inputAmount) internal {
         //require(orderNum < nextOrderNum[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
         require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         orders[user][orderNum].inputAmount = inputAmount;
-        // TODO - emit event
     }
 
     function _updateOrderMinOutputAmount(address user, uint256 orderNum, uint256 minOutputAmount) internal {
         //require(orderNum < nextOrderNum[user], "ORDER MANAGER: ORDERNUM TOO HIGH");
         require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         orders[user][orderNum].minOutputAmount = minOutputAmount;
-        // TODO - emit event
     }
 
     function _updateOrderAmounts(
@@ -145,7 +160,6 @@ contract OrderManager {
         require(isActive[user][orderNum], "ORDER MANAGER: ORDER NOT ACTIVE");
         orders[user][orderNum].inputAmount = inputAmount;
         orders[user][orderNum].minOutputAmount = minOutputAmount;
-        // TODO - emit event
     }
 
     function _updateOrderDeadline(address user, uint256 orderNum, uint256 deadline) internal{
@@ -154,7 +168,7 @@ contract OrderManager {
         require(!locked, "ORDER MANAGER: ORDER EXPIRY MODIFICATION LOCKED");
         require(deadline != 0, "ORDER MANAGER: NO DEADLINE PROVIDED");
         orders[user][orderNum].deadline = deadline;
-        // TODO - emit event
+        emit UpdateOrder(user, orderNum, deadline);
     }
 
     function getActiveOrderCount(address user) public view returns(uint256) {

@@ -9,9 +9,10 @@ const util = require('util');
 // CONSTANTS
 
 const account = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-const BUSD_ADDRESS = "0x55d398326f99059fF775485246999027B3197955"; // STABLE TOKEN
+const BUSD_ADDRESS = "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56";  // STABLE TOKEN
 const USDC_ADDRESS = "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d";  // PAYMENT TOKEN
 const WBNB_ADDRESS = "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c";
+const USDT_ADDRESS = "0x55d398326f99059fF775485246999027B3197955";
 const USDCWBNB_ADDRESS = "0xd99c7F6C65857AC913a8f880A4cb84032AB2FC5b"
 const BUSDUSDC_ADDRESS = "0xEc6557348085Aa57C72514D67070dC863C0a5A8c"  // token0: BUSD, token1: USDC
 const ROUTER_ADDRESS = "0x10ED43C718714eb63d5aA57B78B54704E256024E"
@@ -42,6 +43,7 @@ const setup = async () => {
     );
 
     const usdc = await ERC20.attach(USDC_ADDRESS);
+    const usdt = await ERC20.attach(USDT_ADDRESS);
 
     const SWAP_PATH = [
         WBNB_ADDRESS,
@@ -69,6 +71,7 @@ const setup = async () => {
         router,
         weth,
         usdc,
+        usdt,
         swapRouter,
         limitOrders
     }
@@ -76,10 +79,10 @@ const setup = async () => {
 
 
 describe("LimitOrders", function () {
-    let router, weth, usdc, swapRouter, limitOrders;
+    let router, weth, usdc, usdt, swapRouter, limitOrders;
 
     before(async () => {
-        return ({ router, weth, usdc, swapRouter, limitOrders } = await setup());
+        return ({ router, weth, usdc, usdt, swapRouter, limitOrders } = await setup());
     })
 
     describe('Refunds enabled', async () => {
@@ -375,10 +378,51 @@ describe("LimitOrders", function () {
         });
 
         //==============================================================================================================
-        // TEST - liquidate
+        // TEST - set paymentToken
+        //==============================================================================================================
+
+        it('Test - set paymentToken - it should not revert', async () => {
+            // set payment token
+            await expect(limitOrders.setPaymentToken(USDT_ADDRESS)).not.to.be.reverted;
+            // check payment token
+            const paymentToken = await limitOrders.paymentToken();
+            expect(paymentToken).to.eql(USDT_ADDRESS);
+            // check payment token set
+            const paymentTokenSet = await limitOrders.paymentTokenSet();
+            expect(paymentTokenSet).to.eql(true);
+        });
+
+        //==============================================================================================================
+        // TEST - check getPaymentAmount
+        //==============================================================================================================
+
+        it('Test - check getPaymentAmount - it should be greater than 0', async () => {
+            const paymentAmount = await limitOrders.getPaymentAmount(SAFE_GAS_FEES);
+            expect(paymentAmount > BigNumber.from(0)).to.eql(true);
+        });
+
+        //==============================================================================================================
+        // TEST - liquidate after changing payment token
         //==============================================================================================================
 
         it('Test - check liquidate - it should not revert', async () => {
+
+            // get some USDT first:
+
+            const SWAP_PATH = [
+                WBNB_ADDRESS,
+                USDT_ADDRESS
+            ];
+
+            const swapTx = await router.swapExactETHForTokens(
+                0,
+                SWAP_PATH,
+                account,
+                SAFE_DEADLINE,
+                { value: BNB_AMOUNT }
+            );
+            const swapTxReceipt = await swapTx.wait();
+            await usdt.approve(limitOrders.address, '115792089237316195423570985008687907853269984665640564039457584007913129639935');
             await expect(limitOrders.liquidate(account, 2)).to.not.reverted;
         });
     });

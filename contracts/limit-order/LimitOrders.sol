@@ -76,17 +76,6 @@ contract LimitOrders is
     constructor() public OrderManager() {
 
         owner = msg.sender;
-        //routerSet = false;
-
-        //paymentTokenSet = false;
-        //stableTokenSet = false;
-
-        //contractSet = false;
-
-
-        //refundsEnabled = false;
-        //protocolFeeEnabled = false;
-
         MAX_DEADLINE = 2592000;
         averageGasConsumedPerLiquidation = 204040;
 
@@ -125,7 +114,6 @@ contract LimitOrders is
 
     function setPaymentToken(address _paymentToken_) external payable onlyOwner {
 
-        require(!paymentTokenSet, "LIMITORDERS: PAYMENT TOKEN ALREADY SET");
         paymentToken = _paymentToken_;
         paymentTokenSet = true;
         if(stableTokenSet && routerSet && swapRouterSet) {
