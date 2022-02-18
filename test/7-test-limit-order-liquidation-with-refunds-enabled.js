@@ -1,6 +1,6 @@
 const { expect, use } = require("chai");
 const { ethers } = require("hardhat");
-const { BigNumber } = require('ethers')
+const { BigNumber } = require('ethers');
 const { waffleChai } = require("@ethereum-waffle/chai");
 use(waffleChai);
 const util = require('util');

@@ -17,6 +17,18 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
+  networks: {
+    localhost: {
+      url: "http://127.0.0.1:8545",
+      accounts: [
+      ]
+    },
+    bsc: {
+      url: "https://speedy-nodes-nyc.moralis.io/0dfb3a0716615332cec38c23/bsc/mainnet",
+      accounts: [
+      ]
+    }
+  },
   solidity: {
     compilers: [
       {

@@ -111,3 +111,6 @@ dist
 # Project
 config.json
 
+# hardhat
+hardhat.config.js
+
