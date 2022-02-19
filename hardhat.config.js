@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require('dotenv').config();
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -20,12 +21,11 @@ module.exports = {
   networks: {
     localhost: {
       url: "http://127.0.0.1:8545",
-      accounts: [
-      ]
     },
     bsc: {
       url: "https://speedy-nodes-nyc.moralis.io/0dfb3a0716615332cec38c23/bsc/mainnet",
       accounts: [
+        process.env.DEPLOYER
       ]
     }
   },

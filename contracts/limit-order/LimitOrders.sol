@@ -22,6 +22,12 @@ contract LimitOrders is
     IUniswapV2Router02 router;
     bool public routerSet;
 
+    // TODO - NEW: needs test cases
+    address public paymentsRouterAddress;
+    IUniswapV2Router02 paymentsRouter;
+    bool public paymentsRouterSet;
+    // TODO - NEW: needs test cases
+
     address public wethAddress;
     IWETH WETH;
 
@@ -101,13 +107,25 @@ contract LimitOrders is
         }
     }
 
+    // TODO - NEW: needs test cases
+    function setPaymentRouter(address _paymentRouterAddress_) external payable onlyOwner {
+
+        paymentsRouterAddress = _paymentRouterAddress_;
+        paymentsRouter = IUniswapV2Router02(paymentsRouterAddress);
+        paymentsRouterSet = true;
+        if(stableTokenSet && paymentTokenSet && swapRouterSet && paymentsRouterSet) {
+            contractSet = true;
+        }
+    }
+    // TODO - NEW: needs test cases
+
     function setSwapRouter(address _swapRouterAddress_) external payable onlyOwner {
 
         require(!swapRouterSet, "LIMITORDERS: SWAPROUTER ALREADY SET");
         swapRouterAddress = _swapRouterAddress_;
         swapRouter = ISwapRouter(swapRouterAddress);
         swapRouterSet = true;
-        if(routerSet && stableTokenSet && paymentTokenSet) {
+        if(stableTokenSet && paymentTokenSet && swapRouterSet && paymentsRouterSet) {
             contractSet = true;
         }
     }
@@ -116,7 +134,7 @@ contract LimitOrders is
 
         paymentToken = _paymentToken_;
         paymentTokenSet = true;
-        if(stableTokenSet && routerSet && swapRouterSet) {
+        if(stableTokenSet && paymentTokenSet && swapRouterSet && paymentsRouterSet) {
             contractSet = true;
         }
     }
@@ -125,7 +143,7 @@ contract LimitOrders is
 
         stableToken = _stableToken_;
         stableTokenSet = true;
-        if(paymentTokenSet && routerSet && swapRouterSet) {
+        if(stableTokenSet && paymentTokenSet && swapRouterSet && paymentsRouterSet) {
             contractSet = true;
         }
     }
