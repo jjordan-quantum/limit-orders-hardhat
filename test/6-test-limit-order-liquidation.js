@@ -3,7 +3,7 @@ const { ethers } = require("hardhat");
 const { BigNumber } = require('ethers')
 const { waffleChai } = require("@ethereum-waffle/chai");
 use(waffleChai);
-const util = require('util');
+require('dotenv').config();
 
 
 // CONSTANTS
@@ -14,7 +14,6 @@ const USDC_ADDRESS = "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d";  // PAYMENT T
 const WBNB_ADDRESS = "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c";
 const USDCWBNB_ADDRESS = "0xd99c7F6C65857AC913a8f880A4cb84032AB2FC5b"
 const BUSDUSDC_ADDRESS = "0xEc6557348085Aa57C72514D67070dC863C0a5A8c"  // token0: BUSD, token1: USDC
-const ROUTER_ADDRESS = "0x10ED43C718714eb63d5aA57B78B54704E256024E"
 const SELECTOR = 100;
 const SAFE_DEADLINE = Math.round((new Date()).getTime() / 1000) + 590000;
 const BNB_AMOUNT = '10000000000000000000';
@@ -24,6 +23,12 @@ const USDC_AMOUNT = '100000000'
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 const SAFE_GAS_FEES = '7500000000000000'
 const BUSD_USDC = "0xEc6557348085Aa57C72514D67070dC863C0a5A8c"
+
+// SET PAYMENT TOKEN HERE:
+const PAYMENT_TOKEN = process.env.PAYMENT_TOKEN;
+const STABLE_TOKEN = process.env.STABLE_TOKEN;
+const ROUTER_ADDRESS = process.env.ROUTER_ADDRESS;
+const PAYMENT_TOKEN_ROUTER_ADDRESS = process.env.PAYMENT_TOKEN_ROUTER_ADDRESS;
 
 const setup = async () => {
 
@@ -42,10 +47,11 @@ const setup = async () => {
     );
 
     const usdc = await ERC20.attach(USDC_ADDRESS);
+    const paymentToken = await ERC20.attach(PAYMENT_TOKEN);
 
     const SWAP_PATH = [
         WBNB_ADDRESS,
-        USDC_ADDRESS
+        PAYMENT_TOKEN
     ];
 
     const swapTx = await router.swapExactETHForTokens(
@@ -69,6 +75,7 @@ const setup = async () => {
         router,
         weth,
         usdc,
+        paymentToken,
         swapRouter,
         limitOrders
     }
@@ -76,10 +83,10 @@ const setup = async () => {
 
 
 describe("LimitOrders", function () {
-    let router, weth, usdc, swapRouter, limitOrders;
+    let router, weth, usdc, paymentToken, swapRouter, limitOrders;
 
     before(async () => {
-        return ({ router, weth, usdc, swapRouter, limitOrders } = await setup());
+        return ({ router, weth, usdc, paymentToken, swapRouter, limitOrders } = await setup());
     })
 
     describe('Order liquidation', async () => {
@@ -122,10 +129,10 @@ describe("LimitOrders", function () {
 
         it('Test - set paymentToken - it should not revert', async () => {
             // set payment token
-            await expect(limitOrders.setPaymentToken(USDC_ADDRESS)).not.to.be.reverted;
+            await expect(limitOrders.setPaymentToken(PAYMENT_TOKEN)).not.to.be.reverted;
             // check payment token
             const paymentToken = await limitOrders.paymentToken();
-            expect(paymentToken).to.eql(USDC_ADDRESS);
+            expect(paymentToken).to.eql(PAYMENT_TOKEN);
             // check payment token set
             const paymentTokenSet = await limitOrders.paymentTokenSet();
             expect(paymentTokenSet).to.eql(true);
@@ -144,6 +151,24 @@ describe("LimitOrders", function () {
             // check stable token set
             const stableTokenSet = await limitOrders.stableTokenSet();
             expect(stableTokenSet).to.eql(true);
+        });
+
+        //==============================================================================================================
+        // TEST - set paymentRouter
+        //==============================================================================================================
+
+        it('Test - set paymentRouter - it should not revert', async () => {
+            // set router
+            await expect(limitOrders.setPaymentRouter(PAYMENT_TOKEN_ROUTER_ADDRESS)).not.to.be.reverted;
+            // check router
+            const paymentsRouterAddress = await limitOrders.paymentsRouterAddress();
+            expect(paymentsRouterAddress).to.eql(PAYMENT_TOKEN_ROUTER_ADDRESS);
+            // check routerSet
+            const paymentsRouterSet = await limitOrders.paymentsRouterSet();
+            expect(paymentsRouterSet).to.eql(true);
+            // check wethAddress
+            const wethAddress = await limitOrders.wethAddress();
+            expect(wethAddress).to.eql(WBNB_ADDRESS);
         });
 
         //==============================================================================================================
@@ -220,7 +245,7 @@ describe("LimitOrders", function () {
         // TEST - approve input token
         //==============================================================================================================
 
-        it('Test - create order - it should not revert', async () => {
+        it('Test - approve input token - it should not revert', async () => {
             await expect(weth.approve(limitOrders.address, BNB_AMOUNT)).to.not.reverted;
         });
 
@@ -311,11 +336,22 @@ describe("LimitOrders", function () {
 
             const SWAP_PATH = [
                 WBNB_ADDRESS,
-                USDC_ADDRESS
+                PAYMENT_TOKEN
             ];
             await router.swapExactETHForTokens(
                 0,
                 SWAP_PATH,
+                account,
+                SAFE_DEADLINE,
+                { value: BNB_AMOUNT }
+            );
+            const SWAP_PATH_INPUT_TOKEN = [
+                WBNB_ADDRESS,
+                USDC_ADDRESS
+            ];
+            await router.swapExactETHForTokens(
+                0,
+                SWAP_PATH_INPUT_TOKEN,
                 account,
                 SAFE_DEADLINE,
                 { value: BNB_AMOUNT }

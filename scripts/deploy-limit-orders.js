@@ -12,7 +12,6 @@ const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 (async () => {
 
     // already deployed!!!
-    return;
     const Router = await ethers.getContractFactory("UniswapV2Router02");
     const ERC20 = await ethers.getContractFactory("ERC20");
     const Pair = await ethers.getContractFactory("UniswapV2Pair");

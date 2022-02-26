@@ -13,14 +13,13 @@ contract LimitOrders is
     OrderManager,
     LimitOrderOracle {
 
-    // TODO Payment functions
-    // TODO Swap functions (use LimitOrderRouter)
-    // TODO Oracle functions -> create / update / delete jobs
-    // TODO Chainlink node functions -> checking for liquidation / liquidation
-
     address public routerAddress;
     IUniswapV2Router02 router;
     bool public routerSet;
+
+    address public paymentsRouterAddress;
+    IUniswapV2Router02 paymentsRouter;
+    bool public paymentsRouterSet;
 
     address public wethAddress;
     IWETH WETH;
@@ -101,13 +100,25 @@ contract LimitOrders is
         }
     }
 
+    // TODO - NEW: needs test cases
+    function setPaymentRouter(address _paymentRouterAddress_) external payable onlyOwner {
+
+        paymentsRouterAddress = _paymentRouterAddress_;
+        paymentsRouter = IUniswapV2Router02(paymentsRouterAddress);
+        paymentsRouterSet = true;
+        if(stableTokenSet && paymentTokenSet && swapRouterSet && paymentsRouterSet) {
+            contractSet = true;
+        }
+    }
+    // TODO - NEW: needs test cases
+
     function setSwapRouter(address _swapRouterAddress_) external payable onlyOwner {
 
         require(!swapRouterSet, "LIMITORDERS: SWAPROUTER ALREADY SET");
         swapRouterAddress = _swapRouterAddress_;
         swapRouter = ISwapRouter(swapRouterAddress);
         swapRouterSet = true;
-        if(routerSet && stableTokenSet && paymentTokenSet) {
+        if(stableTokenSet && paymentTokenSet && swapRouterSet && paymentsRouterSet) {
             contractSet = true;
         }
     }
@@ -116,7 +127,7 @@ contract LimitOrders is
 
         paymentToken = _paymentToken_;
         paymentTokenSet = true;
-        if(stableTokenSet && routerSet && swapRouterSet) {
+        if(stableTokenSet && paymentTokenSet && swapRouterSet && paymentsRouterSet) {
             contractSet = true;
         }
     }
@@ -125,7 +136,7 @@ contract LimitOrders is
 
         stableToken = _stableToken_;
         stableTokenSet = true;
-        if(paymentTokenSet && routerSet && swapRouterSet) {
+        if(stableTokenSet && paymentTokenSet && swapRouterSet && paymentsRouterSet) {
             contractSet = true;
         }
     }
@@ -195,6 +206,7 @@ contract LimitOrders is
         require(checkPaymentTokenBalanceForUser(msg.sender), "LIMITORDERS: INSUFFICIENT PAYMENT TOKEN BALANCE FOR USER");
         require(deadline <= block.timestamp + MAX_DEADLINE, "LIMITORDERS: DEADLINE TOO LONG. MAX 30 DAYS");
         require(deadline > block.timestamp, "LIMITORDERS: DEADLINE IN THE PAST");
+        require(inputAmount > 0, "LIMITORDERS: INSUFFICIENT INPUT AMOUNT");
 
         if (selector < 112)  // from eth
         {
@@ -435,17 +447,19 @@ contract LimitOrders is
         address[] memory path = new address[](2);
         path[0] = paymentToken;
         path[1] = wethAddress;
-        uint256[] memory amountsIn = router.getAmountsIn(weiValue, path);
+
+        uint256[] memory amountsIn = paymentsRouter.getAmountsIn(weiValue, path);
         return amountsIn[0];
     }
 
     function getProtocolFeePaymentAmount() public view returns (uint) {
 
         if(protocolFeeEnabled) {
-            address[] memory path = new address[](2);
+            address[] memory path = new address[](3);
             path[0] = paymentToken;
-            path[1] = stableToken;
-            uint256[] memory amountsIn = router.getAmountsIn(protocolFeeAmount, path);
+            path[1] = wethAddress;
+            path[2] = stableToken;
+            uint256[] memory amountsIn = paymentsRouter.getAmountsIn(protocolFeeAmount, path);
             return amountsIn[0];
         }
         return 0;

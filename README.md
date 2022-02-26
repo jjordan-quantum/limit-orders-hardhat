@@ -43,3 +43,5 @@ npx hardhat run --network localhost scripts/5-test-swaprouter.js
 npx hardhat run --network localhost scripts/6-test-order-liquidation.js
 npx hardhat run --network localhost scripts/7-test-orders-with-refunds-enabled.js
 ```
+
+NOTE: The additional router for determining payment token amounts does not increase the gas cost very much.  Typical liquidations are around 206,000 gas.

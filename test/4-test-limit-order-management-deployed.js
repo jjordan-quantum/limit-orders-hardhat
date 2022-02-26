@@ -17,10 +17,11 @@ const USDCWBNB_ADDRESS = "0xd99c7F6C65857AC913a8f880A4cb84032AB2FC5b";
 const BUSDUSDC_ADDRESS = "0xEc6557348085Aa57C72514D67070dC863C0a5A8c"; // token0: BUSD, token1: USDC
 const SELECTOR = 100;
 const SAFE_DEADLINE = Math.round((new Date()).getTime() / 1000) + 590000;
-const BNB_AMOUNT = '10000000000000000000';
-const BNB_AMOUNT_0 = '20000000000000000000';
-const BNB_AMOUNT_1 = '30000000000000000000';
-const USDC_AMOUNT = '100000000'
+const BNB_TO_SWAP_FOR_PAYMENT_TOKEN = '100000000000000000';
+const BNB_AMOUNT = '10000000000000000';
+const BNB_AMOUNT_0 = '20000000000000000';
+const BNB_AMOUNT_1 = '30000000000000000';
+const USDC_AMOUNT = '1000000'
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 const SAFE_GAS_FEES = '7500000000000000'
 const BUSD_USDC = "0xEc6557348085Aa57C72514D67070dC863C0a5A8c"
@@ -30,6 +31,9 @@ const PAYMENT_TOKEN = process.env.PAYMENT_TOKEN;
 const STABLE_TOKEN = process.env.STABLE_TOKEN;
 const ROUTER_ADDRESS = process.env.ROUTER_ADDRESS;
 const PAYMENT_TOKEN_ROUTER_ADDRESS = process.env.PAYMENT_TOKEN_ROUTER_ADDRESS;
+const DEPLOYER_ADDRESS = process.env.DEPLOYER_ADDRESS;
+const LIMIT_ORDERS_ADDRESS = process.env.LIMIT_ORDERS_ADDRESS;
+const SWAP_ROUTER_ADDRESS = process.env.SWAP_ROUTER_ADDRESS;
 
 
 const setup = async () => {
@@ -49,18 +53,22 @@ const setup = async () => {
         PAYMENT_TOKEN
     ];
 
+    /*
     const swapTx = await router.swapExactETHForTokens(
         0,
         SWAP_PATH,
-        account,
+        DEPLOYER_ADDRESS,
         SAFE_DEADLINE,
-        { value: BNB_AMOUNT }
+        { value: BNB_TO_SWAP_FOR_PAYMENT_TOKEN }
     );
     const swapTxReceipt = await swapTx.wait();
 
+     */
+
     const LimitOrders = await ethers.getContractFactory("LimitOrders");
-    const limitOrders = await LimitOrders.deploy();
-    await limitOrders.deployed();
+    const limitOrders = await LimitOrders.attach(
+        LIMIT_ORDERS_ADDRESS
+    );
 
     return {
         limitOrders
@@ -76,92 +84,6 @@ describe("LimitOrders", function () {
     })
 
     describe('Order Management', async () => {
-
-        it('Test - create order - it should fail', async () => {
-            await expect(limitOrders.createOrder(
-                100,
-                USDCWBNB_ADDRESS,
-                BNB_AMOUNT,
-                0,
-                SAFE_DEADLINE,
-                { value: BNB_AMOUNT }
-            )).to.revertedWith('LIMITORDERS: CONTRACT MUST BE SET');
-        });
-
-
-        //==============================================================================================================
-        // TEST - set SwapRouter
-        //==============================================================================================================
-
-        it('Test - setSwapRouter - it should not revert', async () => {
-            await expect(limitOrders.setSwapRouter(ZERO_ADDRESS)).not.to.be.reverted;
-        });
-
-        //==============================================================================================================
-        // TEST - set routerAddress
-        //==============================================================================================================
-
-        it('Test - set routerAddress - it should not revert', async () => {
-            // set router
-            await expect(limitOrders.setRouter(ROUTER_ADDRESS)).not.to.be.reverted;
-            // check router
-            const routerAddress = await limitOrders.routerAddress();
-            expect(routerAddress).to.eql(ROUTER_ADDRESS);
-            // check routerSet
-            const routerSet = await limitOrders.routerSet();
-            expect(routerSet).to.eql(true);
-            // check wethAddress
-            const wethAddress = await limitOrders.wethAddress();
-            expect(wethAddress).to.eql(WBNB_ADDRESS);
-        });
-
-        //==============================================================================================================
-        // TEST - set paymentToken
-        //==============================================================================================================
-
-        it('Test - set paymentToken - it should not revert', async () => {
-            // set payment token
-            await expect(limitOrders.setPaymentToken(PAYMENT_TOKEN)).not.to.be.reverted;
-            // check payment token
-            const paymentToken = await limitOrders.paymentToken();
-            expect(paymentToken).to.eql(PAYMENT_TOKEN);
-            // check payment token set
-            const paymentTokenSet = await limitOrders.paymentTokenSet();
-            expect(paymentTokenSet).to.eql(true);
-        });
-
-        //==============================================================================================================
-        // TEST - set stableToken
-        //==============================================================================================================
-
-        it('Test - set stableToken - it should not revert', async () => {
-            // set stable token
-            await expect(limitOrders.setStableToken(BUSD_ADDRESS)).not.to.be.reverted;
-            // check stable token
-            const stableToken = await limitOrders.stableToken();
-            expect(stableToken).to.eql(BUSD_ADDRESS);
-            // check stable token set
-            const stableTokenSet = await limitOrders.stableTokenSet();
-            expect(stableTokenSet).to.eql(true);
-        });
-
-        //==============================================================================================================
-        // TEST - set paymentRouter
-        //==============================================================================================================
-
-        it('Test - set paymentRouter - it should not revert', async () => {
-            // set router
-            await expect(limitOrders.setPaymentRouter(PAYMENT_TOKEN_ROUTER_ADDRESS)).not.to.be.reverted;
-            // check router
-            const paymentsRouterAddress = await limitOrders.paymentsRouterAddress();
-            expect(paymentsRouterAddress).to.eql(PAYMENT_TOKEN_ROUTER_ADDRESS);
-            // check routerSet
-            const paymentsRouterSet = await limitOrders.paymentsRouterSet();
-            expect(paymentsRouterSet).to.eql(true);
-            // check wethAddress
-            const wethAddress = await limitOrders.wethAddress();
-            expect(wethAddress).to.eql(WBNB_ADDRESS);
-        });
 
         //==============================================================================================================
         // TEST - check contractSet
@@ -205,7 +127,7 @@ describe("LimitOrders", function () {
 
         it('Test - check viewOrder - it should return an object', async () => {
             const order = await limitOrders.viewOrder(0);
-            //console.log(util.inspect(order, false, null, true));
+            console.log(util.inspect(order, false, null, true));
             expect(typeof(order)).to.eql('object');
             expect(order.isOrderActive).to.eql(true);
         });
@@ -238,7 +160,7 @@ describe("LimitOrders", function () {
 
         it('Test - check viewOrder after update - it should return an object', async () => {
             const order = await limitOrders.viewOrder(0);
-            //console.log(util.inspect(order, false, null, true));
+            console.log(util.inspect(order, false, null, true));
             expect(typeof(order)).to.eql('object');
             expect(order.inputAmount).to.eql(BigNumber.from(BNB_AMOUNT_0));
         });
@@ -266,7 +188,7 @@ describe("LimitOrders", function () {
 
         it('Test - check viewOrder - it should return an object', async () => {
             const order = await limitOrders.viewOrder(0);
-            //console.log(util.inspect(order, false, null, true));
+            console.log(util.inspect(order, false, null, true));
             expect(typeof(order)).to.eql('object');
             expect(order.isOrderActive).to.eql(false);
         });
