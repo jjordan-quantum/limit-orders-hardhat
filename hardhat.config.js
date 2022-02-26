@@ -21,12 +21,15 @@ module.exports = {
   networks: {
     localhost: {
       url: "http://127.0.0.1:8545",
+      //accounts: [
+        //process.env.DEPLOYER
+      //]
     },
     bsc: {
-      url: "https://speedy-nodes-nyc.moralis.io/0dfb3a0716615332cec38c23/bsc/mainnet",
-      accounts: [
-        process.env.DEPLOYER
-      ]
+      url: 'https://bsc-dataseed1.defibit.io/',
+      //accounts: [
+        //process.env.DEPLOYER
+      //]
     }
   },
   solidity: {

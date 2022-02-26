@@ -13,20 +13,13 @@ contract LimitOrders is
     OrderManager,
     LimitOrderOracle {
 
-    // TODO Payment functions
-    // TODO Swap functions (use LimitOrderRouter)
-    // TODO Oracle functions -> create / update / delete jobs
-    // TODO Chainlink node functions -> checking for liquidation / liquidation
-
     address public routerAddress;
     IUniswapV2Router02 router;
     bool public routerSet;
 
-    // TODO - NEW: needs test cases
     address public paymentsRouterAddress;
     IUniswapV2Router02 paymentsRouter;
     bool public paymentsRouterSet;
-    // TODO - NEW: needs test cases
 
     address public wethAddress;
     IWETH WETH;
@@ -213,6 +206,7 @@ contract LimitOrders is
         require(checkPaymentTokenBalanceForUser(msg.sender), "LIMITORDERS: INSUFFICIENT PAYMENT TOKEN BALANCE FOR USER");
         require(deadline <= block.timestamp + MAX_DEADLINE, "LIMITORDERS: DEADLINE TOO LONG. MAX 30 DAYS");
         require(deadline > block.timestamp, "LIMITORDERS: DEADLINE IN THE PAST");
+        require(inputAmount > 0, "LIMITORDERS: INSUFFICIENT INPUT AMOUNT");
 
         if (selector < 112)  // from eth
         {
@@ -453,17 +447,19 @@ contract LimitOrders is
         address[] memory path = new address[](2);
         path[0] = paymentToken;
         path[1] = wethAddress;
-        uint256[] memory amountsIn = router.getAmountsIn(weiValue, path);
+
+        uint256[] memory amountsIn = paymentsRouter.getAmountsIn(weiValue, path);
         return amountsIn[0];
     }
 
     function getProtocolFeePaymentAmount() public view returns (uint) {
 
         if(protocolFeeEnabled) {
-            address[] memory path = new address[](2);
+            address[] memory path = new address[](3);
             path[0] = paymentToken;
-            path[1] = stableToken;
-            uint256[] memory amountsIn = router.getAmountsIn(protocolFeeAmount, path);
+            path[1] = wethAddress;
+            path[2] = stableToken;
+            uint256[] memory amountsIn = paymentsRouter.getAmountsIn(protocolFeeAmount, path);
             return amountsIn[0];
         }
         return 0;

@@ -29,6 +29,9 @@ const PAYMENT_TOKEN = process.env.PAYMENT_TOKEN;
 const STABLE_TOKEN = process.env.STABLE_TOKEN;
 const ROUTER_ADDRESS = process.env.ROUTER_ADDRESS;
 const PAYMENT_TOKEN_ROUTER_ADDRESS = process.env.PAYMENT_TOKEN_ROUTER_ADDRESS;
+const DEPLOYER_ADDRESS = process.env.DEPLOYER_ADDRESS;
+const LIMIT_ORDERS_ADDRESS = process.env.LIMIT_ORDERS_ADDRESS;
+const SWAP_ROUTER_ADDRESS = process.env.SWAP_ROUTER_ADDRESS;
 
 const setup = async () => {
 
@@ -47,6 +50,7 @@ const setup = async () => {
         PAYMENT_TOKEN
     ];
 
+    /*
     const swapTx = await router.swapExactETHForTokens(
         0,
         SWAP_PATH,
@@ -56,9 +60,12 @@ const setup = async () => {
     );
     const swapTxReceipt = await swapTx.wait();
 
+     */
+
     const LimitOrders = await ethers.getContractFactory("LimitOrders");
-    const limitOrders = await LimitOrders.deploy();
-    await limitOrders.deployed();
+    const limitOrders = await LimitOrders.attach(
+        LIMIT_ORDERS_ADDRESS
+    );
 
     return {
         limitOrders
@@ -75,103 +82,6 @@ describe("LimitOrders", function () {
 
     describe('Utility functions', async () => {
 
-        it('Test - create order - it should fail', async () => {
-            await expect(limitOrders.createOrder(
-                100,
-                USDCWBNB_ADDRESS,
-                BNB_AMOUNT,
-                0,
-                SAFE_DEADLINE,
-                { value: BNB_AMOUNT }
-            )).to.revertedWith('LIMITORDERS: CONTRACT MUST BE SET');
-        });
-
-
-        //==============================================================================================================
-        // TEST - check checkPaymentTokenBalanceForUser (should fail - payment token not set)
-        //==============================================================================================================
-
-        // test passed...changed function visibility to internal
-        /*
-        it('Test - check checkPaymentTokenBalanceForUser - it should revert because router is not set', async () => {
-            await expect(limitOrders.checkPaymentTokenBalanceForUser(account)).to.reverted;
-        });
-         */
-
-        //==============================================================================================================
-        // TEST - set SwapRouter
-        //==============================================================================================================
-
-        it('Test - setSwapRouter - it should not revert', async () => {
-            await expect(limitOrders.setSwapRouter(ZERO_ADDRESS)).not.to.be.reverted;
-        });
-
-        //==============================================================================================================
-        // TEST - set routerAddress
-        //==============================================================================================================
-
-        it('Test - set routerAddress - it should not revert', async () => {
-            // set router
-            await expect(limitOrders.setRouter(ROUTER_ADDRESS)).not.to.be.reverted;
-            // check router
-            const routerAddress = await limitOrders.routerAddress();
-            expect(routerAddress).to.eql(ROUTER_ADDRESS);
-            // check routerSet
-            const routerSet = await limitOrders.routerSet();
-            expect(routerSet).to.eql(true);
-            // check wethAddress
-            const wethAddress = await limitOrders.wethAddress();
-            expect(wethAddress).to.eql(WBNB_ADDRESS);
-        });
-
-        //==============================================================================================================
-        // TEST - set paymentToken
-        //==============================================================================================================
-
-        it('Test - set paymentToken - it should not revert', async () => {
-            // set payment token
-            await expect(limitOrders.setPaymentToken(PAYMENT_TOKEN)).not.to.be.reverted;
-            // check payment token
-            const paymentToken = await limitOrders.paymentToken();
-            expect(paymentToken).to.eql(PAYMENT_TOKEN);
-            // check payment token set
-            const paymentTokenSet = await limitOrders.paymentTokenSet();
-            expect(paymentTokenSet).to.eql(true);
-        });
-
-        //==============================================================================================================
-        // TEST - set stableToken
-        //==============================================================================================================
-
-        it('Test - set stableToken - it should not revert', async () => {
-            // set stable token
-            await expect(limitOrders.setStableToken(BUSD_ADDRESS)).not.to.be.reverted;
-            // check stable token
-            const stableToken = await limitOrders.stableToken();
-            expect(stableToken).to.eql(BUSD_ADDRESS);
-            // check stable token set
-            const stableTokenSet = await limitOrders.stableTokenSet();
-            expect(stableTokenSet).to.eql(true);
-        });
-
-        //==============================================================================================================
-        // TEST - set paymentRouter
-        //==============================================================================================================
-
-        it('Test - set paymentRouter - it should not revert', async () => {
-            // set router
-            await expect(limitOrders.setPaymentRouter(PAYMENT_TOKEN_ROUTER_ADDRESS)).not.to.be.reverted;
-            // check router
-            const paymentsRouterAddress = await limitOrders.paymentsRouterAddress();
-            expect(paymentsRouterAddress).to.eql(PAYMENT_TOKEN_ROUTER_ADDRESS);
-            // check routerSet
-            const paymentsRouterSet = await limitOrders.paymentsRouterSet();
-            expect(paymentsRouterSet).to.eql(true);
-            // check wethAddress
-            const wethAddress = await limitOrders.wethAddress();
-            expect(wethAddress).to.eql(WBNB_ADDRESS);
-        });
-
         //==============================================================================================================
         // TEST - check contractSet
         //==============================================================================================================
@@ -180,18 +90,6 @@ describe("LimitOrders", function () {
             const contractSet = await limitOrders.contractSet();
             expect(contractSet).to.eql(true);
         });
-
-        //==============================================================================================================
-        // TEST - check checkPaymentTokenBalanceForUser - should be zero
-        //==============================================================================================================
-
-        // test passed...changed function visibility to internal
-        /*
-        it('Test - check contractSet - it should be true', async () => {
-            const paymentTokenBalance = await limitOrders.checkPaymentTokenBalanceForUser(account);
-            expect(paymentTokenBalance > BigNumber.from(0)).to.eql(true);
-        });
-         */
 
         //==============================================================================================================
         // TEST - check isInputTokenWETH - with non-weth pair

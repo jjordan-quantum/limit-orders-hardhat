@@ -57,6 +57,7 @@ const setup = async () => {
         { value: BNB_AMOUNT }
     );
     const swapTxReceipt = await swapTx.wait();
+
      */
 
     const LimitOrders = await ethers.getContractFactory("LimitOrders");
@@ -91,22 +92,22 @@ describe("LimitOrders", function () {
         });
          */
 
-        it('Test - check routerAddress - it should be zero address', async () => {
+        it('Test - check routerAddress - it should be pancakeswap router address', async () => {
             const routerAddress = await limitOrders.routerAddress();
             expect(routerAddress).to.eql(ROUTER_ADDRESS);
         });
 
-        it('Test - check routerSet - it should be false', async () => {
+        it('Test - check routerSet - it should be true', async () => {
             const routerSet = await limitOrders.routerSet();
             expect(routerSet).to.eql(true);
         });
 
-        it('Test - check wethAddress - it should be zero address', async () => {
+        it('Test - check wethAddress - it should be wbnb address', async () => {
             const wethAddress = await limitOrders.wethAddress();
             expect(wethAddress).to.eql(WBNB_ADDRESS);
         });
 
-        it('Test - check paymentToken - it should be zero address', async () => {
+        it('Test - check paymentToken - it should be GOSWAPP token address', async () => {
             const paymentToken = await limitOrders.paymentToken();
             expect(paymentToken).to.eql(PAYMENT_TOKEN);
         });
@@ -116,9 +117,10 @@ describe("LimitOrders", function () {
             expect(paymentTokenSet).to.eql(true);
         });
 
-        it('Test - check stableToken - it should be zero address', async () => {
+        it('Test - check payment token - it should be zero address', async () => {
             const paymentToken = await limitOrders.paymentToken();
-            expect(paymentToken).to.eql(STABLE_TOKEN);
+            console.log('PAYMENT TOKEN: ', paymentToken)
+            expect(paymentToken).to.eql(PAYMENT_TOKEN);
         });
 
         it('Test - check stableTokenSet - it should be false', async () => {
@@ -133,6 +135,7 @@ describe("LimitOrders", function () {
 
         it('Test - check refundsEnabled - it should be false', async () => {
             const refundsEnabled = await limitOrders.refundsEnabled();
+            console.log('refundsEnabled: ', refundsEnabled);
             expect(refundsEnabled).to.eql(true);
         });
 
@@ -143,21 +146,23 @@ describe("LimitOrders", function () {
 
         it('Test - check protocolFeeAmount - it should be greater than 0', async () => {
             const protocolFeeAmount = await limitOrders.protocolFeeAmount();
+            console.log('Protocol fee amount: ', protocolFeeAmount);
             expect(protocolFeeAmount.toString()).to.not.eql('0');
         });
 
         it('Test - check max deadline - it should be 2592000', async () => {
             const MAX_DEADLINE = await limitOrders.MAX_DEADLINE();
-            expect(MAX_DEADLINE.toString()).to.eql(BigNumber.from(2592000).toString());
+            expect(MAX_DEADLINE).to.eql(BigNumber.from(2592000));
         });
 
         it('Test - check averageGasCostPerLiquidation  - it should be 204040', async () => {
             const averageGasConsumedPerLiquidation = await limitOrders.averageGasConsumedPerLiquidation();
+            console.log(averageGasConsumedPerLiquidation);
             expect(averageGasConsumedPerLiquidation.toString()).to.eql(BigNumber.from(180000).toString());
         });
 
         it('Test - check isAuthorizedOracle - it should be true', async () => {
-            const isAuthorizedOracle = await limitOrders.isAuthorizedOracle(account);
+            const isAuthorizedOracle = await limitOrders.isAuthorizedOracle(DEPLOYER_ADDRESS);
             expect(isAuthorizedOracle).to.eql(true);
         });
 
@@ -173,7 +178,7 @@ describe("LimitOrders", function () {
 
         it('Test - set swapRouter - it should not revert', async () => {
             // set swap router
-            //await expect(limitOrders.setSwapRouter(ZERO_ADDRESS)).not.to.be.reverted;
+            //await expect(limitOrders.setSwapRouter(SWAP_ROUTER_ADDRESS)).not.to.be.reverted;
             // check swap router
             const swapRouterAddress = await limitOrders.swapRouterAddress();
             expect(swapRouterAddress).to.eql(SWAP_ROUTER_ADDRESS);
@@ -195,7 +200,7 @@ describe("LimitOrders", function () {
 
         it('Test - set paymentToken - it should not revert', async () => {
             // set payment token
-            //await expect(limitOrders.setPaymentToken(PAYMENT_TOKEN)).not.to.be.reverted;
+            // await expect(limitOrders.setPaymentToken(PAYMENT_TOKEN)).not.to.be.reverted;
             // check payment token
             const paymentToken = await limitOrders.paymentToken();
             expect(paymentToken).to.eql(PAYMENT_TOKEN);
@@ -206,10 +211,10 @@ describe("LimitOrders", function () {
 
         it('Test - set stableToken - it should not revert', async () => {
             // set stable token
-            //await expect(limitOrders.setStableToken(PAYMENT_TOKEN)).not.to.be.reverted;
+           /// await expect(limitOrders.setStableToken(STABLE_TOKEN)).not.to.be.reverted;
             // check stable token
             const stableToken = await limitOrders.stableToken();
-            expect(stableToken).to.eql(PAYMENT_TOKEN);
+            expect(stableToken).to.eql(STABLE_TOKEN);
             // check stable token set
             const stableTokenSet = await limitOrders.stableTokenSet();
             expect(stableTokenSet).to.eql(true);
@@ -224,9 +229,6 @@ describe("LimitOrders", function () {
             // check routerSet
             const paymentsRouterSet = await limitOrders.paymentsRouterSet();
             expect(paymentsRouterSet).to.eql(true);
-            // check wethAddress
-            const wethAddress = await limitOrders.wethAddress();
-            expect(wethAddress).to.eql(WBNB_ADDRESS);
         });
 
         it('Test - check contractSet - it should be true', async () => {
@@ -257,9 +259,17 @@ describe("LimitOrders", function () {
             // set max deadline
             //await expect(limitOrders.updateMaxDeadline(2592000+500)).not.to.be.reverted;
             // check max deadline
-            //const MAX_DEADLINE = await limitOrders.MAX_DEADLINE();
-            //expect(MAX_DEADLINE).to.eql(BigNumber.from(2592000+500));
-            expect(true);
+            const MAX_DEADLINE = await limitOrders.MAX_DEADLINE();
+            console.log(MAX_DEADLINE);
+            expect(MAX_DEADLINE.toString()).to.eql(BigNumber.from(2592000).toString());
+        });
+
+        it('Test - reset max deadline - it should not revert', async () => {
+            // set max deadline
+            //await expect(limitOrders.updateMaxDeadline(2592000)).not.to.be.reverted;
+            // check max deadline
+            const MAX_DEADLINE = await limitOrders.MAX_DEADLINE();
+            expect(MAX_DEADLINE.toString()).to.eql(BigNumber.from(2592000).toString());
         });
 
         it('Test - set averageGasCostPerLiquidation - it should not revert', async () => {
@@ -267,6 +277,15 @@ describe("LimitOrders", function () {
             //await expect(limitOrders.updateAverageGasConsumedPerLiquidation(135000)).not.to.be.reverted;
             // check averageGasCostPerLiquidation
             const averageGasConsumedPerLiquidation = await limitOrders.averageGasConsumedPerLiquidation();
+            expect(averageGasConsumedPerLiquidation).to.eql(BigNumber.from(180000));
+        });
+
+        it('Test - reset averageGasCostPerLiquidation - it should not revert', async () => {
+            // set averageGasCostPerLiquidation
+            //await expect(limitOrders.updateAverageGasConsumedPerLiquidation(180000)).not.to.be.reverted;
+            // check averageGasCostPerLiquidation
+            const averageGasConsumedPerLiquidation = await limitOrders.averageGasConsumedPerLiquidation();
+            console.log(averageGasConsumedPerLiquidation);
             expect(averageGasConsumedPerLiquidation.toString()).to.eql(BigNumber.from(180000).toString());
         });
 
