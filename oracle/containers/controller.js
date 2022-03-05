@@ -38,8 +38,9 @@ exports.Controller = (function() {
 
 
     (async () => {
-        Logger.log("Loading all orders from db....");
+        Logger.log("CONTROLLER: Loading all orders from db....");
         const allActiveOrders = await Queries.getAllActiveOrders();
+        console.log("CONTROLLER: Got total of " + allActiveOrders.length + ' from cluster')
         getOrdersByUser(allActiveOrders.slice());
         ordersLoaded = true;
     })();
