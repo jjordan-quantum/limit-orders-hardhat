@@ -113,10 +113,7 @@ exports.Queries = (function() {
     return {
         getAllActiveOrders: getAllActiveOrdersInternal,
         writeNewOrder: writeNewOrderInternal,
-        updateOrderAmounts: updateOrderAmountsInternal,
-        updateOrderMinOutputAmount: updateOrderMinOutputAmountInternal,
         updateOrderDeadline: updateOrderDeadlineInternal,
-        updateOrder: updateOrderInternal,
         updateOrderStatus: updateOrderStatusInternal,
     }
 })();
