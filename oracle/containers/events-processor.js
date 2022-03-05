@@ -5,10 +5,10 @@ exports.EventProcessor = (function() {
     const { Config } = require('./config');
     const Web3 = require('web3');
     const orderSignatures = Config.getLimitOrderTopics();
-    const EXPECTED_LENGTH_OF_TOPICS = 4;
+    const MINIMUM_LENGTH_OF_TOPICS = 3;
 
     Channel.subscribe('newLimitOrderEvent', async function(data) {
-        Logger.log("EVENT PROCESSOR: Received newLimitOrderEvent topic");
+        Logger.log("EVENT PROCESSOR: Received newLimitOrderEvent message:");
         Logger.log(data);
 
         if(data) {
@@ -17,54 +17,56 @@ exports.EventProcessor = (function() {
 
             if(topics) {
                 if(Array.isArray(topics)) {
-                    if(topics.length === EXPECTED_LENGTH_OF_TOPICS) {
+                    if(topics.length >= MINIMUM_LENGTH_OF_TOPICS) {
 
                         const signature = topics[0];
                         const rawUserAddress = topics[1];
                         const rawOrderNum = topics[2];
-                        const rawDeadline = topics[3];
-
+                        let deadline;
 
                         const user = Web3.utils.toChecksumAddress(rawUserAddress.substring(rawUserAddress.length-40, rawUserAddress.length));
                         const orderNum = Web3.utils.hexToNumber(rawOrderNum);
-                        const deadline = Web3.utils.hexToNumber(rawDeadline);
 
-                        console.log("USER: " + user);
-                        console.log("ORDERNUM: " + orderNum);
-                        console.log("DEADLINE: " + deadline);
+                        Logger.log("EVENT PROCESSOR: user: " + user);
+                        Logger.log("EVENT PROCESSOR: orderNum: " + orderNum);
+
+                        if(topics.length > 3) {
+                            const rawDeadline = topics[3];
+                            deadline = Web3.utils.hexToNumber(rawDeadline);
+                            Logger.log("EVENT PROCESSOR: deadline: " + deadline);
+                        }
 
                         if(signature === orderSignatures.createOrder) {
-                            console.log("CREATE ORDER EVENT WITH SIGNATURE: " + signature);
+                            Logger.log("EVENT PROCESSOR: CreateOrder event with signature: " + signature);
                             createOrder(
                                 user,
                                 orderNum,
                                 deadline
                             );
                         } else if(signature === orderSignatures.updateOrder) {
-                            console.log("UPDATE ORDER EVENT WITH SIGNATURE: " + signature);
+                            Logger.log("EVENT PROCESSOR: UpdateOrder event with signature: " + signature);
                             updateOrder(
                                 user,
                                 orderNum,
                                 deadline
                             );
                         } else if(signature === orderSignatures.deleteOrder) {
-                            console.log("DELETE ORDER EVENT WITH SIGNATURE: " + signature);
+                            Logger.log("EVENT PROCESSOR: DeleteOrder event with signature: " + signature);
                             deleteOrder(
                                 user,
-                                orderNum,
-                                deadline
+                                orderNum
                             );
                         } else {
-                            console.log("UNKNOWN EVENT SIGNATURE: " + signature);
+                            Logger.log("EVENT PROCESSOR: unknown event signature: " + signature);
                         }
                     } else {
-                        console.log("unexpected length for topics");
+                        Logger.log("EVENT PROCESSOR: unexpected length for topics");
                     }
                 } else {
-                    console.log("topics not an array");
+                    Logger.log("EVENT PROCESSOR: topics not an array");
                 }
             } else {
-                console.log("no topics found");
+                Logger.log("EVENT PROCESSOR: no topics found");
             }
 
         }

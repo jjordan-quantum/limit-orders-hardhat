@@ -6,14 +6,17 @@ exports.Initiator = (function() {
     const { Config } = require('./config');
     const { Logger } = require('./logger');
     const { LimitOrders } = require('./limit-orders');
-    const { Web3 } = require('./web3.js');
+    const { Web3Requests } = require('./web3.js');
     const chainlinkConfig = Config.getChainlinkConfig();
     const request = require("request");
 
     const CHAINLINK_ACCESS_KEY = chainlinkConfig.access_key;
     const CHAINLINK_ACCESS_SECRET = chainlinkConfig.access_secret;
     const CHAINLINK_IP = chainlinkConfig.ip_address;
-    const JOBSPEC = chainlinkConfig.jobSped
+    const JOBSPEC = chainlinkConfig.jobSpec
+
+    const settings = Config.getSettings();
+    const LIQUIDATIONS_ACTIVE = settings.liquidations_active;
 
     // =================================================================================================================
     //
@@ -22,20 +25,22 @@ exports.Initiator = (function() {
     // =================================================================================================================
 
     // create subscription for create request
-    Channel.subscribe("sendChainlinkRequest", async function(data) {
-        Logger.log("EXTERNAL INITIATOR: Received sendChainlinkRequest topic");
+    Channel.subscribe("sendLiquidationRequest", async function(data) {
+        Logger.log("EXTERNAL INITIATOR: Received sendLiquidationRequest message");
         Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
 
-        // currently signing liquidation tx's with local signer
-        signAndSendLiquidationTx(
-            user,
-            orderNum
-        ).then();
+        if(LIQUIDATIONS_ACTIVE) {
+            // currently signing liquidation tx's with local signer
+            signAndSendLiquidationTx(
+                user,
+                orderNum
+            ).then();
 
-        // TODO - integrate with chainlink at a later date
-        //callChainlinkNode(JSON.parse(JSON.stringify(data)));
+            // TODO - integrate with chainlink at a later date
+            //callChainlinkNode(JSON.parse(JSON.stringify(data)));
+        }
     });
 
     async function signAndSendLiquidationTx(
@@ -43,7 +48,7 @@ exports.Initiator = (function() {
         orderNum
     ) {
         const transactionData = LimitOrders.getLiquidationTransactionData(user, orderNum);
-        Web3.sendLiquidationTransaction(
+        Web3Requests.sendLiquidationTransaction(
             transactionData,
             user,
             orderNum

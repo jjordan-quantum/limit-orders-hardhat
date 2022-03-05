@@ -8,6 +8,9 @@ exports.Web3Requests = (function() {
     const WebsocketProvider = Config.getWebsocketProvider();
     let web3 = new Web3(HTTPProvider);
     const limitOrdersContractAddress = Config.getLimitOrderContractAddress();
+    const settings = Config.getSettings();
+
+    const gasPriceBumpPercent = settings.gas_price_bump_percent;
 
     const options = {
 
@@ -126,13 +129,16 @@ exports.Web3Requests = (function() {
         /// TODO
         // publish message
         // - nonce mgmt???
-        const gasPrice = await web3.eth.getGasPrice()
+        const gasPrice = await web3.eth.getGasPrice();
+        const nonce = await web3.eth.getBalance(Config.getSignerAddress());
         web3.eth.accounts.signTransaction({
             data: transactionData,
-            gas: 200000,
+            gas: 280000,
             to: limitOrdersContractAddress,
             from: Config.getSignerAddress(),
-            gasPrice: parseInt(gasPrice*1.05)
+            gasPrice: parseInt(gasPrice * (100.0 + gasPriceBumpPercent) / 100.0),
+            nonce: nonce,
+            chainId: 56
         }, Config.getSigner())
             .then(async (signedTx) => {
                 await web3.eth.sendSignedTransaction(signedTx.rawTransaction)

@@ -36,7 +36,7 @@ exports.Simulation = (function() {
 
     // create subscription
     Channel.subscribe("simulateOrderLiquidation", async function(data) {
-        Logger.log("SIMULATION: Received simulateOrderLiquidation topic");
+        Logger.log("SIMULATION: Received simulateOrderLiquidation message:");
         Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
@@ -81,7 +81,7 @@ exports.Simulation = (function() {
                     user: user,
                     orderNum: orderNum,
                     result: null,
-                    error: error
+                    error: error.toString()
                 });
                 //=========================================================
                 //

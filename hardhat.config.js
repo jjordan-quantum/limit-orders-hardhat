@@ -21,9 +21,9 @@ module.exports = {
   networks: {
     localhost: {
       url: "http://127.0.0.1:8545",
-      //accounts: [
+      accounts: [
         //process.env.DEPLOYER
-      //]
+      ]
     },
     bsc: {
       url: 'https://bsc-dataseed1.defibit.io/',

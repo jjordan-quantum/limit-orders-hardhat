@@ -4,6 +4,7 @@ exports.Queries = (function() {
     // TODO - create lowest_order_num_for_user_table
 
     const { Postgres } = require('./postgres');
+    const { Logger } = require("./logger");
 
     const OrderStatus = {
         deleted: 0,     // deleted via an oracle request
@@ -16,6 +17,7 @@ exports.Queries = (function() {
 
     const getAllActiveOrdersInternal = async () => {
 
+        Logger.log("QUERIES: Getting all active orders");
         const text = ` SELECT   user_address,
                                 order_num,
                                 deadline,
@@ -30,6 +32,7 @@ exports.Queries = (function() {
         orderNum,
         deadline
     ) => {
+        Logger.log("QUERIES: Writing order");
         const text = ` INSERT INTO  limit_order_job (
             user_address,
             order_num,
@@ -44,46 +47,12 @@ exports.Queries = (function() {
         ]);
     }
 
-    const updateOrderAmountsInternal = async (
-        user,
-        orderNum,
-        newInputAmount,
-        newMinOutputAmount
-    ) => {
-        const text = ` UPDATE  limit_order_job
-                        SET input_amount = $1,
-                            min_output_amount = $2
-                        WHERE user_address = $3
-                        AND order_num = $4; `
-        await Postgres.poolQuery(text, [
-            newInputAmount,
-            newMinOutputAmount,
-            user,
-            orderNum
-        ]);
-    }
-
-    const updateOrderMinOutputAmountInternal = async (
-        user,
-        orderNum,
-        newMinOutputAmount
-    ) => {
-        const text = ` UPDATE  limit_order_job
-                        SET min_output_amount = $1
-                        WHERE user_address = $2
-                        AND order_num = $3; `
-        await Postgres.poolQuery(text, [
-            newMinOutputAmount,
-            user,
-            orderNum
-        ]);
-    }
-
     const updateOrderDeadlineInternal = async (
         user,
         orderNum,
         newDeadline
     ) => {
+        Logger.log("QUERIES: Updating order");
         const text = ` UPDATE  limit_order_job
                         SET deadline = $1
                         WHERE user_address = $2
@@ -95,33 +64,12 @@ exports.Queries = (function() {
         ]);
     }
 
-    const updateOrderInternal = async (
-        user,
-        orderNum,
-        newInputAmount,
-        newMinOutputAmount,
-        newDeadline
-    ) => {
-        const text = ` UPDATE  limit_order_job
-                        SET input_amount = $1,
-                            min_output_amount = $2,
-                            deadline = $3
-                        WHERE user_address = $4
-                        AND order_num = $5; `
-        await Postgres.poolQuery(text, [
-            newInputAmount,
-            newMinOutputAmount,
-            newDeadline,
-            user,
-            orderNum
-        ]);
-    }
-
     const updateOrderStatusInternal = async (
         user,
         orderNum,
         newStatus
     ) => {
+        Logger.log("QUERIES: Updating order status");
         const text = ` UPDATE  limit_order_job
                         SET status = $1
                         WHERE user_address = $2

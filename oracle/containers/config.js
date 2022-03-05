@@ -62,6 +62,10 @@ exports.Config = (function() {
         }
     }
 
+    const getSettingsInternal = () => {
+        return config.settings;
+    }
+
     return {
         getDatabaseConfig: getDatabaseConfigInternal,
         getWeb3Config: getWeb3ConfigInternal,
@@ -75,5 +79,6 @@ exports.Config = (function() {
         getSigner: getSignerInternal,
         getSignerAddress: getSignerAddressInternal,
         getLimitOrderTopics: getLimitOrderTopicsInternal,
+        getSettings: getSettingsInternal,
     }
 })()

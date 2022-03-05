@@ -38,6 +38,7 @@ exports.Controller = (function() {
 
 
     (async () => {
+        Logger.log("Loading all orders from db....");
         const allActiveOrders = await Queries.getAllActiveOrders();
         getOrdersByUser(allActiveOrders.slice());
         ordersLoaded = true;
@@ -50,6 +51,8 @@ exports.Controller = (function() {
     // update orders in memory and in db on each order sent to chainlink node (EI)
     // update orders in memory and in db on each order with specific failing conditions for eth_call
 
+    // TODO - create order status updating queue
+
 
     // =================================================================================================================
     //
@@ -59,7 +62,7 @@ exports.Controller = (function() {
 
     // create subscription for create request
     Channel.subscribe("createOrder", async function(data) {
-        Logger.log("CONTROLLER: Received createOrder topic");
+        Logger.log("CONTROLLER: Received createOrder message:");
         Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
@@ -74,7 +77,7 @@ exports.Controller = (function() {
 
     // create subscription for update request
     Channel.subscribe("updateOrder", async function(data) {
-        Logger.log("CONTROLLER: Received updateOrder topic");
+        Logger.log("CONTROLLER: Received updateOrder message:");
         Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
@@ -89,7 +92,7 @@ exports.Controller = (function() {
 
     // create subscription for delete request
     Channel.subscribe("deleteOrder", async function(data) {
-        Logger.log("CONTROLLER: Received deleteOrder topic");
+        Logger.log("CONTROLLER: Received deleteOrder message:");
         Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
@@ -118,6 +121,7 @@ exports.Controller = (function() {
         // confirm that orderNum is highest orderNum + 1
         // if not -> check all orders on blockchain
 
+        Logger.log("CONTROLLER: Creating order " + orderNum + " for " + user + " with deadline " + deadline);
         // add order to memory
         addOrderForUser(
             user,
@@ -143,6 +147,7 @@ exports.Controller = (function() {
         // TODO
         // check if deadline has changed - only update order if this is the case
 
+        Logger.log("CONTROLLER: Updating order " + orderNum + " for " + user + " with deadline" + deadline);
         // update order in memory
         updateOrderForUser(
             user,
@@ -164,6 +169,7 @@ exports.Controller = (function() {
         orderNum
     ) => {
 
+        Logger.log("CONTROLLER: Deleting order " + orderNum + " for " + user);
         // remove order from DB
         await Queries.updateOrderStatus(
             user,
@@ -173,6 +179,12 @@ exports.Controller = (function() {
 
         // TODO
         // reconcile orders for user from blockchain
+        // update status of orders in memory
+        updateOrderStatusForUser(
+            user,
+            orderNum,
+            OrderStatus.deleted
+        );
     }
 
     const expireOrder = async (
@@ -180,6 +192,7 @@ exports.Controller = (function() {
         orderNum
     ) => {
 
+        Logger.log("CONTROLLER: Expiring order " + orderNum + " for " + user);
         // remove order from DB
         await Queries.updateOrderStatus(
             user,
@@ -202,6 +215,7 @@ exports.Controller = (function() {
         orderNum,
         newStatus
     ) => {
+        Logger.log("CONTROLLER: Updating order " + orderNum + " status for user " + user + " to newStatus");
         await Queries.updateOrderStatus(
             user,
             orderNum,
@@ -224,11 +238,11 @@ exports.Controller = (function() {
 
     // create subscription
     Channel.subscribe("performScheduledJob", async function(data) {
-        Logger.log("CONTROLLER: Received performScheduledJob topic");
+        Logger.log("CONTROLLER: Received performScheduledJob message");
         if(ordersLoaded) {
             performScheduledJob().then();
         } else {
-            console.log("Orders not loaded - cannot check for liquidations!");
+            console.log("CONTROLLER: Orders not loaded - cannot check for liquidations!");
         }
     });
 
@@ -237,6 +251,7 @@ exports.Controller = (function() {
 
         const timestamp = Math.round((new Date()).getTime() / 1000);
         Object.keys(ordersByUser).forEach((user) => {
+            Logger.log("CONTROLLER: Processing orders for user " + user);
             const orders = ordersByUser[user].slice();
             orders.forEach((order) => {
                 if(order.status === 1) {
@@ -266,21 +281,22 @@ exports.Controller = (function() {
 
     // =================================================================================================================
     //
-    //  Updating orders in memory and db in response to requests from chainlink node
+    //  Subscriptions to checkForLiquidationComplete messages
     //
     // =================================================================================================================
 
     // create subscription for results from checking for liquidation
     Channel.subscribe("checkForLiquidationComplete", async function(data) {
-        Logger.log("CONTROLLER: Received checkForLiquidationComplete topic");
+        Logger.log("CONTROLLER: Received checkForLiquidationComplete message:");
+        Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const result = data.result;
         const error = data.error;
 
         if(error) {
-            console.log("Error while checking for liquidation for orderNum " + orderNum + " for " + user);
-            console.log(error);
+            Logger.log("CONTROLLER: Error while checking for liquidation for orderNum " + orderNum + " for " + user);
+            Logger.log(error);
             // TODO
             // handle error - update order status for certain types of errors - check revert reason
             updateOrderStatus(
@@ -291,6 +307,7 @@ exports.Controller = (function() {
             ).then();
         } else {
             if(result) {
+                Logger.log("CONTROLLER: Check for liquidation successful for " + orderNum + " for " + user);
                 //_________________
                 // publish new task - to check if order can be liquidated
                 //=========================================================
@@ -321,14 +338,15 @@ exports.Controller = (function() {
     // create subscription for results from order liquidation simulation
     Channel.subscribe("orderLiquidationSimulated", async function(data) {
         Logger.log("CONTROLLER: Received orderLiquidationSimulated topic");
+        Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const result = data.result;
         const error = data.error;
 
         if(error) {
-            console.log("Error while checking for liquidation for orderNum " + orderNum + " for " + user);
-            console.log(error);
+            Logger.log("CONTROLLER: Error while simulating order " + orderNum + " for " + user);
+            Logger.log(error);
             // TODO
             // handle error - update status in db and memory if required
             updateOrderStatus(
@@ -340,10 +358,11 @@ exports.Controller = (function() {
         } else {
             if(result) {
                 // TODO - confirm result for successful liquidation
+                Logger.log("CONTROLLER: Simulation successful for " + orderNum + " for " + user);
                 //_________________
                 // publish new task - to check if order can be liquidated
                 //=========================================================
-                Channel.publish('sendChainlinkRequest', {
+                Channel.publish('sendLiquidationRequest', {
                     user: user,
                     orderNum: orderNum
                 });
@@ -369,36 +388,53 @@ exports.Controller = (function() {
 
     // create subscription for updating order status when liquidation tx sent
     Channel.subscribe("liquidationTxSent", async function(data) {
-        Logger.log("CONTROLLER: Received liquidationTxSent topic");
+        Logger.log("CONTROLLER: Received liquidationTxSent message");
+        Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
 
-        // update order in memory and db
-        updateOrderStatus(
+        Queries.updateOrderStatus(
             user,
             orderNum,
             OrderStatus.sent
         ).then();
+
+        // update status of orders in memory
+        updateOrderStatusForUser(
+            user,
+            orderNum,
+            OrderStatus.sent
+        );
     });
 
     // create subscription for updating order status when tx hash received
     Channel.subscribe("liquidationTxHashReceived", async function(data) {
-        Logger.log("CONTROLLER: Received liquidationTxHashReceived topic");
+        Logger.log("CONTROLLER: Received liquidationTxHashReceived message");
+        Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const hash = data.hash;
 
-        // update order in memory and db
-        updateOrderStatus(
+        Queries.updateOrderStatus(
             user,
             orderNum,
             OrderStatus.hashReceived
         ).then();
+
+        // update status of orders in memory
+        updateOrderStatusForUser(
+            user,
+            orderNum,
+            OrderStatus.hashReceived,
+            hash
+        );
+
     });
 
     // create subscription for updating order status when tx hash received
     Channel.subscribe("liquidationTxReceiptReceived", async function(data) {
-        Logger.log("CONTROLLER: Received liquidationTxReceiptReceived topic");
+        Logger.log("CONTROLLER: Received liquidationTxReceiptReceived message");
+        Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const hash = data.hash;
@@ -417,7 +453,8 @@ exports.Controller = (function() {
 
     // create subscription for updating order status when tx hash received
     Channel.subscribe("errorSendingLiquidationTx", async function(data) {
-        Logger.log("CONTROLLER: Received errorSendingLiquidationTx topic");
+        Logger.log("CONTROLLER: Received errorSendingLiquidationTx message");
+        Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const error = data.error;
@@ -434,7 +471,8 @@ exports.Controller = (function() {
 
     // create subscription for updating order status when tx hash received
     Channel.subscribe("errorSigningLiquidationTx", async function(data) {
-        Logger.log("CONTROLLER: Received errorSigningLiquidationTx topic");
+        Logger.log("CONTROLLER: Received errorSigningLiquidationTx message");
+        Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const error = data.error;
@@ -456,7 +494,7 @@ exports.Controller = (function() {
         status,
         error
     ) => {
-        // TODO
+        // TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // add verbosity
         if(error) {
             updateOrderStatus(
@@ -497,7 +535,7 @@ exports.Controller = (function() {
         deadline
     ) => {
         if(!ordersByUser.hasOwnProperty(user)) {
-            console.log("User " + user + " not found!  Creating user!");
+            Logger.log("CONTROLLER: User " + user + " not found!  Creating user!");
             ordersByUser[user] = [];
         }
         ordersByUser[user].push({
@@ -514,7 +552,7 @@ exports.Controller = (function() {
         deadline
     ) => {
         if(!ordersByUser.hasOwnProperty(user)) {
-            console.log("User " + user + " not found!  Creating user!");
+            Logger.log("CONTROLLER: User " + user + " not found!  Creating user!");
             ordersByUser[user] = [];
         }
         const orders = ordersByUser[user];
@@ -526,7 +564,7 @@ exports.Controller = (function() {
             }
         }
         if(!order) {
-            console.log("Order " + orderNum + " not found for user " + user + "!  Cannot update!");
+            Logger.log("CONTROLLER: Order " + orderNum + " not found for user " + user + "!  Cannot update!");
         } else {
             order.deadline = deadline;
         }
@@ -535,10 +573,12 @@ exports.Controller = (function() {
     const updateOrderStatusForUser = (
         user,
         orderNum,
-        newStatus
+        newStatus,
+        hash,
+        txStatus
     ) => {
         if(!ordersByUser.hasOwnProperty(user)) {
-            console.log("User " + user + " not found!  Creating user!");
+            Logger.log("CONTROLLER: User " + user + " not found!  Creating user!");
             ordersByUser[user] = [];
         }
         const orders = ordersByUser[user];
@@ -550,9 +590,15 @@ exports.Controller = (function() {
             }
         }
         if(!order) {
-            console.log("Order " + orderNum + " not found for user " + user + "!  Cannot update status!");
+            Logger.log("CONTROLLER: Order " + orderNum + " not found for user " + user + "!  Cannot update status!");
         } else {
             order.status = newStatus;
+            if(hash) {
+                order.hash = hash;
+            }
+            if(txStatus) {
+                order.txStatus = txStatus;
+            }
         }
     }
 

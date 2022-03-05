@@ -35,7 +35,7 @@ exports.LimitOrders = (function() {
 
     // create subscription
     Channel.subscribe("checkForLiquidation", async function(data) {
-        Logger.log("LIMITORDERS: Received checkForLiquidation topic");
+        Logger.log("LIMITORDERS: Received checkForLiquidation message:");
         Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
@@ -75,7 +75,7 @@ exports.LimitOrders = (function() {
                     user: user,
                     orderNum: orderNum,
                     result: null,
-                    error: error
+                    error: error.toString()
                 });
                 //=========================================================
                 //

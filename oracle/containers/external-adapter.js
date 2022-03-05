@@ -167,7 +167,7 @@ exports.Adapter = (function() {
      * */
     app.post("/test_endpoint",  function(req, res) {
 
-        Logger.log("Received post request for test_endpoint with req body:");
+        Logger.log("EXTERNAL ADAPTOR: Received post request for test_endpoint with req body:");
         //Logger.log(req.body);
         console.log(util.inspect(req.body, false, null, true));
 
