@@ -300,12 +300,14 @@ exports.Controller = (function() {
             Logger.log(error);
             // TODO
             // handle error - update order status for certain types of errors - check revert reason
+            /*
             updateOrderStatus(
                 user,
                 orderNum,
                 OrderStatus.error,
                 error
             ).then();
+             */
         } else {
             if(result) {
                 Logger.log("CONTROLLER: Check for liquidation successful for " + orderNum + " for " + user);
