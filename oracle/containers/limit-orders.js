@@ -36,7 +36,7 @@ exports.LimitOrders = (function() {
     // create subscription
     Channel.subscribe("checkForLiquidation", async function(data) {
         Logger.log("LIMITORDERS: Received checkForLiquidation message:");
-        Logger.log(data);
+        Logger.inspect(data);
         const user = data.user;
         const orderNum = data.orderNum;
 

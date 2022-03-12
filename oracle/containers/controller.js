@@ -216,7 +216,7 @@ exports.Controller = (function() {
         orderNum,
         newStatus
     ) => {
-        Logger.log("CONTROLLER: Updating order " + orderNum + " status for user " + user + " to newStatus");
+        Logger.log("CONTROLLER: Updating order " + orderNum + " status for user " + user + " to " + newStatus);
         await Queries.updateOrderStatus(
             user,
             orderNum,
