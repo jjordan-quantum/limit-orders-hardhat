@@ -285,7 +285,7 @@ const deepConsoleLog = (message) => {
             });
     });
 
-     */
+
 
     // approve payment token
     await new Promise((resolve, reject) => {
@@ -386,6 +386,7 @@ const deepConsoleLog = (message) => {
     });
 
     process.exit();
+     */
 
     // create one order
     await new Promise((resolve, reject) => {
@@ -407,8 +408,7 @@ const deepConsoleLog = (message) => {
             to: LIMIT_ORDERS_ADDRESS,
             data: txData,
             value: BNB_AMOUNT,
-            gas: 300000,
-            nonce: nonce0
+            gas: 300000
         }
 
         web3.eth.accounts.signTransaction(transactionObject, DEPLOYER)
@@ -461,6 +461,8 @@ const deepConsoleLog = (message) => {
                 resolve();
             });
     });
+
+    process.exit();
 
 
     // create one order

@@ -64,7 +64,7 @@ exports.Controller = (function() {
     // create subscription for create request
     Channel.subscribe("createOrder", async function(data) {
         Logger.log("CONTROLLER: Received createOrder message:");
-        Logger.log(data);
+        Logger.inspect(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const deadline = data.deadline;
@@ -79,7 +79,7 @@ exports.Controller = (function() {
     // create subscription for update request
     Channel.subscribe("updateOrder", async function(data) {
         Logger.log("CONTROLLER: Received updateOrder message:");
-        Logger.log(data);
+        Logger.inspect(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const deadline = data.deadline;
@@ -94,7 +94,7 @@ exports.Controller = (function() {
     // create subscription for delete request
     Channel.subscribe("deleteOrder", async function(data) {
         Logger.log("CONTROLLER: Received deleteOrder message:");
-        Logger.log(data);
+        Logger.inspect(data);
         const user = data.user;
         const orderNum = data.orderNum;
 
@@ -289,7 +289,7 @@ exports.Controller = (function() {
     // create subscription for results from checking for liquidation
     Channel.subscribe("checkForLiquidationComplete", async function(data) {
         Logger.log("CONTROLLER: Received checkForLiquidationComplete message:");
-        Logger.log(data);
+        Logger.inspect(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const result = data.result;
@@ -339,7 +339,7 @@ exports.Controller = (function() {
     // create subscription for results from order liquidation simulation
     Channel.subscribe("orderLiquidationSimulated", async function(data) {
         Logger.log("CONTROLLER: Received orderLiquidationSimulated topic");
-        Logger.log(data);
+        Logger.inspect(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const result = data.result;
@@ -390,7 +390,7 @@ exports.Controller = (function() {
     // create subscription for updating order status when liquidation tx sent
     Channel.subscribe("liquidationTxSent", async function(data) {
         Logger.log("CONTROLLER: Received liquidationTxSent message");
-        Logger.log(data);
+        Logger.inspect(data);
         const user = data.user;
         const orderNum = data.orderNum;
 
@@ -411,7 +411,7 @@ exports.Controller = (function() {
     // create subscription for updating order status when tx hash received
     Channel.subscribe("liquidationTxHashReceived", async function(data) {
         Logger.log("CONTROLLER: Received liquidationTxHashReceived message");
-        Logger.log(data);
+        Logger.inspect(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const hash = data.hash;
@@ -435,7 +435,7 @@ exports.Controller = (function() {
     // create subscription for updating order status when tx hash received
     Channel.subscribe("liquidationTxReceiptReceived", async function(data) {
         Logger.log("CONTROLLER: Received liquidationTxReceiptReceived message");
-        Logger.log(data);
+        Logger.inspect(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const hash = data.hash;
@@ -455,7 +455,7 @@ exports.Controller = (function() {
     // create subscription for updating order status when tx hash received
     Channel.subscribe("errorSendingLiquidationTx", async function(data) {
         Logger.log("CONTROLLER: Received errorSendingLiquidationTx message");
-        Logger.log(data);
+        Logger.inspect(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const error = data.error;
@@ -473,7 +473,7 @@ exports.Controller = (function() {
     // create subscription for updating order status when tx hash received
     Channel.subscribe("errorSigningLiquidationTx", async function(data) {
         Logger.log("CONTROLLER: Received errorSigningLiquidationTx message");
-        Logger.log(data);
+        Logger.inspect(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const error = data.error;

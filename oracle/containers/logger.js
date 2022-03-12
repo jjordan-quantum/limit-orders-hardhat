@@ -1,5 +1,11 @@
 exports.Logger = (function() {
 
+    const util = require('util');
+
+    const inspectInternal = (message) => {
+        console.log(util.inspect(message, false, null, true));
+    }
+
     const logInternal = (message) => {
         console.log("" + new Date().toISOString() + " " + message);
     }
@@ -15,6 +21,7 @@ exports.Logger = (function() {
     return {
         log: logInternal,
         logError: logErrorInternal,
-        logRequest: logRequestInternal
+        logRequest: logRequestInternal,
+        inspect: inspectInternal
     }
 })();
