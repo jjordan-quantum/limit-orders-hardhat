@@ -2,12 +2,15 @@
 exports.MemoryManagerContainer = (function() {
 
     const { Channel } = require('./channel');
+    const { Config } = require('./config');
+    const settings = Config.getSettings();
     let usedHeapSize = 0;
     const start = Math.floor(Date.now() / 1000);
     let heapSizeAlerted = false;
     const ALERT_HEAP_SIZE = 399999999;
     const MAX_HEAP_SIZE = 999999999;
     const CHECK_MEMORY_INTERVAL_MINUTES = 5;
+    const memoryCheckIntervalMilliseconds = settings.memory_check_interval_milliseconds;
 
     const publishedTopics = [
         'memoryAlert'
@@ -43,7 +46,7 @@ exports.MemoryManagerContainer = (function() {
     (async () => {
         while(true) {
             await new Promise((resolve, reject) => {
-                setTimeout(() => { resolve() }, CHECK_MEMORY_INTERVAL_MINUTES * 60 * 1000);
+                setTimeout(() => { resolve() }, memoryCheckIntervalMilliseconds);
             });
             checkMemoryUsage();
         }

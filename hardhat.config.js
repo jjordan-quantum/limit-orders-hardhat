@@ -30,6 +30,14 @@ module.exports = {
       //accounts: [
         //process.env.DEPLOYER
       //]
+    },
+    hardhat: {
+      forking: {
+        url: process.env.PROVIDER_LIVE,
+        accounts: [
+          process.env.DEPLOYER
+        ]
+      }
     }
   },
   solidity: {
