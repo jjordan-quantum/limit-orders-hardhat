@@ -11,6 +11,8 @@ exports.Simulation = (function() {
     let web3 = new Web3(HTTPProvider);
     const LIMIT_ORDERS_ABI = Config.getLimitOrdersABI();
     const limitOrdersContractAddress = Config.getLimitOrderContractAddress();
+    const signerAddress = Config.getSignerAddress();
+    const signer = Config.getSigner();
 
     const connectHTTPWeb3Internal = () => {
         web3 = new Web3(HTTPProvider);

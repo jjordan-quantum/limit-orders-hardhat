@@ -117,104 +117,153 @@ const deepConsoleLog = (message) => {
     });
 
     /*
-    // set limitorders in payment router
-    await new Promise((resolve, reject) => {
-        console.log('\nSetting limit order address in swap router:');
-        console.log('===================================================\n');
+   // authorize oracle
+   await new Promise((resolve, reject) => {
+       console.log('\nAuthorize oracle:');
+       console.log('===================================================\n');
 
-        const setLimitOrderFunctionCall = swapRouter.methods.setLimitOrderContract(
-            LIMIT_ORDERS_ADDRESS
-        );
+       const authorizeFunctionCall = limitOrders.methods.authorizeOracle("0xbA78F5d2623bC7189D20e204C74C84ee6d4F3349");
 
-        const txData = setLimitOrderFunctionCall.encodeABI();
+       const txData = authorizeFunctionCall.encodeABI();
 
-        const transactionObject = {
-            from: DEPLOYER_ADDRESS,
-            to: SWAP_ROUTER_ADDRESS,
-            data: txData,
-            gas: 150000,
-            nonce: nonce
-        }
+       nonce++;
+       const transactionObject = {
+           from: DEPLOYER_ADDRESS,
+           to: limitOrders.address,
+           data: txData,
+           gas: 200000
+       }
 
-        web3.eth.accounts.signTransaction(transactionObject, DEPLOYER)
-            .then(async (signedTx) => {
-                console.log('Transaction signed.');
-                await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
-                    .once('sent', (payload) => {
-                        console.log('Transaction sent.');
-                    })
-                    .once('transactionHash', (hash) => {
-                        console.log('Transaction hash received:');
-                        console.log(hash);
-                    })
-                    .once('receipt', (receipt) => {
-                        console.log('Transaction receipt received:');
-                        deepConsoleLog(receipt);
-                        resolve();
-                    })
-                    .catch((err) => {
-                        console.log('Error sending transaction:');
-                        console.log(err);
-                        resolve();
-                    })
-            })
-            .catch((err) => {
-                console.log('Error signing transaction:');
-                console.log(err);
-                resolve();
-            });
-    });
+       web3.eth.accounts.signTransaction(transactionObject, DEPLOYER)
+           .then(async (signedTx) => {
+               console.log('Transaction signed.');
+               await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+                   .once('sent', (payload) => {
+                       console.log('Transaction sent.');
+                   })
+                   .once('transactionHash', (hash) => {
+                       console.log('Transaction hash received:');
+                       console.log(hash);
+                   })
+                   .once('receipt', (receipt) => {
+                       console.log('Transaction receipt received:');
+                       deepConsoleLog(receipt);
+                       resolve();
+                   })
+                   .catch((err) => {
+                       console.log('Error sending transaction:');
+                       console.log(err);
+                       resolve();
+                   })
+           })
+           .catch((err) => {
+               console.log('Error signing transaction:');
+               console.log(err);
+               resolve();
+           });
+   });
 
-    // set router address in payment router
-    await new Promise((resolve, reject) => {
-        console.log('\nSetting router address in swap router:');
-        console.log('===================================================\n');
+   process.exit();
 
-        const setRouterFunctionCall = swapRouter.methods.setRouter(
-            ROUTER_ADDRESS
-        );
 
-        const txData = setRouterFunctionCall.encodeABI();
+   // set limitorders in payment router
+   await new Promise((resolve, reject) => {
+       console.log('\nSetting limit order address in swap router:');
+       console.log('===================================================\n');
 
-        nonce++;
-        const transactionObject = {
-            from: DEPLOYER_ADDRESS,
-            to: SWAP_ROUTER_ADDRESS,
-            data: txData,
-            gas: 150000,
-            nonce: nonce
-        }
+       const setLimitOrderFunctionCall = swapRouter.methods.setLimitOrderContract(
+           LIMIT_ORDERS_ADDRESS
+       );
 
-        web3.eth.accounts.signTransaction(transactionObject, DEPLOYER)
-            .then(async (signedTx) => {
-                console.log('Transaction signed.');
-                await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
-                    .once('sent', (payload) => {
-                        console.log('Transaction sent.');
-                    })
-                    .once('transactionHash', (hash) => {
-                        console.log('Transaction hash received:');
-                        console.log(hash);
-                    })
-                    .once('receipt', (receipt) => {
-                        console.log('Transaction receipt received:');
-                        deepConsoleLog(receipt);
-                        resolve();
-                    })
-                    .catch((err) => {
-                        console.log('Error sending transaction:');
-                        console.log(err);
-                        resolve();
-                    })
-            })
-            .catch((err) => {
-                console.log('Error signing transaction:');
-                console.log(err);
-                resolve();
-            });
-    });
+       const txData = setLimitOrderFunctionCall.encodeABI();
 
-     */
+       const transactionObject = {
+           from: DEPLOYER_ADDRESS,
+           to: SWAP_ROUTER_ADDRESS,
+           data: txData,
+           gas: 150000,
+           nonce: nonce
+       }
+
+       web3.eth.accounts.signTransaction(transactionObject, DEPLOYER)
+           .then(async (signedTx) => {
+               console.log('Transaction signed.');
+               await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+                   .once('sent', (payload) => {
+                       console.log('Transaction sent.');
+                   })
+                   .once('transactionHash', (hash) => {
+                       console.log('Transaction hash received:');
+                       console.log(hash);
+                   })
+                   .once('receipt', (receipt) => {
+                       console.log('Transaction receipt received:');
+                       deepConsoleLog(receipt);
+                       resolve();
+                   })
+                   .catch((err) => {
+                       console.log('Error sending transaction:');
+                       console.log(err);
+                       resolve();
+                   })
+           })
+           .catch((err) => {
+               console.log('Error signing transaction:');
+               console.log(err);
+               resolve();
+           });
+   });
+
+   // set router address in payment router
+   await new Promise((resolve, reject) => {
+       console.log('\nSetting router address in swap router:');
+       console.log('===================================================\n');
+
+       const setRouterFunctionCall = swapRouter.methods.setRouter(
+           ROUTER_ADDRESS
+       );
+
+       const txData = setRouterFunctionCall.encodeABI();
+
+       nonce++;
+       const transactionObject = {
+           from: DEPLOYER_ADDRESS,
+           to: SWAP_ROUTER_ADDRESS,
+           data: txData,
+           gas: 150000,
+           nonce: nonce
+       }
+
+       web3.eth.accounts.signTransaction(transactionObject, DEPLOYER)
+           .then(async (signedTx) => {
+               console.log('Transaction signed.');
+               await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+                   .once('sent', (payload) => {
+                       console.log('Transaction sent.');
+                   })
+                   .once('transactionHash', (hash) => {
+                       console.log('Transaction hash received:');
+                       console.log(hash);
+                   })
+                   .once('receipt', (receipt) => {
+                       console.log('Transaction receipt received:');
+                       deepConsoleLog(receipt);
+                       resolve();
+                   })
+                   .catch((err) => {
+                       console.log('Error sending transaction:');
+                       console.log(err);
+                       resolve();
+                   })
+           })
+           .catch((err) => {
+               console.log('Error signing transaction:');
+               console.log(err);
+               resolve();
+           });
+   });
+
+    */
 
     // check for liquidation
     await new Promise((resolve, reject) => {

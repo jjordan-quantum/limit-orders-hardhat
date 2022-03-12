@@ -9,7 +9,7 @@ exports.LimitOrders = (function() {
     let web3 = new Web3(HTTPProvider);
     const LIMIT_ORDERS_ABI = Config.getLimitOrdersABI();
     const limitOrdersContractAddress = Config.getLimitOrderContractAddress();
-    const approvedOracleAddress = Config.getApprovedOracleAddress();
+    const approvedOracleAddress = Config.getSignerAddress();
 
     const connectHTTPWeb3Internal = () => {
         web3 = new Web3(HTTPProvider);
@@ -105,7 +105,7 @@ exports.LimitOrders = (function() {
             data: txData,
             to: limitOrdersContractAddress,
             from: approvedOracleAddress,
-            gas: 200000
+            //gas: 200000
         }
     }
 
