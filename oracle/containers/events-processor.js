@@ -9,7 +9,7 @@ exports.EventProcessor = (function() {
 
     Channel.subscribe('newLimitOrderEvent', async function(data) {
         Logger.log("EVENT PROCESSOR: Received newLimitOrderEvent message:");
-        Logger.log(data);
+        Logger.inspect(data);
 
         if(data) {
             const event = data;
