@@ -182,6 +182,7 @@ const deepConsoleLog = (message) => {
                 resolve();
             }, 3000);
         });
+        break;
     }
 
     process.exit();

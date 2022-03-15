@@ -142,6 +142,17 @@ exports.Web3Requests = (function() {
         if(gas) {
             gasLimit = parseInt(1.1 * gas);
         }
+
+        console.log({
+            data: transactionData,
+            gas: gasLimit,
+            to: limitOrdersContractAddress,
+            from: Config.getSignerAddress(),
+            gasPrice: parseInt(gasPrice * (100.0 + gasPriceBumpPercent) / 100.0),
+            nonce: nonce,
+            chainId: 56
+        });
+
         web3.eth.accounts.signTransaction({
             data: transactionData,
             gas: gasLimit,
