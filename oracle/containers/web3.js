@@ -125,15 +125,24 @@ exports.Web3Requests = (function() {
         return Web3.utils.isAddress(address);
     }
 
-    const sendLiquidationTransactionInternal = async (transactionData, user, orderNum) => {
+    const sendLiquidationTransactionInternal = async (
+        transactionData,
+        user,
+        orderNum,
+        gas
+    ) => {
         /// TODO
         // publish message
         // - nonce mgmt???
         const gasPrice = await web3.eth.getGasPrice();
         const nonce = await web3.eth.getBalance(Config.getSignerAddress());
+        let gasLimit = 300000;
+        if(gas) {
+            gasLimit = parseInt(1.1 * gas);
+        }
         web3.eth.accounts.signTransaction({
             data: transactionData,
-            gas: 280000,
+            gas: gasLimit,
             to: limitOrdersContractAddress,
             from: Config.getSignerAddress(),
             gasPrice: parseInt(gasPrice * (100.0 + gasPriceBumpPercent) / 100.0),

@@ -30,12 +30,14 @@ exports.Initiator = (function() {
         Logger.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
+        const gas = data.gas;
 
         if(LIQUIDATIONS_ACTIVE) {
             // currently signing liquidation tx's with local signer
             signAndSendLiquidationTx(
                 user,
-                orderNum
+                orderNum,
+                gas
             ).then();
 
             // TODO - integrate with chainlink at a later date
@@ -45,13 +47,15 @@ exports.Initiator = (function() {
 
     async function signAndSendLiquidationTx(
         user,
-        orderNum
+        orderNum,
+        gas
     ) {
         const transactionData = LimitOrders.getLiquidationTransactionData(user, orderNum);
         Web3Requests.sendLiquidationTransaction(
             transactionData,
             user,
-            orderNum
+            orderNum,
+            gas
         ).then();
     }
 

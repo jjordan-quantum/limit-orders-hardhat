@@ -124,6 +124,7 @@ contract SwapRouter is ISwapRouter {
         } else if(selector < 150) {
             // 14 - swapExactTokensForTokens
             router.swapExactTokensForTokens(
+
                 inputAmount,
                 minOutputAmount,
                 getTokenPath(selector, pair),

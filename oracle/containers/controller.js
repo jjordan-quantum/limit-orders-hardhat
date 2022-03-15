@@ -346,6 +346,7 @@ exports.Controller = (function() {
         const orderNum = data.orderNum;
         const result = data.result;
         const error = data.error;
+        const gas = data.gas;
 
         if(error) {
             Logger.log("CONTROLLER: Error while simulating order " + orderNum + " for " + user);
@@ -367,7 +368,8 @@ exports.Controller = (function() {
                 //=========================================================
                 Channel.publish('sendLiquidationRequest', {
                     user: user,
-                    orderNum: orderNum
+                    orderNum: orderNum,
+                    gas: gas
                 });
                 //=========================================================
                 //

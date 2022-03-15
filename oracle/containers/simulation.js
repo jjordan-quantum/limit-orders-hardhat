@@ -43,11 +43,56 @@ exports.Simulation = (function() {
         const user = data.user;
         const orderNum = data.orderNum;
 
-        simulateOrderLiquidation(
+        //simulateOrderLiquidation(
+        simulateOrderLiquidationWithEsimateGas(
             user,
             orderNum
         ).then();
     });
+
+    const simulateOrderLiquidationWithEsimateGas = async (
+        user,
+        orderNum
+    ) => {
+        const liquidationTransaction = LimitOrders.getLiquidationTransaction(
+            user,
+            orderNum
+        );
+        web3.eth.estimateGas(liquidationTransaction)
+            .then((gasUsed) => {
+                // successful simulation
+                //_________________
+                // publish request
+                //=========================================================
+                Channel.publish('orderLiquidationSimulated', {
+                    user: user,
+                    orderNum: orderNum,
+                    result: true,
+                    error: null,
+                    gas: gasUsed
+                });
+                //=========================================================
+                //
+                //
+                //________________
+            })
+            .catch((error) => {
+                //_________________
+                // publish request
+                //=========================================================
+                Channel.publish('orderLiquidationSimulated', {
+                    user: user,
+                    orderNum: orderNum,
+                    result: null,
+                    error: error.toString()
+                });
+                //=========================================================
+                //
+                //
+                //________________
+
+            })
+    }
 
     const simulateOrderLiquidation = async (
         user,
@@ -90,7 +135,7 @@ exports.Simulation = (function() {
                 //
                 //________________
 
-            })
+            });
     }
 
     const runTestInternal = async () => {

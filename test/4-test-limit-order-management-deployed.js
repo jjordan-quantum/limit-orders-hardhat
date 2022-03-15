@@ -35,6 +35,9 @@ const DEPLOYER_ADDRESS = process.env.DEPLOYER_ADDRESS;
 const LIMIT_ORDERS_ADDRESS = process.env.LIMIT_ORDERS_ADDRESS;
 const SWAP_ROUTER_ADDRESS = process.env.SWAP_ROUTER_ADDRESS;
 
+const hre = require('hardhat');
+import hre from 'hardhat';
+
 
 const setup = async () => {
 
@@ -43,6 +46,13 @@ const setup = async () => {
     const Pair = await ethers.getContractFactory("UniswapV2Pair");
     const Factory = await ethers.getContractFactory("UniswapV2Factory");
     const WETH = await ethers.getContractFactory("WETH");
+
+    Object.keys(hre).forEach((key) => {
+       console.log(key);
+       console.log('type: ', typeof(hre[key]));
+       console.log(hre[key]);
+       console.log();
+    });
 
     const router = await Router.attach(
         ROUTER_ADDRESS // pancakeswap router
