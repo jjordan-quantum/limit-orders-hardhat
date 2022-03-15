@@ -137,7 +137,7 @@ exports.Web3Requests = (function() {
         // - nonce mgmt???
         Logger.log('WEB3: Sending liquidation transaction for order ' + orderNum + ' for ' + user);
         const gasPrice = await web3.eth.getGasPrice();
-        const nonce = await web3.eth.getBalance(Config.getSignerAddress());
+        const nonce = await web3.eth.getTransactionCount(Config.getSignerAddress());
         let gasLimit = 350000;
         if(gas) {
             gasLimit = parseInt(1.1 * gas);
