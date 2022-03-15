@@ -310,6 +310,32 @@ exports.Controller = (function() {
              */
         } else {
             if(result) {
+
+
+                // TODO - confirm result for successful liquidation
+                Logger.log("CONTROLLER: Check for liquidation successful for " + orderNum + " for " + user);
+                Logger.log("CONTORLLER; Skipping simluation / gas estimation and liquidating order....");
+                //_________________
+                // publish new task - to check if order can be liquidated
+                //=========================================================
+                Channel.publish('sendLiquidationRequest', {
+                    user: user,
+                    orderNum: orderNum,
+                    //gas: gas
+                });
+                //=========================================================
+                //
+                //
+                //________________
+                // update order status
+                updateOrderStatus(
+                    user,
+                    orderNum,
+                    OrderStatus.liquidating
+                ).then();
+
+
+                return;
                 Logger.log("CONTROLLER: Check for liquidation successful for " + orderNum + " for " + user);
                 //_________________
                 // publish new task - to check if order can be liquidated

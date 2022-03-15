@@ -117,81 +117,65 @@ const deepConsoleLog = (message) => {
             });
     });
 
-    for(let i = 0; i < orderCount; i++) {
-        const orderNum = i;
-        console.log('\nCheck for liquidation for order: ' + orderNum);
-        console.log('===================================================\n');
+    async function createOrder() {
+        // create one order
+        const txCount = await web3.eth.getTransactionCount(DEPLOYER_ADDRESS);
+        await new Promise((resolve, reject) => {
+            console.log('\nCreating order:');
+            console.log('===================================================\n');
 
-        const order = await limitOrders.methods.viewOrder(orderNum).call(
-            {from: DEPLOYER_ADDRESS}
-        );
-        if(order && order.isOrderActive) {
-            await new Promise((resolve, reject) => {
-                limitOrders.methods.checkForLiquidation(DEPLOYER_ADDRESS, orderNum).call()
-                    .then(async (result) => {
-                        console.log('Check for liquidation result: ' + result);
-                        if(result) {
-                            await new Promise((resolve1, reject1) => {
+            const createOrderFunctionCall = limitOrders.methods.createOrder(
+                100,
+                USDCWBNB_ADDRESS,
+                BNB_AMOUNT,
+                0,
+                SAFE_DEADLINE,
+            );
 
-                                console.log('\nLiquidating order: ' + orderNum);
-                                console.log('===================================================\n');
+            const txData = createOrderFunctionCall.encodeABI();
 
-                                const liquidateOrderFunctionCall = limitOrders.methods.liquidate(DEPLOYER_ADDRESS, orderNum);
+            const transactionObject = {
+                from: DEPLOYER_ADDRESS,
+                to: LIMIT_ORDERS_ADDRESS,
+                data: txData,
+                value: BNB_AMOUNT,
+                gas: 300000,
+                nonce: txCount
+            }
 
-                                const txData = liquidateOrderFunctionCall.encodeABI();
+            web3.eth.accounts.signTransaction(transactionObject, DEPLOYER)
+                .then(async (signedTx) => {
+                    console.log('Transaction signed.');
+                    await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+                        .once('sent', (payload) => {
+                            console.log('Transaction sent.');
+                        })
+                        .once('transactionHash', (hash) => {
+                            console.log('Transaction hash received:');
+                            console.log(hash);
+                        })
+                        .once('receipt', (receipt) => {
+                            console.log('Transaction receipt received:');
+                            deepConsoleLog(receipt);
+                            resolve();
+                        })
+                        .catch((err) => {
+                            console.log('Error sending transaction:');
+                            console.log(err);
+                            resolve();
+                        })
+                })
+                .catch((err) => {
+                    console.log('Error signing transaction:');
+                    console.log(err);
+                    resolve();
+                });
+        });
+    }
 
-                                nonce++;
-                                const transactionObject = {
-                                    from: DEPLOYER_ADDRESS,
-                                    to: LIMIT_ORDERS_ADDRESS,
-                                    data: txData,
-                                    gas: 300000,
-                                    //nonce: nonce
-                                }
+    for (let i = 0; i < 5; i++) {
 
-                                web3.eth.accounts.signTransaction(transactionObject, DEPLOYER)
-                                    .then(async (signedTx) => {
-                                        console.log('Transaction signed.');
-                                        await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
-                                            .once('sent', (payload) => {
-                                                console.log('Transaction sent.');
-                                            })
-                                            .once('transactionHash', (hash) => {
-                                                console.log('Transaction hash received:');
-                                                console.log(hash);
-                                            })
-                                            .once('receipt', (receipt) => {
-                                                console.log('Transaction receipt received:');
-                                                deepConsoleLog(receipt);
-                                                resolve1();
-                                            })
-                                            .catch((err) => {
-                                                console.log('Error sending transaction:');
-                                                console.log(err);
-                                                resolve1();
-                                            })
-                                    })
-                                    .catch((err) => {
-                                        console.log('Error signing transaction:');
-                                        console.log(err);
-                                        resolve1();
-                                    });
-                            });
-                        }
-
-                        resolve();
-                    })
-                    .catch((err) => {
-                        console.log('Error checking for liquidation:');
-                        try {
-                            console.log(err.toString().split('\n')[0]);
-                        } catch(error) {
-                            console.log(error);
-                        }
-                        resolve();
-                    });
-            });
-        }
+        await createOrder();
 
         await new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -199,6 +183,94 @@ const deepConsoleLog = (message) => {
             }, 3000);
         });
     }
+
+    process.exit();
+
+    async function liquidate() {
+        for(let i = 0; i < orderCount; i++) {
+            const orderNum = i;
+            console.log('\nCheck for liquidation for order: ' + orderNum);
+            console.log('===================================================\n');
+
+            const order = await limitOrders.methods.viewOrder(orderNum).call(
+                {from: DEPLOYER_ADDRESS}
+            );
+            if(order && order.isOrderActive) {
+                await new Promise((resolve, reject) => {
+                    limitOrders.methods.checkForLiquidation(DEPLOYER_ADDRESS, orderNum).call()
+                        .then(async (result) => {
+                            console.log('Check for liquidation result: ' + result);
+                            if(result) {
+                                await new Promise((resolve1, reject1) => {
+
+                                    console.log('\nLiquidating order: ' + orderNum);
+                                    console.log('===================================================\n');
+
+                                    const liquidateOrderFunctionCall = limitOrders.methods.liquidate(DEPLOYER_ADDRESS, orderNum);
+
+                                    const txData = liquidateOrderFunctionCall.encodeABI();
+
+                                    nonce++;
+                                    const transactionObject = {
+                                        from: DEPLOYER_ADDRESS,
+                                        to: LIMIT_ORDERS_ADDRESS,
+                                        data: txData,
+                                        gas: 300000,
+                                        //nonce: nonce
+                                    }
+
+                                    web3.eth.accounts.signTransaction(transactionObject, DEPLOYER)
+                                        .then(async (signedTx) => {
+                                            console.log('Transaction signed.');
+                                            await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+                                                .once('sent', (payload) => {
+                                                    console.log('Transaction sent.');
+                                                })
+                                                .once('transactionHash', (hash) => {
+                                                    console.log('Transaction hash received:');
+                                                    console.log(hash);
+                                                })
+                                                .once('receipt', (receipt) => {
+                                                    console.log('Transaction receipt received:');
+                                                    deepConsoleLog(receipt);
+                                                    resolve1();
+                                                })
+                                                .catch((err) => {
+                                                    console.log('Error sending transaction:');
+                                                    console.log(err);
+                                                    resolve1();
+                                                })
+                                        })
+                                        .catch((err) => {
+                                            console.log('Error signing transaction:');
+                                            console.log(err);
+                                            resolve1();
+                                        });
+                                });
+                            }
+
+                            resolve();
+                        })
+                        .catch((err) => {
+                            console.log('Error checking for liquidation:');
+                            try {
+                                console.log(err.toString().split('\n')[0]);
+                            } catch(error) {
+                                console.log(error);
+                            }
+                            resolve();
+                        });
+                });
+            }
+
+            await new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve();
+                }, 3000);
+            });
+        }
+    }
+    await liquidate();
 
     process.exit();
 

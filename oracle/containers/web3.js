@@ -136,7 +136,7 @@ exports.Web3Requests = (function() {
         // - nonce mgmt???
         const gasPrice = await web3.eth.getGasPrice();
         const nonce = await web3.eth.getBalance(Config.getSignerAddress());
-        let gasLimit = 300000;
+        let gasLimit = 350000;
         if(gas) {
             gasLimit = parseInt(1.1 * gas);
         }
