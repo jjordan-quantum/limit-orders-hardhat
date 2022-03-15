@@ -314,7 +314,7 @@ exports.Controller = (function() {
 
                 // TODO - confirm result for successful liquidation
                 Logger.log("CONTROLLER: Check for liquidation successful for " + orderNum + " for " + user);
-                Logger.log("CONTORLLER; Skipping simluation / gas estimation and liquidating order....");
+                Logger.log("CONTORLLER; Skipping simulation / gas estimation and liquidating order....");
                 //_________________
                 // publish new task - to check if order can be liquidated
                 //=========================================================

@@ -3,6 +3,7 @@ const {Config} = require("./config");
 exports.Web3Requests = (function() {
     const { Channel } = require('./channel');
     const { Config } = require('./config');
+    const { Logger } = require('./logger');
     const Web3 = require('web3');
     const HTTPProvider = Config.getHTTPSProvider();
     const WebsocketProvider = Config.getWebsocketProvider();
@@ -134,6 +135,7 @@ exports.Web3Requests = (function() {
         /// TODO
         // publish message
         // - nonce mgmt???
+        Logger.log('WEB3: Sending liquidation transaction for order ' + orderNum + ' for ' + user);
         const gasPrice = await web3.eth.getGasPrice();
         const nonce = await web3.eth.getBalance(Config.getSignerAddress());
         let gasLimit = 350000;
@@ -153,7 +155,7 @@ exports.Web3Requests = (function() {
                 await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
                     .once('sent', (payload) => {
                         // tx sent
-                        console.log('Liquidation tx sent for order ' + orderNum + ' for user ' + user);
+                        console.log('WEB3: Liquidation tx sent for order ' + orderNum + ' for user ' + user);
                         //_________________
                         // publish new task
                         //=========================================================
@@ -184,7 +186,7 @@ exports.Web3Requests = (function() {
                     })
                     .once('receipt', (receipt) => {
                         // received receipt
-                        console.log('Receipt received for order ' + orderNum + ' for user ' + user);
+                        console.log('WEB3: Receipt received for order ' + orderNum + ' for user ' + user);
                         console.log(receipt);
                         //_________________
                         // publish new task
@@ -203,7 +205,7 @@ exports.Web3Requests = (function() {
                     })
                     .on('error', (error) => {
                         // error sending tx
-                        console.log('Error sending tx for order ' + orderNum + ' for user ' + user);
+                        console.log('WEB3: Error sending tx for order ' + orderNum + ' for user ' + user);
                         console.log(error);
                         //_________________
                         // publish new task
@@ -221,7 +223,7 @@ exports.Web3Requests = (function() {
             })
             .catch((error) => {
                 // error signing tx
-                console.log('Error signing tx for order ' + orderNum + ' for user ' + user);
+                console.log('WEB3: Error signing tx for order ' + orderNum + ' for user ' + user);
                 console.log(error);
                 //_________________
                 // publish new task

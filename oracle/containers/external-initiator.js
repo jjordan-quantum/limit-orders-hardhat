@@ -27,7 +27,7 @@ exports.Initiator = (function() {
     // create subscription for create request
     Channel.subscribe("sendLiquidationRequest", async function(data) {
         Logger.log("EXTERNAL INITIATOR: Received sendLiquidationRequest message");
-        Logger.log(data);
+        console.log(data);
         const user = data.user;
         const orderNum = data.orderNum;
         const gas = data.gas;
