@@ -1,4 +1,5 @@
 (async function() {
+    require('newrelic');
     require('./containers/config');
     require('./containers/events-processor');
     require('./containers/external-initiator');
