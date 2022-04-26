@@ -1,9 +1,9 @@
 exports.Logger = (function() {
 
     const util = require('util');
-
     const nrWinston = require('@newrelic/winston-enricher');
     const winston = require('winston');
+
     const logger = winston.createLogger({
         levels: {
             fatal: 0,
@@ -15,26 +15,26 @@ exports.Logger = (function() {
         },
         level: 'info',
         format: nrWinston(),
-        transports: [new winston.transports.Console()]
+        transports: [new winston.transports.File({ filename: 'oracle.log' })]
     });
 
     const inspectInternal = (message) => {
-        //console.log(util.inspect(message, false, null, true));
+        console.log(util.inspect(message, false, null, true));
         logger.info(JSON.stringify(util.inspect(message, false, null, true)));
     }
 
     const logInternal = (message) => {
-        //console.log("" + new Date().toISOString() + " " + message);
+        console.log("" + new Date().toISOString() + " " + message);
         logger.info(message);
     }
 
     const logErrorInternal = (error) => {
-        //console.log("" + new Date().toISOString() + " " + error);
-        logger.info(error.toString());
+        console.log("" + new Date().toISOString() + " " + error);
+        logger.error(error.toString());
     }
 
     const logRequestInternal = (request) => {
-       // console.log("" + new Date().toISOString() + " " + request);
+        console.log("" + new Date().toISOString() + " " + request);
         logger.info(request);
     }
 
